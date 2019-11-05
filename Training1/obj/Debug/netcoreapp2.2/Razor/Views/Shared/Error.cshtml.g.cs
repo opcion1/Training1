@@ -23,8 +23,18 @@ using Training1.Models;
 
 #line default
 #line hidden
+#line 3 "C:\Users\Julien\source\repos\Training1\Training1\Views\_ViewImports.cshtml"
+using Training1.Areas.Identity.Data;
+
+#line default
+#line hidden
+#line 4 "C:\Users\Julien\source\repos\Training1\Training1\Views\_ViewImports.cshtml"
+using Microsoft.AspNetCore.Identity;
+
+#line default
+#line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"d6a5625cc8fb4476f348b0fe9041c550465d8bf9", @"/Views/Shared/Error.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"65ca97051e0923a74cee16797bd39426067af90a", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"4de072c55a510e1bb31f0895961c6b692ad2344f", @"/Views/_ViewImports.cshtml")]
     public class Views_Shared_Error : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<ErrorViewModel>
     {
         #pragma warning disable 1998

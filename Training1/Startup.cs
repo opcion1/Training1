@@ -12,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Training1.Models;
 using Training1.Repositories;
+using Training1.Areas.Identity.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace Training1
 {
@@ -39,6 +41,15 @@ namespace Training1
 
             services.AddDbContext<ProductContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("ProductContext")));
+
+
+            services.AddDbContext<AppIdentityContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("AppIdentityContextConnection")));
+
+            services.AddDefaultIdentity<AppUser>()
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<AppIdentityContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,6 +68,7 @@ namespace Training1
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseAuthentication();
             app.UseCookiePolicy();
 
             app.UseMvc(routes =>
