@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Julien\\source\\repos\\Training1\\Training1\\Training1.csproj": {}
+    "C:\\Users\\Julien\\source\\repos\\Github\\Training1\\Training1\\Training1.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Julien\\source\\repos\\Training1\\Training1\\Training1.csproj": {
+    "C:\\Users\\Julien\\source\\repos\\Github\\Training1\\Training1\\Training1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Julien\\source\\repos\\Training1\\Training1\\Training1.csproj",
+        "projectUniqueName": "C:\\Users\\Julien\\source\\repos\\Github\\Training1\\Training1\\Training1.csproj",
         "projectName": "Training1",
-        "projectPath": "C:\\Users\\Julien\\source\\repos\\Training1\\Training1\\Training1.csproj",
+        "projectPath": "C:\\Users\\Julien\\source\\repos\\Github\\Training1\\Training1\\Training1.csproj",
         "packagesPath": "C:\\Users\\Julien\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Julien\\source\\repos\\Training1\\Training1\\obj\\",
+        "outputPath": "C:\\Users\\Julien\\source\\repos\\Github\\Training1\\Training1\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -60,7 +60,7 @@
             },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
-              "version": "[2.2.3, )"
+              "version": "[2.2.4, )"
             }
           },
           "imports": [
