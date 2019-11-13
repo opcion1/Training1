@@ -1,14 +1,22 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
+using Training1.Authorization;
 //using System.Web.Mvc;
 using Training1.Controllers;
 using Training1.Models;
 using Training1.Repositories;
+using Training1.Tests.Mock;
 using Xunit;
 
 namespace Training1.Tests
@@ -19,15 +27,22 @@ namespace Training1.Tests
         public async Task TestProductIndexAsync()
         {
             // Arrange
-            Mock<IProductRepository> mock = new Mock<IProductRepository>();
-            mock.Setup(m => m.ListAsync()).ReturnsAsync((new Product[] { 
+            var products = new Product[] { 
                 new Product { Id = 1, Name = "Carots", Category = ProductCategory.Vegetable },
                 new Product { Id = 2, Name = "Potatoes", Category = ProductCategory.Vegetable },
                 new Product { Id = 3, Name = "Ketchup", Category = ProductCategory.Condiment },
                 new Product { Id = 4, Name = "Apple", Category = ProductCategory.Fruit }
-            }).Cast<Product>().ToList());
+            };
 
-            var controller = new ProductsController(mock.Object);
+            Mock<IProductRepository> mockRepo = new MockProductRepository().MockListAsync(products);
+            var authService = MockAuthorizationService.BuildAuthorizationService(services =>
+            {
+                services.AddScoped<IProductRepository>(sp => mockRepo.Object);
+                services.AddScoped<IAuthorizationHandler, AdminAuthorizationHandler>();
+            });
+
+            var controller = new ProductsController(mockRepo.Object, authService);
+            MockAuthorizationService.SetupUserWithRole(controller, Constants.UserAdministratorsRole);
 
             var result = await controller.Index(null);
 
@@ -41,17 +56,22 @@ namespace Training1.Tests
         public async Task CreatePost_ReturnsARedirectAndAddsProduct_WhenModelStateIsValid()
         {
             // Arrange
-            var mockRepo = new Mock<IProductRepository>();
-            mockRepo.Setup(repo => repo.AddAsync(It.IsAny<Product>()))
-                .Returns(Task.CompletedTask)
-                .Verifiable();
-            var controller = new ProductsController(mockRepo.Object);
             var newProduct = new Product()
             {
                 Name = "Riz",
-                Description ="Very popular in China",
+                Description = "Very popular in China",
                 Category = ProductCategory.Cereal
             };
+
+            var mockRepo = new MockProductRepository().MockAddAsync(newProduct);
+            var authService = MockAuthorizationService.BuildAuthorizationService(services =>
+            {
+                services.AddScoped<IProductRepository>(sp => mockRepo.Object);
+                services.AddScoped<IAuthorizationHandler, AdminAuthorizationHandler>();
+            });
+
+            var controller = new ProductsController(mockRepo.Object, authService);
+            MockAuthorizationService.SetupUserWithRole(controller, Constants.UserAdministratorsRole);
 
             // Act
             var result = await controller.Create(newProduct);
@@ -67,8 +87,15 @@ namespace Training1.Tests
         public async Task Create_ReturnsViewResult_GivenInvalidModel()
         {
             // Arrange & Act
-            var mockRepo = new Mock<IProductRepository>();
-            var controller = new ProductsController(mockRepo.Object);
+            var mockRepo = new MockProductRepository();
+            var authService = MockAuthorizationService.BuildAuthorizationService(services =>
+            {
+                services.AddScoped<IProductRepository>(sp => mockRepo.Object);
+                services.AddScoped<IAuthorizationHandler, AdminAuthorizationHandler>();
+            });
+
+            var controller = new ProductsController(mockRepo.Object, authService);
+            MockAuthorizationService.SetupUserWithRole(controller, Constants.UserAdministratorsRole);
             controller.ModelState.AddModelError("error", "some error");
 
             // Act
@@ -82,7 +109,7 @@ namespace Training1.Tests
         public async Task Edit_ReturnsHttpNotFound_ForNulldId()
         {
             // Arrange
-            var controller = new ProductsController(productRepository: null);
+            var controller = new ProductsController(productRepository: null, authorizationService: null);
 
             // Act
             var result = await controller.Edit(null);
@@ -96,8 +123,8 @@ namespace Training1.Tests
         {
             // Arrange
             int nonExistentProductId = 123;
-            var mockRepo = new Mock<IProductRepository>();
-            var controller = new ProductsController(mockRepo.Object);
+            var mockRepo = new MockProductRepository();
+            var controller = new ProductsController(mockRepo.Object, authorizationService: null);
 
             // Act
             var result = await controller.Edit(nonExistentProductId);
@@ -111,10 +138,16 @@ namespace Training1.Tests
         {
             // Arrange
             int testSessionId = 123;
-            var mockRepo = new Mock<IProductRepository>();
-            mockRepo.Setup(repo => repo.GetByIdAsync(testSessionId))
-                .ReturnsAsync(new Product() { Id=123,Name="Carot", Description = "Carot description",Category=ProductCategory.Vegetable});
-            var controller = new ProductsController(mockRepo.Object);
+            var newProduct = new Product() { Id = 123, Name = "Carot", Description = "Carot description", Category = ProductCategory.Vegetable };
+            var mockRepo = new MockProductRepository().MockGetByIdAsync(testSessionId, newProduct);
+            var authService = MockAuthorizationService.BuildAuthorizationService(services =>
+            {
+                services.AddScoped<IProductRepository>(sp => mockRepo.Object);
+                services.AddScoped<IAuthorizationHandler, AdminAuthorizationHandler>();
+            });
+
+            var controller = new ProductsController(mockRepo.Object, authService);
+            MockAuthorizationService.SetupUserWithRole(controller, Constants.UserAdministratorsRole);
 
             // Act
             var result = await controller.Edit(testSessionId);
@@ -133,7 +166,7 @@ namespace Training1.Tests
         public async Task Delete_ReturnsHttpNotFound_ForNulldId()
         {
             // Arrange
-            var controller = new ProductsController(productRepository: null);
+            var controller = new ProductsController(productRepository: null, authorizationService:null);
 
             // Act
             var result = await controller.Delete(null);
@@ -147,8 +180,8 @@ namespace Training1.Tests
         {
             // Arrange
             int nonExistentProductId = 123;
-            var mockRepo = new Mock<IProductRepository>();
-            var controller = new ProductsController(mockRepo.Object);
+            var mockRepo = new MockProductRepository().MockGetByIdAsync(nonExistentProductId, null);
+            var controller = new ProductsController(mockRepo.Object, authorizationService:null);
 
             // Act
             var result = await controller.Delete(nonExistentProductId);
@@ -162,10 +195,16 @@ namespace Training1.Tests
         {
             // Arrange
             int testSessionId = 123;
-            var mockRepo = new Mock<IProductRepository>();
-            mockRepo.Setup(repo => repo.GetByIdAsync(testSessionId))
-                .ReturnsAsync(new Product() { Id = 123, Name = "Carot", Description = "Carot description", Category = ProductCategory.Vegetable });
-            var controller = new ProductsController(mockRepo.Object);
+            var product = new Product() { Id = 123, Name = "Carot", Description = "Carot description", Category = ProductCategory.Vegetable };
+            var mockRepo = new MockProductRepository().MockGetByIdAsync(testSessionId, product);
+            var authService = MockAuthorizationService.BuildAuthorizationService(services =>
+            {
+                services.AddScoped<IProductRepository>(sp => mockRepo.Object);
+                services.AddScoped<IAuthorizationHandler, AdminAuthorizationHandler>();
+            });
+
+            var controller = new ProductsController(mockRepo.Object, authService);
+            MockAuthorizationService.SetupUserWithRole(controller, Constants.UserAdministratorsRole);
 
             // Act
             var result = await controller.Delete(testSessionId);
@@ -184,16 +223,22 @@ namespace Training1.Tests
         public async Task DeletePost_ReturnsARedirectAndDeleteProduct()
         {
             // Arrange
-            var mockRepo = new Mock<IProductRepository>();
-            mockRepo.Setup(repo => repo.GetByIdAsync(1))
-                .ReturnsAsync(new Product() { Id = 1, Name = "Carot", Description = "Carot description", Category = ProductCategory.Vegetable });
-            mockRepo.Setup(repo => repo.DeleteAsync(It.IsAny<int>()))
-                .Returns(Task.CompletedTask)
-                .Verifiable();
-            var controller = new ProductsController(mockRepo.Object);
+            int testSessionId = 123;
+            var product = new Product() { Id = 123, Name = "Carot", Description = "Carot description", Category = ProductCategory.Vegetable };
+            var mockRepo = new MockProductRepository()
+                .MockGetByIdAsync(testSessionId, product)
+                .MockDeleteAsync(testSessionId);
+            var authService = MockAuthorizationService.BuildAuthorizationService(services =>
+            {
+                services.AddScoped<IProductRepository>(sp => mockRepo.Object);
+                services.AddScoped<IAuthorizationHandler, AdminAuthorizationHandler>();
+            });
+
+            var controller = new ProductsController(mockRepo.Object, authService);
+            MockAuthorizationService.SetupUserWithRole(controller, Constants.UserAdministratorsRole);
 
             // Act
-            var result = await controller.DeleteConfirmed(1);
+            var result = await controller.DeleteConfirmed(testSessionId);
 
             // Assert
             var redirectToActionResult = Assert.IsType<RedirectToActionResult>(result);
