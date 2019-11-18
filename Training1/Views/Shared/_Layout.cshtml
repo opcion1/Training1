@@ -43,16 +43,25 @@
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="" asp-controller="Products" asp-action="Index"><i class='fas fa-home'></i>Stock</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#"><i class='fas fa-home'></i>Sesshins</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" area="" href="#"><i class='fas fa-home'></i>Accountant</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="RoleAdmin" asp-action="Index"><i class="fas fa-users"></i>Role management</a>
-                            </li>
-                        </ul>
+                            @if (User.IsInRole(Constants.UserAdministratorsRole) || User.IsInRole(Constants.UserChefRole))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#"><i class='fas fa-home'></i>Sesshins</a>
+                                </li>
+                            }
+                            @if (User.IsInRole(Constants.UserAdministratorsRole) || User.IsInRole(Constants.UserAccountantRole))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" area="" href="#"><i class='fas fa-home'></i>Accountant</a>
+                                </li>
+                            }
+                            @if (User.IsInRole(Constants.UserAdministratorsRole))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="RoleAdmin" asp-action="Index"><i class="fas fa-users"></i>Role management</a>
+                                </li>
+                            }
+                            </ul>
                     </div>
                 }
                 </div>
