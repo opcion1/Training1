@@ -10,7 +10,7 @@ using Training1.Areas.Identity.Data;
 
 namespace Training1.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class RoleAdminController : Controller
     {
         private RoleManager<IdentityRole> roleManager;
