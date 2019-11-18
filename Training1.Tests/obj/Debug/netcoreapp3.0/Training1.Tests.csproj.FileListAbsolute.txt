@@ -351,3 +351,8 @@ C:\Users\Julien\source\repos\Github\Training1\Training1.Tests\obj\Debug\netcorea
 C:\Users\Julien\source\repos\Github\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\Microsoft.Extensions.Configuration.dll
 C:\Users\Julien\source\repos\Github\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\Microsoft.Extensions.Configuration.Binder.dll
 C:\Users\Julien\source\repos\Github\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\Microsoft.Extensions.Logging.dll
+C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\obj\Debug\netcoreapp3.0\Training1.Tests.csprojAssemblyReference.cache
+C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\obj\Debug\netcoreapp3.0\Training1.Tests.AssemblyInfoInputs.cache
+C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\obj\Debug\netcoreapp3.0\Training1.Tests.AssemblyInfo.cs
+C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\obj\Debug\netcoreapp3.0\Training1.Tests.dll
+C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\obj\Debug\netcoreapp3.0\Training1.Tests.pdb

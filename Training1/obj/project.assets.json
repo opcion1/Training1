@@ -12945,11 +12945,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Julien\\source\\repos\\Github\\Training1\\Training1\\Training1.csproj",
+      "projectUniqueName": "C:\\Users\\Julien\\source\\repos\\Github\\Training1\\Training1\\Training1\\Training1.csproj",
       "projectName": "Training1",
-      "projectPath": "C:\\Users\\Julien\\source\\repos\\Github\\Training1\\Training1\\Training1.csproj",
+      "projectPath": "C:\\Users\\Julien\\source\\repos\\Github\\Training1\\Training1\\Training1\\Training1.csproj",
       "packagesPath": "C:\\Users\\Julien\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Julien\\source\\repos\\Github\\Training1\\Training1\\obj\\",
+      "outputPath": "C:\\Users\\Julien\\source\\repos\\Github\\Training1\\Training1\\Training1\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
