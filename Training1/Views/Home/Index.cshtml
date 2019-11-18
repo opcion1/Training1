@@ -2,7 +2,45 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    <div class="row">
+        <div class="col-6">
+            <div class="card mb-3">
+                <img class="card-img-top" src="~/images/vegetables.jpg" style="height:10vw;object-fit: cover;" alt="Stock Management">
+                <div class="card-body">
+                    <h5 class="card-title">Stock Management</h5>
+                    <p class="card-text">Manage the stock of the temple kitchen. Vegetables, cereals, condiments, coffee...</p>
+                    <a asp-area="" asp-controller="Products" asp-action="Index" class="btn btn-lg btn-block btn-primary">Go to stock management</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card mb-3">
+                <img class="card-img-top" src="~/images/tenzo.jpg" style="height:10vw;object-fit: cover;" alt="Sesshin Management">
+                <div class="card-body">
+                    <h5 class="card-title">Sesshin Menus</h5>
+                    <p class="card-text">Create your menu. Search ideas, recipes from other sesshin, other tenzo...</p>
+                    <a href="#" class="btn btn-lg btn-block btn-primary">Go to sesshin menus</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card mb-3">
+                <img class="card-img-top" src="~/images/accountant.jpg" style="height:10vw;object-fit: cover;" alt="Accountant section">
+                <div class="card-body">
+                    <h5 class="card-title">Accountant section</h5>
+                    <p class="card-text">Watch statistics of previous sesshin, previous tenzo, previous year, previous day...</p>
+                    <a href="#" class="btn btn-lg btn-block btn-primary">Go to accountant section</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card mb-3">
+                <img class="card-img-top" src="~/images/parameters.jpg" style="height:10vw;object-fit: cover;" alt="Users Management">
+                <div class="card-body">
+                    <h5 class="card-title">Usres, roles management</h5>
+                    <p class="card-text">Add, delete users... Manage user's roles... Be the master of zen kitchen world...</p>
+                    <a asp-area="" asp-controller="RoleAdmin" asp-action="Index" class="btn btn-lg btn-block btn-primary">Go to user's adminitration</a>
+                </div>
+            </div>
+        </div>
+    </div>

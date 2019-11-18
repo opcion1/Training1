@@ -54,3 +54,30 @@ body {
   height: 60px;
   line-height: 60px; /* Vertically center the text there */
 }
+
+
+.flexRowStart{
+    display:flex;
+    flex-direction:row;
+}
+
+.endRow{
+    margin-left:auto;
+}
+
+.nav-item a{
+    color:white;
+}
+    .nav-item a:hover {
+        background-color: #4189C7;
+    }
+
+li.nav-item .fas {
+    margin-left:10px;
+    margin-right: 10px;
+}
+
+ul.navbar-nav{
+    margin:6px;
+    padding-left:0px;
+}

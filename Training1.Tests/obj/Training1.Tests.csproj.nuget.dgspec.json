@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Julien\\source\\repos\\Github\\Training1\\Training1.Tests\\Training1.Tests.csproj": {}
+    "C:\\Users\\Julien\\source\\repos\\Github\\Training1\\Training1\\Training1.Tests\\Training1.Tests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Julien\\source\\repos\\Github\\Training1\\Training1.Tests\\Training1.Tests.csproj": {
+    "C:\\Users\\Julien\\source\\repos\\Github\\Training1\\Training1\\Training1.Tests\\Training1.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Julien\\source\\repos\\Github\\Training1\\Training1.Tests\\Training1.Tests.csproj",
+        "projectUniqueName": "C:\\Users\\Julien\\source\\repos\\Github\\Training1\\Training1\\Training1.Tests\\Training1.Tests.csproj",
         "projectName": "Training1.Tests",
-        "projectPath": "C:\\Users\\Julien\\source\\repos\\Github\\Training1\\Training1.Tests\\Training1.Tests.csproj",
+        "projectPath": "C:\\Users\\Julien\\source\\repos\\Github\\Training1\\Training1\\Training1.Tests\\Training1.Tests.csproj",
         "packagesPath": "C:\\Users\\Julien\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Julien\\source\\repos\\Github\\Training1\\Training1.Tests\\obj\\",
+        "outputPath": "C:\\Users\\Julien\\source\\repos\\Github\\Training1\\Training1\\Training1.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -30,8 +30,8 @@
         "frameworks": {
           "netcoreapp3.0": {
             "projectReferences": {
-              "C:\\Users\\Julien\\source\\repos\\Github\\Training1\\Training1\\Training1.csproj": {
-                "projectPath": "C:\\Users\\Julien\\source\\repos\\Github\\Training1\\Training1\\Training1.csproj"
+              "C:\\Users\\Julien\\source\\repos\\Github\\Training1\\Training1\\Training1\\Training1.csproj": {
+                "projectPath": "C:\\Users\\Julien\\source\\repos\\Github\\Training1\\Training1\\Training1\\Training1.csproj"
               }
             }
           }
@@ -97,14 +97,14 @@
         }
       }
     },
-    "C:\\Users\\Julien\\source\\repos\\Github\\Training1\\Training1\\Training1.csproj": {
+    "C:\\Users\\Julien\\source\\repos\\Github\\Training1\\Training1\\Training1\\Training1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Julien\\source\\repos\\Github\\Training1\\Training1\\Training1.csproj",
+        "projectUniqueName": "C:\\Users\\Julien\\source\\repos\\Github\\Training1\\Training1\\Training1\\Training1.csproj",
         "projectName": "Training1",
-        "projectPath": "C:\\Users\\Julien\\source\\repos\\Github\\Training1\\Training1\\Training1.csproj",
+        "projectPath": "C:\\Users\\Julien\\source\\repos\\Github\\Training1\\Training1\\Training1\\Training1.csproj",
         "packagesPath": "C:\\Users\\Julien\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Julien\\source\\repos\\Github\\Training1\\Training1\\obj\\",
+        "outputPath": "C:\\Users\\Julien\\source\\repos\\Github\\Training1\\Training1\\Training1\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
