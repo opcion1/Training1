@@ -162,7 +162,6 @@ C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\bin\Debug\netc
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\bin\Debug\netcoreapp2.2\Training1.pdb
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\bin\Debug\netcoreapp2.2\Training1.Views.dll
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\bin\Debug\netcoreapp2.2\Training1.Views.pdb
-C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Training1.csprojAssemblyReference.cache
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Training1.RazorAssemblyInfo.cache
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Training1.RazorAssemblyInfo.cs
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Training1.AssemblyInfoInputs.cache

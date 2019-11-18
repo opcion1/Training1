@@ -16,6 +16,7 @@ using Training1.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Training1.Authorization;
 
 namespace Training1
 {
@@ -38,6 +39,12 @@ namespace Training1
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
             services.AddScoped<IProductRepository, EFProductRepository>();
+            services.AddSingleton<IAuthorizationHandler,
+                          AdminAuthorizationHandler>();
+            services.AddSingleton<IAuthorizationHandler,
+                                  ChefAuthorizationHandler>();
+            services.AddSingleton<IAuthorizationHandler,
+                                  AccountantAuthorizationHandler>();
 
             services.AddMvc(config =>
             {

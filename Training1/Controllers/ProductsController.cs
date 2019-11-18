@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Training1.Authorization;
 using Training1.Models;
 using Training1.Repositories;
 
@@ -15,21 +16,31 @@ namespace Training1.Controllers
     public class ProductsController : Controller
     {
         private readonly IProductRepository _productRepository;
+        private readonly IAuthorizationService _authorizationService;
 
-
-        public ProductsController(IProductRepository productRepository)
+        public ProductsController(IProductRepository productRepository,
+                                    IAuthorizationService authorizationService)
         {
             _productRepository = productRepository;
+            _authorizationService = authorizationService;
         }
 
         // GET: Products
         public async Task<IActionResult> Index(ProductCategory? category)
         {
-            if (category.HasValue)
+            var isAuthorized = await _authorizationService.AuthorizeAsync(User, null, UserOperations.Read);
+            if (isAuthorized.Succeeded)
             {
-                return View(await _productRepository.ListAsyncByCategory((ProductCategory)category));
+                if (category.HasValue)
+                {
+                    return View(await _productRepository.ListAsyncByCategory((ProductCategory)category));
+                }
+                return View(await _productRepository.ListAsync());
             }
-            return View(await _productRepository.ListAsync());
+            else
+            {
+                return new ChallengeResult();
+            }
         }
 
         // GET: Products/Details/5
@@ -46,7 +57,15 @@ namespace Training1.Controllers
                 return NotFound();
             }
 
-            return View(product);
+            var isAuthorized = await _authorizationService.AuthorizeAsync(User, product, UserOperations.Read);
+            if (isAuthorized.Succeeded)
+            {
+                return View(product);
+            }
+            else
+            {
+                return new ChallengeResult();
+            }
         }
 
         // GET: Products/Create
@@ -64,8 +83,16 @@ namespace Training1.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _productRepository.AddAsync(product);
-                return RedirectToAction(nameof(Index));
+                var isAuthorized = await _authorizationService.AuthorizeAsync(User, product, UserOperations.Create);
+                if (isAuthorized.Succeeded) 
+                { 
+                    await _productRepository.AddAsync(product);
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    return new ChallengeResult();
+                }
             }
             return View(product);
         }
@@ -83,7 +110,16 @@ namespace Training1.Controllers
             {
                 return NotFound();
             }
-            return View(product);
+
+            var isAuthorized = await _authorizationService.AuthorizeAsync(User, product, UserOperations.Update);
+            if (isAuthorized.Succeeded)
+            {
+                return View(product);
+            }
+            else
+            {
+                return new ChallengeResult();
+            }
         }
 
         // POST: Products/Edit/5
@@ -102,7 +138,15 @@ namespace Training1.Controllers
             {
                 try
                 {
-                    await _productRepository.UpdateAsync(product);
+                    var isAuthorized = await _authorizationService.AuthorizeAsync(User, product, UserOperations.Update);
+                    if (isAuthorized.Succeeded)
+                    {
+                        await _productRepository.UpdateAsync(product);
+                    }
+                    else
+                    {
+                        return new ChallengeResult();
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -134,7 +178,15 @@ namespace Training1.Controllers
                 return NotFound();
             }
 
-            return View(product);
+            var isAuthorized = await _authorizationService.AuthorizeAsync(User, product, UserOperations.Delete);
+            if (isAuthorized.Succeeded)
+            {
+                return View(product);
+            }
+            else 
+            { 
+                return new ChallengeResult(); 
+            }
         }
 
         // POST: Products/Delete/5
@@ -142,8 +194,21 @@ namespace Training1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _productRepository.DeleteAsync(id);
-            return RedirectToAction(nameof(Index));
+            var product = await _productRepository.GetByIdAsync((int)id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            var isAuthorized = await _authorizationService.AuthorizeAsync(User, product, UserOperations.Update);
+            if (isAuthorized.Succeeded)
+            {
+                await _productRepository.DeleteAsync(id);
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                return new ChallengeResult();
+            }
         }
 
         private bool ProductExists(int id)
