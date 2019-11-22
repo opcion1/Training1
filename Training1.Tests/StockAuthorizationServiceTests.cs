@@ -1,8 +1,6 @@
 ﻿
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
-using Moq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Training1.Authorization;
@@ -12,10 +10,10 @@ using Xunit;
 
 namespace Training1.Tests
 {
-    public class AuthorizationServiceTests
+    public class StockAuthorizationServiceTests
     {
         [Fact]
-        public async Task AdminAuthorization_ShowAllowProductCreateWhenAdministrator()
+        public async Task AdminAuthorization_ShowAllowStockCreateWhenAdministrator()
         {
             //Arrange
             var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
@@ -29,13 +27,13 @@ namespace Training1.Tests
                         new Claim(ClaimTypes.Role, Constants.UserAdministratorsRole) }));
 
             //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Create);
+            var allowed = await authorizationService.AuthorizeAsync(user, new Stock(), UserOperations.Create);
 
             // Assert
             Assert.True(allowed.Succeeded);
         }
         [Fact]
-        public async Task ChefAuthorization_ShowAllowProductCreateWhenChef()
+        public async Task ChefAuthorization_ShowAllowStockCreateWhenChef()
         {
             //Arrange
             var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
@@ -49,14 +47,14 @@ namespace Training1.Tests
                         new Claim(ClaimTypes.Role, Constants.UserChefRole) }));
 
             //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Create);
+            var allowed = await authorizationService.AuthorizeAsync(user, new Stock(), UserOperations.Create);
 
             // Assert
             Assert.True(allowed.Succeeded);
         }
 
         [Fact]
-        public async Task AccountantAuthorization_ShowAllowProductCreateWhenAccountant()
+        public async Task AccountantAuthorization_ShowAllowStockCreateWhenAccountant()
         {
             //Arrange
             var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
@@ -70,7 +68,7 @@ namespace Training1.Tests
                         new Claim(ClaimTypes.Role, Constants.UserAccountantRole) }));
 
             //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Create);
+            var allowed = await authorizationService.AuthorizeAsync(user, new Stock(), UserOperations.Create);
 
             // Assert
             Assert.True(allowed.Succeeded);
@@ -78,7 +76,7 @@ namespace Training1.Tests
 
 
         [Fact]
-        public async Task AdminAuthorization_ShowAllowProductUpdateWhenAdministrator()
+        public async Task AdminAuthorization_ShowAllowStockUpdateWhenAdministrator()
         {
             //Arrange
             var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
@@ -92,13 +90,13 @@ namespace Training1.Tests
                         new Claim(ClaimTypes.Role, Constants.UserAdministratorsRole) }));
 
             //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Update);
+            var allowed = await authorizationService.AuthorizeAsync(user, new Stock(), UserOperations.Update);
 
             // Assert
             Assert.True(allowed.Succeeded);
         }
         [Fact]
-        public async Task ChefAuthorization_ShowAllowProductUpdateWhenChef()
+        public async Task ChefAuthorization_ShowAllowStockUpdateWhenChef()
         {
             //Arrange
             var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
@@ -112,14 +110,14 @@ namespace Training1.Tests
                         new Claim(ClaimTypes.Role, Constants.UserChefRole) }));
 
             //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Update);
+            var allowed = await authorizationService.AuthorizeAsync(user, new Stock(), UserOperations.Update);
 
             // Assert
             Assert.True(allowed.Succeeded);
         }
 
         [Fact]
-        public async Task AccountantAuthorization_ShowAllowProductUpdateWhenAccountant()
+        public async Task AccountantAuthorization_ShowAllowStockUpdateWhenAccountant()
         {
             //Arrange
             var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
@@ -133,7 +131,7 @@ namespace Training1.Tests
                         new Claim(ClaimTypes.Role, Constants.UserAccountantRole) }));
 
             //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Update);
+            var allowed = await authorizationService.AuthorizeAsync(user, new Stock(), UserOperations.Update);
 
             // Assert
             Assert.True(allowed.Succeeded);
@@ -141,7 +139,7 @@ namespace Training1.Tests
 
 
         [Fact]
-        public async Task AdminAuthorization_ShowAllowProductReadWhenAdministrator()
+        public async Task AdminAuthorization_ShowAllowStockReadWhenAdministrator()
         {
             //Arrange
             var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
@@ -155,13 +153,13 @@ namespace Training1.Tests
                         new Claim(ClaimTypes.Role, Constants.UserAdministratorsRole) }));
 
             //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Read);
+            var allowed = await authorizationService.AuthorizeAsync(user, new Stock(), UserOperations.Read);
 
             // Assert
             Assert.True(allowed.Succeeded);
         }
         [Fact]
-        public async Task ChefAuthorization_ShowAllowProductReadWhenChef()
+        public async Task ChefAuthorization_ShowAllowStockReadWhenChef()
         {
             //Arrange
             var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
@@ -175,14 +173,14 @@ namespace Training1.Tests
                         new Claim(ClaimTypes.Role, Constants.UserChefRole) }));
 
             //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Read);
+            var allowed = await authorizationService.AuthorizeAsync(user, new Stock(), UserOperations.Read);
 
             // Assert
             Assert.True(allowed.Succeeded);
         }
 
         [Fact]
-        public async Task AccountantAuthorization_ShowAllowProductReadWhenAccountant()
+        public async Task AccountantAuthorization_ShowAllowStockReadWhenAccountant()
         {
             //Arrange
             var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
@@ -196,7 +194,7 @@ namespace Training1.Tests
                         new Claim(ClaimTypes.Role, Constants.UserAccountantRole) }));
 
             //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Read);
+            var allowed = await authorizationService.AuthorizeAsync(user, new Stock(), UserOperations.Read);
 
             // Assert
             Assert.True(allowed.Succeeded);
@@ -205,7 +203,7 @@ namespace Training1.Tests
 
 
         [Fact]
-        public async Task AdminAuthorization_ShowAllowProductDeleteWhenAdministrator()
+        public async Task AdminAuthorization_ShowAllowStockDeleteWhenAdministrator()
         {
             //Arrange
             var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
@@ -219,13 +217,13 @@ namespace Training1.Tests
                         new Claim(ClaimTypes.Role, Constants.UserAdministratorsRole) }));
 
             //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Delete);
+            var allowed = await authorizationService.AuthorizeAsync(user, new Stock(), UserOperations.Delete);
 
             // Assert
             Assert.True(allowed.Succeeded);
         }
         [Fact]
-        public async Task AdminAuthorization_ShowNotAllowProductDeleteWhenChef()
+        public async Task AdminAuthorization_ShowNotAllowStockDeleteWhenChef()
         {
             //Arrange
             var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
@@ -239,13 +237,13 @@ namespace Training1.Tests
                         new Claim(ClaimTypes.Role, Constants.UserChefRole) }));
 
             //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Delete);
+            var allowed = await authorizationService.AuthorizeAsync(user, new Stock(), UserOperations.Delete);
 
             // Assert
             Assert.False(allowed.Succeeded);
         }
         [Fact]
-        public async Task AdminAuthorization_ShowNotAllowProductDeleteWhenAccountant()
+        public async Task AdminAuthorization_ShowNotAllowStockDeleteWhenAccountant()
         {
             //Arrange
             var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
@@ -259,14 +257,14 @@ namespace Training1.Tests
                         new Claim(ClaimTypes.Role, Constants.UserAccountantRole) }));
 
             //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Delete);
+            var allowed = await authorizationService.AuthorizeAsync(user, new Stock(), UserOperations.Delete);
 
             // Assert
             Assert.False(allowed.Succeeded);
         }
 
         [Fact]
-        public async Task ChefAuthorization_ShowNotAllowProductDeleteWhenChef()
+        public async Task ChefAuthorization_ShowNotAllowStockDeleteWhenChef()
         {
             //Arrange
             var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
@@ -280,13 +278,13 @@ namespace Training1.Tests
                         new Claim(ClaimTypes.Role, Constants.UserChefRole) }));
 
             //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Delete);
+            var allowed = await authorizationService.AuthorizeAsync(user, new Stock(), UserOperations.Delete);
 
             // Assert
             Assert.False(allowed.Succeeded);
         }
         [Fact]
-        public async Task ChefAuthorization_ShowNotAllowProductDeleteWhenAdmin()
+        public async Task ChefAuthorization_ShowNotAllowStockDeleteWhenAdmin()
         {
             //Arrange
             var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
@@ -300,13 +298,13 @@ namespace Training1.Tests
                         new Claim(ClaimTypes.Role, Constants.UserAdministratorsRole) }));
 
             //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Delete);
+            var allowed = await authorizationService.AuthorizeAsync(user, new Stock(), UserOperations.Delete);
 
             // Assert
             Assert.False(allowed.Succeeded);
         }
         [Fact]
-        public async Task ChefAuthorization_ShowNotAllowProductDeleteWhenAccountant()
+        public async Task ChefAuthorization_ShowNotAllowStockDeleteWhenAccountant()
         {
             //Arrange
             var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
@@ -320,14 +318,14 @@ namespace Training1.Tests
                         new Claim(ClaimTypes.Role, Constants.UserAccountantRole) }));
 
             //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Delete);
+            var allowed = await authorizationService.AuthorizeAsync(user, new Stock(), UserOperations.Delete);
 
             // Assert
             Assert.False(allowed.Succeeded);
         }
 
         [Fact]
-        public async Task AccountantAuthorization_ShowNotAllowProductDeleteWhenChef()
+        public async Task AccountantAuthorization_ShowNotAllowStockDeleteWhenChef()
         {
             //Arrange
             var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
@@ -341,13 +339,13 @@ namespace Training1.Tests
                         new Claim(ClaimTypes.Role, Constants.UserChefRole) }));
 
             //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Delete);
+            var allowed = await authorizationService.AuthorizeAsync(user, new Stock(), UserOperations.Delete);
 
             // Assert
             Assert.False(allowed.Succeeded);
         }
         [Fact]
-        public async Task AccountantAuthorization_ShowNotAllowProductDeleteWhenAdmin()
+        public async Task AccountantAuthorization_ShowNotAllowStockDeleteWhenAdmin()
         {
             //Arrange
             var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
@@ -361,13 +359,13 @@ namespace Training1.Tests
                         new Claim(ClaimTypes.Role, Constants.UserAdministratorsRole) }));
 
             //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Delete);
+            var allowed = await authorizationService.AuthorizeAsync(user, new Stock(), UserOperations.Delete);
 
             // Assert
             Assert.False(allowed.Succeeded);
         }
         [Fact]
-        public async Task AccountantAuthorization_ShowNotAllowProductDeleteWhenAccountant()
+        public async Task AccountantAuthorization_ShowNotAllowStockDeleteWhenAccountant()
         {
             //Arrange
             var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
@@ -381,7 +379,7 @@ namespace Training1.Tests
                         new Claim(ClaimTypes.Role, Constants.UserAccountantRole) }));
 
             //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Delete);
+            var allowed = await authorizationService.AuthorizeAsync(user, new Stock(), UserOperations.Delete);
 
             // Assert
             Assert.False(allowed.Succeeded);

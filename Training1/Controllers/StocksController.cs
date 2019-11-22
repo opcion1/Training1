@@ -1,41 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 using Training1.Authorization;
 using Training1.Models;
 using Training1.Repositories;
 
 namespace Training1.Controllers
 {
-    [Authorize]
-    public class ProductsController : Controller
+    public class StocksController : Controller
     {
-        private readonly IProductRepository _productRepository;
+        private readonly IStockRepository _stockRepository;
         private readonly IAuthorizationService _authorizationService;
 
-        public ProductsController(IProductRepository productRepository,
+        public StocksController(IStockRepository stockRepository,
                                     IAuthorizationService authorizationService)
         {
-            _productRepository = productRepository;
+            _stockRepository = stockRepository;
             _authorizationService = authorizationService;
         }
 
-        // GET: Products
-        public async Task<IActionResult> Index(ProductCategory? category)
+        // GET: Stocks
+        public async Task<IActionResult> Index(int? productId)
         {
-            var isAuthorized = await _authorizationService.AuthorizeAsync(User, new Product(), UserOperations.Read);
+            var isAuthorized = await _authorizationService.AuthorizeAsync(User, new Stock(), UserOperations.Read);
             if (isAuthorized.Succeeded)
             {
-                if (category.HasValue)
+                if (productId.HasValue)
                 {
-                    return View(await _productRepository.ListAsyncByCategory((ProductCategory)category));
+                    return View(await _stockRepository.ListAsyncByProductId((int)productId));
                 }
-                return View(await _productRepository.ListAsync());
+                return View(await _stockRepository.ListAsync());
             }
             else
             {
@@ -43,24 +38,25 @@ namespace Training1.Controllers
             }
         }
 
-        // GET: Products/Details/5
+        // GET: Stocks/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (!id.HasValue)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var product = await _productRepository.GetByIdAsync((int)id);
-            if (product == null)
+            var stock = await _stockRepository.GetByIdAsync((int)id);
+
+            if (stock == null)
             {
                 return NotFound();
             }
 
-            var isAuthorized = await _authorizationService.AuthorizeAsync(User, product, UserOperations.Read);
+            var isAuthorized = await _authorizationService.AuthorizeAsync(User, stock, UserOperations.Read);
             if (isAuthorized.Succeeded)
             {
-                return View(product);
+                return View(stock);
             }
             else
             {
@@ -68,25 +64,26 @@ namespace Training1.Controllers
             }
         }
 
-        // GET: Products/Create
-        public IActionResult Create()
+        // GET: Stocks/Create
+        public IActionResult Create(int productId)
         {
+            ViewData["ProductId"] = productId;
             return View();
         }
 
-        // POST: Products/Create
+        // POST: Stocks/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Category,Description")] Product product)
+        public async Task<IActionResult> Create([Bind("StockId,Quantity,UnityType,PricePorUnity,Currency,CommandDate,ProductId")] Stock stock)
         {
             if (ModelState.IsValid)
             {
-                var isAuthorized = await _authorizationService.AuthorizeAsync(User, product, UserOperations.Create);
-                if (isAuthorized.Succeeded) 
-                { 
-                    await _productRepository.AddAsync(product);
+                var isAuthorized = await _authorizationService.AuthorizeAsync(User, stock, UserOperations.Create);
+                if (isAuthorized.Succeeded)
+                {
+                    await _stockRepository.AddAsync(stock);
                     return RedirectToAction(nameof(Index));
                 }
                 else
@@ -94,27 +91,28 @@ namespace Training1.Controllers
                     return new ChallengeResult();
                 }
             }
-            return View(product);
+
+            return View(stock);
         }
 
-        // GET: Products/Edit/5
+        // GET: Stocks/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (!id.HasValue)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var product = await _productRepository.GetByIdAsync((int)id);
-            if (product == null)
+            var stock = await _stockRepository.GetByIdAsync((int)id);
+            if (stock == null)
             {
                 return NotFound();
             }
 
-            var isAuthorized = await _authorizationService.AuthorizeAsync(User, product, UserOperations.Update);
+            var isAuthorized = await _authorizationService.AuthorizeAsync(User, stock, UserOperations.Update);
             if (isAuthorized.Succeeded)
             {
-                return View(product);
+                return View(stock);
             }
             else
             {
@@ -122,14 +120,14 @@ namespace Training1.Controllers
             }
         }
 
-        // POST: Products/Edit/5
+        // POST: Stocks/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Category,Description")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("StockId,Quantity,UnityType,PricePorUnity,Currency,CommandDate,ProductId")] Stock stock)
         {
-            if (id != product.Id)
+            if (id != stock.StockId)
             {
                 return NotFound();
             }
@@ -138,10 +136,10 @@ namespace Training1.Controllers
             {
                 try
                 {
-                    var isAuthorized = await _authorizationService.AuthorizeAsync(User, product, UserOperations.Update);
+                    var isAuthorized = await _authorizationService.AuthorizeAsync(User, stock, UserOperations.Update);
                     if (isAuthorized.Succeeded)
                     {
-                        await _productRepository.UpdateAsync(product);
+                        await _stockRepository.UpdateAsync(stock);
                     }
                     else
                     {
@@ -150,7 +148,7 @@ namespace Training1.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductExists(product.Id))
+                    if (!StockExists(stock.StockId))
                     {
                         return NotFound();
                     }
@@ -161,43 +159,44 @@ namespace Training1.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(product);
+
+            return View(stock);
         }
 
-        // GET: Products/Delete/5
+        // GET: Stocks/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (!id.HasValue)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var product = await _productRepository.GetByIdAsync((int)id);
-            if (product == null)
+            var stock = await _stockRepository.GetByIdAsync((int)id);
+            if (stock == null)
             {
                 return NotFound();
             }
 
-            var isAuthorized = await _authorizationService.AuthorizeAsync(User, product, UserOperations.Delete);
+            var isAuthorized = await _authorizationService.AuthorizeAsync(User, stock, UserOperations.Delete);
             if (isAuthorized.Succeeded)
             {
-                return View(product);
+                return View(stock);
             }
-            else 
-            { 
-                return new ChallengeResult(); 
+            else
+            {
+                return new ChallengeResult();
             }
         }
 
-        // POST: Products/Delete/5
+        // POST: Stocks/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var isAuthorized = await _authorizationService.AuthorizeAsync(User, new Product(), UserOperations.Update);
+            var isAuthorized = await _authorizationService.AuthorizeAsync(User, new Stock(), UserOperations.Delete);
             if (isAuthorized.Succeeded)
             {
-                await _productRepository.DeleteAsync(id);
+                await _stockRepository.DeleteAsync(id);
                 return RedirectToAction(nameof(Index));
             }
             else
@@ -206,9 +205,9 @@ namespace Training1.Controllers
             }
         }
 
-        private bool ProductExists(int id)
+        private bool StockExists(int id)
         {
-            return _productRepository.ProductExists(id);
+            return _stockRepository.StockExists(id);
         }
     }
 }
