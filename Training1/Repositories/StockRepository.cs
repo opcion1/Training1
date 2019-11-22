@@ -7,10 +7,10 @@ using Training1.Models;
 
 namespace Training1.Repositories
 {
-    public class StockRepository : IStockRepository
+    public class EFStockRepository : IStockRepository
     {
         private readonly ProductContext _productContext;
-        public StockRepository(ProductContext context)
+        public EFStockRepository(ProductContext context)
         {
             _productContext = context;
         }

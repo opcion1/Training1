@@ -39,6 +39,7 @@ namespace Training1
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
             services.AddScoped<IProductRepository, EFProductRepository>();
+            services.AddScoped<IStockRepository, EFStockRepository>();
             services.AddSingleton<IAuthorizationHandler,
                           AdminAuthorizationHandler>();
             services.AddSingleton<IAuthorizationHandler,
