@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Training1.Models;
 
 namespace Training1.Migrations
 {
     [DbContext(typeof(ProductContext))]
-    partial class ProductContextModelSnapshot : ModelSnapshot
+    [Migration("20191125154905_ToalPriceStock")]
+    partial class ToalPriceStock
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,16 +49,13 @@ namespace Training1.Migrations
 
                     b.Property<int>("Currency");
 
-                    b.Property<decimal?>("PricePorUnity")
-                        .HasColumnType("decimal(18, 1)");
+                    b.Property<decimal?>("PricePorUnity");
 
                     b.Property<int>("ProductId");
 
-                    b.Property<decimal>("Quantity")
-                        .HasColumnType("decimal(18, 2)");
+                    b.Property<decimal>("Quantity");
 
-                    b.Property<decimal?>("TotalPrice")
-                        .HasColumnType("decimal(18, 1)");
+                    b.Property<decimal?>("TotalPrice");
 
                     b.Property<int>("UnityType");
 

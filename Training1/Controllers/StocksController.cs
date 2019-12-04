@@ -76,7 +76,7 @@ namespace Training1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StockId,Quantity,UnityType,PricePorUnity,Currency,CommandDate,ProductId")] Stock stock)
+        public async Task<IActionResult> Create([Bind("StockId,Quantity,UnityType,PricePorUnity,TotalPrice,Currency,ProductId")] Stock stock)
         {
             if (ModelState.IsValid)
             {
@@ -84,7 +84,7 @@ namespace Training1.Controllers
                 if (isAuthorized.Succeeded)
                 {
                     await _stockRepository.AddAsync(stock);
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("Details", "Products", new { id = stock.ProductId, showStock = true });
                 }
                 else
                 {
@@ -125,7 +125,7 @@ namespace Training1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("StockId,Quantity,UnityType,PricePorUnity,Currency,CommandDate,ProductId")] Stock stock)
+        public async Task<IActionResult> Edit(int id, [Bind("StockId,Quantity,UnityType,PricePorUnity,TotalPrice,Currency,CommandDate,ProductId")] Stock stock)
         {
             if (id != stock.StockId)
             {
@@ -157,7 +157,7 @@ namespace Training1.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Products", new { id = stock.ProductId, showStock = true });
             }
 
             return View(stock);
@@ -180,6 +180,7 @@ namespace Training1.Controllers
             var isAuthorized = await _authorizationService.AuthorizeAsync(User, stock, UserOperations.Delete);
             if (isAuthorized.Succeeded)
             {
+                ViewBag.ProductId = stock.ProductId;
                 return View(stock);
             }
             else
@@ -191,13 +192,13 @@ namespace Training1.Controllers
         // POST: Stocks/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id, int productId)
         {
             var isAuthorized = await _authorizationService.AuthorizeAsync(User, new Stock(), UserOperations.Delete);
             if (isAuthorized.Succeeded)
             {
                 await _stockRepository.DeleteAsync(id);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Products", new { id = productId, showStock = true });
             }
             else
             {

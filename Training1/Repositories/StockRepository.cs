@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ namespace Training1.Repositories
 
         public async Task AddAsync(Stock stock)
         {
+            stock.CommandDate = DateTime.Today;
             _productContext.Add(stock);
             await _productContext.SaveChangesAsync();
         }

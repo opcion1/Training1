@@ -1,7 +1,7 @@
 ﻿
-
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Training1.Models
 {
@@ -9,10 +9,14 @@ namespace Training1.Models
     {
         public int StockId { get; set; }
         [Required]
+        [Column(TypeName = "decimal(18, 2)")]
         public decimal Quantity { get; set; }
         [Required]
         public UnityType UnityType { get; set; }
+        [Column(TypeName = "decimal(18, 2)")]
         public decimal? PricePorUnity { get; set; }
+        [Column(TypeName = "decimal(18, 2)")]
+        public decimal? TotalPrice { get; set; }
         public Currency Currency { get; set; }
         [DataType(DataType.Date)]
         public DateTime CommandDate { get; set; }

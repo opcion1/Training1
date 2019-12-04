@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Training1.Models.Stock>
+﻿@model StockList
 
 @{
     Layout = null;
@@ -7,38 +7,38 @@
 
 <p>
     @if ((await AuthorizationService.AuthorizeAsync(
-         User, Model,
+         User, new Stock(),
          UserOperations.Create)).Succeeded)
     {
-        <a asp-controller="Stocks" asp-action="Create" class="btn btn-primary">Create New</a>
+        <a asp-controller="Stocks" asp-action="Create" asp-route-productId="@Model.ProductId" class="btn btn-primary">Create New</a>
     }
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Quantity)
+                @Html.DisplayNameFor(model => model.Stocks.FirstOrDefault().Quantity)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UnityType)
+                @Html.DisplayNameFor(model => model.Stocks.FirstOrDefault().UnityType)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PricePorUnity)
+                @Html.DisplayNameFor(model => model.Stocks.FirstOrDefault().PricePorUnity)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Currency)
+                @Html.DisplayNameFor(model => model.Stocks.FirstOrDefault().Currency)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CommandDate)
+                @Html.DisplayNameFor(model => model.Stocks.FirstOrDefault().TotalPrice)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Product)
+                @Html.DisplayNameFor(model => model.Stocks.FirstOrDefault().CommandDate)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Stocks)
         {
             <tr>
                 <td>
@@ -54,10 +54,10 @@
                     @Html.DisplayFor(modelItem => item.Currency)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CommandDate)
+                    @Html.DisplayFor(modelItem => item.TotalPrice)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Product.Name)
+                    @Html.DisplayFor(modelItem => item.CommandDate)
                 </td>
                 <td>
                     @if ((await AuthorizationService.AuthorizeAsync(

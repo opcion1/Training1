@@ -12,7 +12,7 @@ namespace Training1.Authorization
                                                             OperationAuthorizationRequirement requirement,
                                                             object resource)
         {
-            if (!IsUserAccoutant(context))
+            if (!IsUserChef(context))
             {
                 return Task.CompletedTask;
             }
@@ -31,7 +31,7 @@ namespace Training1.Authorization
             return Task.CompletedTask;
         }
 
-        private bool IsUserAccoutant(AuthorizationHandlerContext context)
+        private bool IsUserChef(AuthorizationHandlerContext context)
         {
             return (context.User?.IsInRole(Constants.UserChefRole) ?? false);
         }

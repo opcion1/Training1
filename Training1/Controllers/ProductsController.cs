@@ -44,7 +44,7 @@ namespace Training1.Controllers
         }
 
         // GET: Products/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, bool? showStock)
         {
             if (!id.HasValue)
             {
@@ -60,6 +60,7 @@ namespace Training1.Controllers
             var isAuthorized = await _authorizationService.AuthorizeAsync(User, product, UserOperations.Read);
             if (isAuthorized.Succeeded)
             {
+                ViewData["ShowStock"] = showStock ?? false;
                 return View(product);
             }
             else

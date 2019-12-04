@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Training1.Authorization;
+using System.Globalization;
 
 namespace Training1
 {
@@ -71,6 +72,11 @@ namespace Training1
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            var cultureInfo = new CultureInfo("en-US");
+
+            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

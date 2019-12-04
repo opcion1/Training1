@@ -22,7 +22,12 @@ namespace Training1.ViewComponents
             int productId)
         {
             var stocks = await _stockRepository.ListAsyncByProductId(productId);
-            return View(stocks);
+            var stockList = new StockList()
+            {
+                Stocks = stocks,
+                ProductId = productId
+            };
+            return View(stockList);
         }
 
     }
