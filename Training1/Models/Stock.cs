@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -14,11 +15,14 @@ namespace Training1.Models
         [Required]
         public UnityType UnityType { get; set; }
         [Column(TypeName = "decimal(18, 2)")]
+        [Display(Name ="Price por unity")]
         public decimal? PricePorUnity { get; set; }
         [Column(TypeName = "decimal(18, 2)")]
+        [Display(Name = "Total price")]
         public decimal? TotalPrice { get; set; }
         public Currency Currency { get; set; }
         [DataType(DataType.Date)]
+        [Display(Name = "Command date")]
         public DateTime CommandDate { get; set; }
         [Required]
         public int ProductId { get; set; }
@@ -33,9 +37,13 @@ namespace Training1.Models
     }
     public enum Currency
     {
+        [Description("$")]
         US_Dollar,
+        [Description("€")]
         Euro,
+        [Description("$ Arg")]
         Peso_Argentino,
+        [Description("$ Chi")]
         Peso_Chileno
     }
 }

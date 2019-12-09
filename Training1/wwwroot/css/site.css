@@ -65,12 +65,30 @@ body {
     margin-left:auto;
 }
 
+
 .nav-item a{
     color:white;
 }
     .nav-item a:hover {
         background-color: #4189C7;
     }
+
+
+.nav-tabs .nav-item .nav-link {
+    color: white;
+    background-color: #bac2c3 !important;
+}
+    .nav-tabs .nav-item .nav-link:hover {
+        color: grey;
+    }
+
+    .nav-tabs .nav-item .nav-link.active {
+        color: white;
+        background-color: #2C3E50 !important;
+    }
+        .nav-tabs .nav-item .nav-link.active:hover {
+            color: white;
+        }
 
 li.nav-item .fas {
     margin-left:10px;

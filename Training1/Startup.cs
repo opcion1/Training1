@@ -1,23 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Mvc.Internal;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using Training1.Areas.Identity.Data;
+using Training1.Authorization;
 using Training1.Models;
 using Training1.Repositories;
-using Training1.Areas.Identity.Data;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Authorization;
-using Training1.Authorization;
-using System.Globalization;
 
 namespace Training1
 {
@@ -39,6 +40,11 @@ namespace Training1
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+            //services.TryAdd(ServiceDescriptor.Transient<ICompositeMetadataDetailsProvider>(s =>
+            //{
+            //    var options = s.GetRequiredService<IOptions<MvcOptions>>().Value;
+            //    return new DefaultCompositeMetadataDetailsProvider(options.ModelMetadataDetailsProviders);
+            //}));
             services.AddScoped<IProductRepository, EFProductRepository>();
             services.AddScoped<IStockRepository, EFStockRepository>();
             services.AddSingleton<IAuthorizationHandler,
@@ -76,6 +82,8 @@ namespace Training1
 
             CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
             CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+            
+            GetMeSomeServiceLocator.Instance = app.ApplicationServices;
 
             if (env.IsDevelopment())
             {
@@ -100,5 +108,11 @@ namespace Training1
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
+    }
+
+
+    public static class GetMeSomeServiceLocator
+    {
+        public static IServiceProvider Instance { get; set; }
     }
 }

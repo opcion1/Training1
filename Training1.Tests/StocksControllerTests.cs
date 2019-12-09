@@ -299,7 +299,7 @@ namespace Training1.Tests
             MockAuthorizationService.SetupUserWithRole(controller, Constants.UserAdministratorsRole);
 
             // Act
-            var result = await controller.DeleteConfirmed(testSessionId);
+            var result = await controller.DeleteConfirmed(testSessionId, 123);
 
             // Assert
             var redirectToActionResult = Assert.IsType<RedirectToActionResult>(result);

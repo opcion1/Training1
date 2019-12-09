@@ -9,14 +9,14 @@
 <div>
     <ul class="nav nav-tabs">
         <li class="nav-item active">
-            <a class="nav-link active bg-primary" data-toggle="tab" href="#details">Details</a>
+            <a class="nav-link active" data-toggle="tab" href="#details">Details</a>
         </li>
         @if ((await AuthorizationService.AuthorizeAsync(
           User, new Stock(),
           UserOperations.Read)).Succeeded)
         {
             <li class="nav-item">
-                <a class="nav-link bg-primary" data-toggle="tab" href="#stock">Stock</a>
+                <a class="nav-link" data-toggle="tab" href="#stock">Stock</a>
             </li>
         }
     </ul>
@@ -65,7 +65,6 @@
 @section Scripts{
     <script>
         $(function () {
-            debugger            
             var showStock = @(ViewBag.ShowStock.ToString().ToLower());
             if (showStock) {
                 $('a[href="#stock"]').tab('show');
