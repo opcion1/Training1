@@ -1,0 +1,63 @@
+﻿@model Training1.Models.Stock
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>Stock</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="ProductId" type="hidden" value="@ViewBag.ProductId" />
+            <div class="form-group">
+                <label asp-for="Quantity" class="control-label"></label>
+                <input asp-for="Quantity" class="form-control" id="quantity" />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UnityType" class="control-label"></label>
+                <select asp-for="UnityType" class="form-control" asp-items="Enum<UnityType>.FriendlyNames"></select>
+                <span asp-validation-for="UnityType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PricePorUnity" class="control-label"></label>
+                <input asp-for="PricePorUnity" class="form-control" id="pricePorUnity" />
+                <span asp-validation-for="PricePorUnity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Currency" class="control-label"></label>
+                <select asp-for="Currency" class="form-control" asp-items="Enum<Currency>.FriendlyNames"></select>
+                <span asp-validation-for="Currency" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalPrice" class="control-label"></label>
+                <input asp-for="TotalPrice" class="form-control" id="totalPrice" readonly />
+                <span asp-validation-for="TotalPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Details" asp-controller="Products" asp-route-id="@ViewBag.ProductId" asp-route-showStock="true">Back to List</a>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <environment include="Development">
+        <script src="~/js/stock.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/stock.min.js"></script>
+    </environment>
+}

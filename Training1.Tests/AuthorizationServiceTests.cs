@@ -29,7 +29,7 @@ namespace Training1.Tests
                         new Claim(ClaimTypes.Role, Constants.UserAdministratorsRole) }));
 
             //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, It.IsAny<Product>(), UserOperations.Create);
+            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Create);
 
             // Assert
             Assert.True(allowed.Succeeded);
@@ -49,7 +49,7 @@ namespace Training1.Tests
                         new Claim(ClaimTypes.Role, Constants.UserChefRole) }));
 
             //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, It.IsAny<Product>(), UserOperations.Create);
+            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Create);
 
             // Assert
             Assert.True(allowed.Succeeded);
@@ -70,7 +70,7 @@ namespace Training1.Tests
                         new Claim(ClaimTypes.Role, Constants.UserAccountantRole) }));
 
             //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, It.IsAny<Product>(), UserOperations.Create);
+            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Create);
 
             // Assert
             Assert.True(allowed.Succeeded);
@@ -92,7 +92,7 @@ namespace Training1.Tests
                         new Claim(ClaimTypes.Role, Constants.UserAdministratorsRole) }));
 
             //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, It.IsAny<Product>(), UserOperations.Update);
+            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Update);
 
             // Assert
             Assert.True(allowed.Succeeded);
@@ -112,7 +112,7 @@ namespace Training1.Tests
                         new Claim(ClaimTypes.Role, Constants.UserChefRole) }));
 
             //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, It.IsAny<Product>(), UserOperations.Update);
+            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Update);
 
             // Assert
             Assert.True(allowed.Succeeded);
@@ -133,7 +133,7 @@ namespace Training1.Tests
                         new Claim(ClaimTypes.Role, Constants.UserAccountantRole) }));
 
             //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, It.IsAny<Product>(), UserOperations.Update);
+            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Update);
 
             // Assert
             Assert.True(allowed.Succeeded);
@@ -155,7 +155,7 @@ namespace Training1.Tests
                         new Claim(ClaimTypes.Role, Constants.UserAdministratorsRole) }));
 
             //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, It.IsAny<Product>(), UserOperations.Read);
+            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Read);
 
             // Assert
             Assert.True(allowed.Succeeded);
@@ -175,7 +175,7 @@ namespace Training1.Tests
                         new Claim(ClaimTypes.Role, Constants.UserChefRole) }));
 
             //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, It.IsAny<Product>(), UserOperations.Read);
+            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Read);
 
             // Assert
             Assert.True(allowed.Succeeded);
@@ -196,7 +196,7 @@ namespace Training1.Tests
                         new Claim(ClaimTypes.Role, Constants.UserAccountantRole) }));
 
             //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, It.IsAny<Product>(), UserOperations.Read);
+            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Read);
 
             // Assert
             Assert.True(allowed.Succeeded);
@@ -219,7 +219,7 @@ namespace Training1.Tests
                         new Claim(ClaimTypes.Role, Constants.UserAdministratorsRole) }));
 
             //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, It.IsAny<Product>(), UserOperations.Delete);
+            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Delete);
 
             // Assert
             Assert.True(allowed.Succeeded);
@@ -239,7 +239,7 @@ namespace Training1.Tests
                         new Claim(ClaimTypes.Role, Constants.UserChefRole) }));
 
             //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, It.IsAny<Product>(), UserOperations.Delete);
+            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Delete);
 
             // Assert
             Assert.False(allowed.Succeeded);
@@ -259,7 +259,7 @@ namespace Training1.Tests
                         new Claim(ClaimTypes.Role, Constants.UserAccountantRole) }));
 
             //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, It.IsAny<Product>(), UserOperations.Delete);
+            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Delete);
 
             // Assert
             Assert.False(allowed.Succeeded);
@@ -280,7 +280,7 @@ namespace Training1.Tests
                         new Claim(ClaimTypes.Role, Constants.UserChefRole) }));
 
             //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, It.IsAny<Product>(), UserOperations.Delete);
+            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Delete);
 
             // Assert
             Assert.False(allowed.Succeeded);
@@ -300,7 +300,7 @@ namespace Training1.Tests
                         new Claim(ClaimTypes.Role, Constants.UserAdministratorsRole) }));
 
             //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, It.IsAny<Product>(), UserOperations.Delete);
+            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Delete);
 
             // Assert
             Assert.False(allowed.Succeeded);
@@ -320,7 +320,7 @@ namespace Training1.Tests
                         new Claim(ClaimTypes.Role, Constants.UserAccountantRole) }));
 
             //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, It.IsAny<Product>(), UserOperations.Delete);
+            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Delete);
 
             // Assert
             Assert.False(allowed.Succeeded);
@@ -341,7 +341,7 @@ namespace Training1.Tests
                         new Claim(ClaimTypes.Role, Constants.UserChefRole) }));
 
             //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, It.IsAny<Product>(), UserOperations.Delete);
+            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Delete);
 
             // Assert
             Assert.False(allowed.Succeeded);
@@ -361,7 +361,7 @@ namespace Training1.Tests
                         new Claim(ClaimTypes.Role, Constants.UserAdministratorsRole) }));
 
             //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, It.IsAny<Product>(), UserOperations.Delete);
+            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Delete);
 
             // Assert
             Assert.False(allowed.Succeeded);
@@ -381,7 +381,7 @@ namespace Training1.Tests
                         new Claim(ClaimTypes.Role, Constants.UserAccountantRole) }));
 
             //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, It.IsAny<Product>(), UserOperations.Delete);
+            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Delete);
 
             // Assert
             Assert.False(allowed.Succeeded);

@@ -1,0 +1,37 @@
+﻿@model Training1.Models.Stock
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var title = $"Details of {Model.Product.Name} command of the {Model.CommandDate.ToShortDateString()}";
+}
+
+<h3>@title</h3>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Quantity)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Quantity) <text> </text> @Html.DisplayFor(model => model.UnityType)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PricePorUnity)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PricePorUnity) <text> </text> @Html.DisplayFor(model => model.UnityType)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TotalPrice)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TotalPrice) <text> </text> @Html.DisplayFor(model => model.Currency)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.StockId">Edit</a> |
+    <a asp-action="Details" asp-controller="Products" asp-route-id="@Model.ProductId" asp-route-showStock="true">Back to List</a>
+</div>

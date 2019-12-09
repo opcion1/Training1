@@ -1,30 +1,29 @@
 ﻿
 
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
-using Microsoft.AspNetCore.Identity;
-using Training1.Areas.Identity.Data;
+using System.Threading.Tasks;
 
 namespace Training1.Authorization
 {
-    public class AdminAuthorizationHandler : AuthorizationHandler<OperationAuthorizationRequirement>
+    public class AdminAuthorizationHandler : AuthorizationHandler<OperationAuthorizationRequirement, object>
     {
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
-                                                            OperationAuthorizationRequirement requirement)
+                                                            OperationAuthorizationRequirement requirement,
+                                                            object resource)
         {
-            if (context.User == null)
-            {
-                return Task.CompletedTask;
-            }
-
             // Administrators can do anything.
-            if (context.User.IsInRole(Constants.UserAdministratorsRole))
+            if (IsUserAdmin(context))
             {
                 context.Succeed(requirement);
             }
 
             return Task.CompletedTask;
+        }
+
+        private bool IsUserAdmin(AuthorizationHandlerContext context)
+        {
+            return (context.User?.IsInRole(Constants.UserAdministratorsRole) ?? false);
         }
     }
 }

@@ -28,7 +28,7 @@ namespace Training1.Controllers
         // GET: Products
         public async Task<IActionResult> Index(ProductCategory? category)
         {
-            var isAuthorized = await _authorizationService.AuthorizeAsync(User, null, UserOperations.Read);
+            var isAuthorized = await _authorizationService.AuthorizeAsync(User, new Product(), UserOperations.Read);
             if (isAuthorized.Succeeded)
             {
                 if (category.HasValue)
@@ -44,7 +44,7 @@ namespace Training1.Controllers
         }
 
         // GET: Products/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, bool? showStock)
         {
             if (!id.HasValue)
             {
@@ -60,6 +60,7 @@ namespace Training1.Controllers
             var isAuthorized = await _authorizationService.AuthorizeAsync(User, product, UserOperations.Read);
             if (isAuthorized.Succeeded)
             {
+                ViewData["ShowStock"] = showStock ?? false;
                 return View(product);
             }
             else
@@ -194,12 +195,7 @@ namespace Training1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var product = await _productRepository.GetByIdAsync((int)id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-            var isAuthorized = await _authorizationService.AuthorizeAsync(User, product, UserOperations.Update);
+            var isAuthorized = await _authorizationService.AuthorizeAsync(User, new Product(), UserOperations.Update);
             if (isAuthorized.Succeeded)
             {
                 await _productRepository.DeleteAsync(id);

@@ -1,37 +1,46 @@
-﻿
-
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
-using Microsoft.AspNetCore.Identity;
-using Training1.Areas.Identity.Data;
+using Training1.Models;
 
 namespace Training1.Authorization
 {
-    public class ChefAuthorizationHandler : AuthorizationHandler<OperationAuthorizationRequirement>
+    public class ChefAuthorizationHandler : AuthorizationHandler<OperationAuthorizationRequirement, object>
     {
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
-                                                            OperationAuthorizationRequirement requirement)
+                                                            OperationAuthorizationRequirement requirement,
+                                                            object resource)
         {
-            if (context.User == null)
+            if (!IsUserChef(context))
             {
-                // Return Task.FromResult(0) if targeting a version of
-                // .NET Framework older than 4.6:
                 return Task.CompletedTask;
             }
 
-
-            //Chef can create/read or upadte anything
-            if ((requirement.Name == Constants.CreateOperationName ||
-                requirement.Name == Constants.ReadOperationName ||
-                requirement.Name == Constants.UpdateOperationName) &&
-                context.User.IsInRole(Constants.UserChefRole))
+            switch (resource)
             {
-                context.Succeed(requirement);
+                case Product p:
+                case Stock s:
+                    if (IsCreateOrReadOrUpdateOperation(requirement))
+                    {
+                        context.Succeed(requirement);
+                    }
+                    break;
             }
 
             return Task.CompletedTask;
+        }
+
+        private bool IsUserChef(AuthorizationHandlerContext context)
+        {
+            return (context.User?.IsInRole(Constants.UserChefRole) ?? false);
+        }
+
+        private bool IsCreateOrReadOrUpdateOperation(OperationAuthorizationRequirement requirement)
+        {
+            return requirement.Name == Constants.CreateOperationName ||
+                            requirement.Name == Constants.ReadOperationName ||
+                            requirement.Name == Constants.UpdateOperationName;
         }
     }
 }

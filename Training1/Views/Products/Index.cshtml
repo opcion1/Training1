@@ -17,7 +17,7 @@
 
         </form>
         @if ((await AuthorizationService.AuthorizeAsync(
-               User, Model,
+               User, new Product(),
                UserOperations.Create)).Succeeded)
         {
             <a asp-action="Create" class="btn btn-primary endRow">Create New</a>

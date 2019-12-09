@@ -1,36 +1,46 @@
-﻿
-
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
-using Microsoft.AspNetCore.Identity;
-using Training1.Areas.Identity.Data;
+using System.Threading.Tasks;
+using Training1.Models;
 
 namespace Training1.Authorization
 {
-    public class AccountantAuthorizationHandler : AuthorizationHandler<OperationAuthorizationRequirement>
+    public class AccountantAuthorizationHandler : AuthorizationHandler<OperationAuthorizationRequirement, object>
     {
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
-                                                            OperationAuthorizationRequirement requirement)
+                                                            OperationAuthorizationRequirement requirement,
+                                                            object resource)
         {
-            if (context.User == null)
+            if (!IsUserAccoutant(context))
             {
-                // Return Task.FromResult(0) if targeting a version of
-                // .NET Framework older than 4.6:
                 return Task.CompletedTask;
             }
 
-            //Accountant can create/read or upadte anything
-            if ((requirement.Name == Constants.CreateOperationName ||
-                requirement.Name == Constants.ReadOperationName ||
-                requirement.Name == Constants.UpdateOperationName) &&
-                context.User.IsInRole(Constants.UserAccountantRole))
-            {
-                context.Succeed(requirement);
+            switch (resource)
+            { 
+                case Product p:
+                case Stock s:
+                    if (IsCreateOrReadOrUpdateOperation(requirement))
+                    {
+                        context.Succeed(requirement);
+                    }
+                    break;
             }
 
             return Task.CompletedTask;
+        }
+
+        private bool IsUserAccoutant(AuthorizationHandlerContext context)
+        {
+            return (context.User?.IsInRole(Constants.UserAccountantRole) ?? false);
+        }
+
+        private bool IsCreateOrReadOrUpdateOperation(OperationAuthorizationRequirement requirement)
+        {
+            return requirement.Name == Constants.CreateOperationName ||
+                            requirement.Name == Constants.ReadOperationName ||
+                            requirement.Name == Constants.UpdateOperationName;
         }
     }
 }
