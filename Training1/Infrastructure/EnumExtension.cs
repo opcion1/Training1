@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Internal;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
@@ -33,74 +34,13 @@ namespace Training1.Infrastructure
     }
     public class Enum<T> where T : struct, IConvertible
     {
-        /*
-            var type = typeof(TEnum);
-            var metadata = MetadataProvider.GetMetadataForType(type);
-            if (!metadata.IsEnum || metadata.IsFlagsEnum)
-            {
-                var message = Resources.FormatHtmlHelper_TypeNotSupported_ForGetEnumSelectList(
-                    type.FullName,
-                    nameof(Enum).ToLowerInvariant(),
-                    nameof(FlagsAttribute));
-                throw new ArgumentException(message, nameof(TEnum));
-            }
-
-            return GetEnumSelectList(metadata);*/
         public static IEnumerable<SelectListItem> FriendlyNames
         {
             get
             {
-                var options = GetMeSomeServiceLocator.Instance.GetRequiredService<IOptions<MvcOptions>>().Value;
-                ICompositeMetadataDetailsProvider compositeMetadataDetailsProvider = new DefaultCompositeMetadataDetailsProvider(options.ModelMetadataDetailsProviders);
-                IModelMetadataProvider MetadataProvider = new DefaultModelMetadataProvider(compositeMetadataDetailsProvider);
-
-                var type = typeof(T);
-                var metadata = MetadataProvider.GetMetadataForType(type);
-                if (!metadata.IsEnum || metadata.IsFlagsEnum)
-                {
-                    throw new ArgumentException("Type not supported for FriendlyNames", nameof(T));
-                }
-
-                IReadOnlyDictionary<string, string> namesAndValues = metadata.EnumNamesAndValues;
-
-                List<SelectListItem> selectListItem = 
-                 Enum.GetValues(typeof(T))
-                                        .Cast<Enum>()
-                                        .Select(v => 
-                                            new SelectListItem { 
-                                                Text = v.GetDescription(),
-                                                Value = namesAndValues.Where(nv => nv.Key == v.ToString()).Select(nv => nv.Value).FirstOrDefault()
-                                            })
-                                        .ToList();
-
+                var enumUtil = GetMeSomeServiceLocator.Instance.GetRequiredService<IEnumUtil>();
+                List<SelectListItem> selectListItem = enumUtil.GenerateListEnumWithFriendlyNames<T>().ToList();
                 return selectListItem;
-                //foreach (var keyValuePair in metadata.EnumGroupedDisplayNamesAndValues)
-                //{
-                //    var selectListItem = new SelectListItem
-                //    {
-                //        Text = keyValuePair.Key.Name,
-                //        Value = keyValuePair.Value,
-                //    };
-
-                //    if (!string.IsNullOrEmpty(keyValuePair.Key.Group))
-                //    {
-                //        if (!groupList.ContainsKey(keyValuePair.Key.Group))
-                //        {
-                //            groupList[keyValuePair.Key.Group] = new SelectListGroup() { Name = keyValuePair.Key.Group };
-                //        }
-
-                //        selectListItem.Group = groupList[keyValuePair.Key.Group];
-                //    }
-
-                //    selectList.Add(selectListItem);
-                //}
-
-                //Enum.GetValues(typeof(T)).Cast<Enum>().Select(v => new SelectListItem
-                //{
-                //    Text = v.GetDescription(),
-                //    Value = (int.TryParse(v, out int valeur).ToString()
-                //}).ToList();
-
             }
         }
     }

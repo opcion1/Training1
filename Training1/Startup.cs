@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Internal;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -17,6 +18,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using Training1.Areas.Identity.Data;
 using Training1.Authorization;
+using Training1.Infrastructure;
 using Training1.Models;
 using Training1.Repositories;
 
@@ -40,11 +42,16 @@ namespace Training1
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            //services.TryAdd(ServiceDescriptor.Transient<ICompositeMetadataDetailsProvider>(s =>
-            //{
-            //    var options = s.GetRequiredService<IOptions<MvcOptions>>().Value;
-            //    return new DefaultCompositeMetadataDetailsProvider(options.ModelMetadataDetailsProviders);
-            //}));
+
+            // The DefaultModelMetadataProvider does significant caching and should be a singleton.
+            services.TryAddSingleton<IModelMetadataProvider, DefaultModelMetadataProvider>();
+            services.TryAdd(ServiceDescriptor.Transient<ICompositeMetadataDetailsProvider>(s =>
+            {
+                var options = s.GetRequiredService<IOptions<MvcOptions>>().Value;
+                return new DefaultCompositeMetadataDetailsProvider(options.ModelMetadataDetailsProviders);
+            }));
+
+            services.AddSingleton<IEnumUtil, EnumUtil>();
             services.AddScoped<IProductRepository, EFProductRepository>();
             services.AddScoped<IStockRepository, EFStockRepository>();
             services.AddSingleton<IAuthorizationHandler,
