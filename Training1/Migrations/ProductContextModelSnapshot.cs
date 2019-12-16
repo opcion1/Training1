@@ -37,6 +37,29 @@ namespace Training1.Migrations
                     b.ToTable("Product");
                 });
 
+            modelBuilder.Entity("Training1.Models.Sesshin", b =>
+                {
+                    b.Property<int>("SesshinId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AppUserId")
+                        .IsRequired();
+
+                    b.Property<string>("Description");
+
+                    b.Property<DateTime>("EndDate");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<DateTime>("StartDate");
+
+                    b.HasKey("SesshinId");
+
+                    b.ToTable("Sesshin");
+                });
+
             modelBuilder.Entity("Training1.Models.Stock", b =>
                 {
                     b.Property<int>("StockId")
@@ -48,7 +71,7 @@ namespace Training1.Migrations
                     b.Property<int>("Currency");
 
                     b.Property<decimal?>("PricePorUnity")
-                        .HasColumnType("decimal(18, 1)");
+                        .HasColumnType("decimal(18, 2)");
 
                     b.Property<int>("ProductId");
 
@@ -56,7 +79,7 @@ namespace Training1.Migrations
                         .HasColumnType("decimal(18, 2)");
 
                     b.Property<decimal?>("TotalPrice")
-                        .HasColumnType("decimal(18, 1)");
+                        .HasColumnType("decimal(18, 2)");
 
                     b.Property<int>("UnityType");
 

@@ -16,5 +16,6 @@ namespace Training1.Models
 
         public DbSet<Training1.Models.Product> Product { get; set; }
         public DbSet<Training1.Models.Stock> Stock { get; set; }
+        public DbSet<Training1.Models.Sesshin> Sesshin { get; set; }
     }
 }
