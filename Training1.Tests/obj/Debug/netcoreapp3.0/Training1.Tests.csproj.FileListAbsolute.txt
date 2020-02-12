@@ -371,12 +371,6 @@ C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debu
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\Training1.Tests.dll
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\Training1.Tests.pdb
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\Castle.Core.dll
-C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\System.Web.Mvc.dll
-C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\System.Web.Razor.dll
-C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\System.Web.Helpers.dll
-C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\System.Web.WebPages.Deployment.dll
-C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\System.Web.WebPages.Razor.dll
-C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\System.Web.WebPages.dll
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\Microsoft.AspNetCore.Antiforgery.dll
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\Microsoft.AspNetCore.Authentication.Abstractions.dll
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\Microsoft.AspNetCore.Authentication.Core.dll
@@ -443,7 +437,6 @@ C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debu
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\Microsoft.VisualStudio.Web.CodeGeneration.Templating.dll
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\Microsoft.VisualStudio.Web.CodeGeneration.Utils.dll
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll
-C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\Microsoft.Web.Infrastructure.dll
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\Moq.dll
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\Newtonsoft.Json.dll
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\Newtonsoft.Json.Bson.dll
@@ -530,3 +523,6 @@ C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debu
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\Training1.dll
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\Training1.pdb
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\obj\Debug\netcoreapp3.0\Training1.Tests.csproj.CopyComplete
+C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\Microsoft.Extensions.Identity.Core.dll
+C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\Microsoft.Extensions.Identity.Stores.dll

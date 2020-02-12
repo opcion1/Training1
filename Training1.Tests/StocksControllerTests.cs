@@ -84,8 +84,8 @@ namespace Training1.Tests
 
             // Assert
             var redirectToActionResult = Assert.IsType<RedirectToActionResult>(result);
-            Assert.Null(redirectToActionResult.ControllerName);
-            Assert.Equal("Index", redirectToActionResult.ActionName);
+            Assert.Equal("Products",redirectToActionResult.ControllerName);
+            Assert.Equal("Details", redirectToActionResult.ActionName);
             mockRepo.Verify();
         }
 
@@ -303,8 +303,8 @@ namespace Training1.Tests
 
             // Assert
             var redirectToActionResult = Assert.IsType<RedirectToActionResult>(result);
-            Assert.Null(redirectToActionResult.ControllerName);
-            Assert.Equal("Index", redirectToActionResult.ActionName);
+            Assert.Equal("Products", redirectToActionResult.ControllerName);
+            Assert.Equal("Details", redirectToActionResult.ActionName);
             mockRepo.Verify();
         }
     }

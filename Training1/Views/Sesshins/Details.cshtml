@@ -1,0 +1,42 @@
+﻿@model Training1.Models.Sesshin
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Sesshin</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-2">
+            Dates
+        </dt>
+        <dd class="col-sm-10">
+            <tetx>From </tetx>@Html.DisplayFor(model => model.StartDate)<text> to </text> @Html.DisplayFor(model => model.EndDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AppUserId)
+        </dt>
+        <dd class = "col-sm-10" app-user-id="@Model.AppUserId">
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.SesshinId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -18,10 +18,17 @@ namespace Training1.Authorization
             }
 
             switch (resource)
-            { 
-                case Product p:
-                case Stock s:
+            {
+                case Product product:
+                case Stock stock:
                     if (IsCreateOrReadOrUpdateOperation(requirement))
+                    {
+                        context.Succeed(requirement);
+                    }
+                    break;
+                case Sesshin sesshin:
+                    //Accountant can only read
+                    if (requirement.Name == Constants.ReadOperationName)
                     {
                         context.Succeed(requirement);
                     }

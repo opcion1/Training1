@@ -43,6 +43,10 @@ namespace Training1
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddDefaultIdentity<AppUser>()
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<AppIdentityContext>();
+
             // The DefaultModelMetadataProvider does significant caching and should be a singleton.
             services.TryAddSingleton<IModelMetadataProvider, DefaultModelMetadataProvider>();
             services.TryAdd(ServiceDescriptor.Transient<ICompositeMetadataDetailsProvider>(s =>
@@ -54,9 +58,11 @@ namespace Training1
             services.AddSingleton<IEnumUtil, EnumUtil>();
             services.AddScoped<IProductRepository, EFProductRepository>();
             services.AddScoped<IStockRepository, EFStockRepository>();
+            services.AddScoped<ISesshinRepository, EFSesshinRepository>();
+            //scoped for this one because of the usermanager
             services.AddSingleton<IAuthorizationHandler,
                           AdminAuthorizationHandler>();
-            services.AddSingleton<IAuthorizationHandler,
+            services.AddScoped<IAuthorizationHandler,
                                   ChefAuthorizationHandler>();
             services.AddSingleton<IAuthorizationHandler,
                                   AccountantAuthorizationHandler>();
@@ -77,9 +83,6 @@ namespace Training1
                 options.UseSqlServer(
                     Configuration.GetConnectionString("AppIdentityContextConnection")));
 
-            services.AddDefaultIdentity<AppUser>()
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<AppIdentityContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

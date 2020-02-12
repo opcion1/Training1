@@ -234,5 +234,10 @@ C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netc
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Razor\Views\Stocks\Details.cshtml.g.cs
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Razor\Views\Stocks\Edit.cshtml.g.cs
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Razor\Views\Stocks\Index.cshtml.g.cs
-C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Training1.csprojAssemblyReference.cache
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Components\StockList\Default.cshtml.g.cs
+C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Razor\Views\Sesshins\Create.cshtml.g.cs
+C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Razor\Views\Sesshins\Delete.cshtml.g.cs
+C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Razor\Views\Sesshins\Details.cshtml.g.cs
+C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Razor\Views\Sesshins\Edit.cshtml.g.cs
+C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Razor\Views\Sesshins\Index.cshtml.g.cs
+C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Training1.csprojAssemblyReference.cache

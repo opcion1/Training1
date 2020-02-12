@@ -1,10 +1,8 @@
-﻿
-
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
-using Moq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Training1.Areas.Identity.Data;
 using Training1.Authorization;
 using Training1.Models;
 using Training1.Tests.Mock;
@@ -38,9 +36,10 @@ namespace Training1.Tests
         public async Task ChefAuthorization_ShowAllowProductCreateWhenChef()
         {
             //Arrange
+            var userManager = MockIdentity.MockUserManager<AppUser>().Object;
             var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
             {
-                services.AddScoped<IAuthorizationHandler, ChefAuthorizationHandler>();
+                services.AddScoped<IAuthorizationHandler>(sp => new ChefAuthorizationHandler(userManager));
             });
             var user = new ClaimsPrincipal(
                 new ClaimsIdentity(
@@ -101,9 +100,10 @@ namespace Training1.Tests
         public async Task ChefAuthorization_ShowAllowProductUpdateWhenChef()
         {
             //Arrange
+            var userManager = MockIdentity.MockUserManager<AppUser>().Object;
             var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
             {
-                services.AddScoped<IAuthorizationHandler, ChefAuthorizationHandler>();
+                services.AddScoped<IAuthorizationHandler>(sp => new ChefAuthorizationHandler(userManager));
             });
             var user = new ClaimsPrincipal(
                 new ClaimsIdentity(
@@ -164,9 +164,10 @@ namespace Training1.Tests
         public async Task ChefAuthorization_ShowAllowProductReadWhenChef()
         {
             //Arrange
+            var userManager = MockIdentity.MockUserManager<AppUser>().Object;
             var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
             {
-                services.AddScoped<IAuthorizationHandler, ChefAuthorizationHandler>();
+                services.AddScoped<IAuthorizationHandler>(sp => new ChefAuthorizationHandler(userManager));
             });
             var user = new ClaimsPrincipal(
                 new ClaimsIdentity(
@@ -269,9 +270,10 @@ namespace Training1.Tests
         public async Task ChefAuthorization_ShowNotAllowProductDeleteWhenChef()
         {
             //Arrange
+            var userManager = MockIdentity.MockUserManager<AppUser>().Object;
             var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
             {
-                services.AddScoped<IAuthorizationHandler, ChefAuthorizationHandler>();
+                services.AddScoped<IAuthorizationHandler>(sp => new ChefAuthorizationHandler(userManager));
             });
             var user = new ClaimsPrincipal(
                 new ClaimsIdentity(
@@ -289,9 +291,10 @@ namespace Training1.Tests
         public async Task ChefAuthorization_ShowNotAllowProductDeleteWhenAdmin()
         {
             //Arrange
+            var userManager = MockIdentity.MockUserManager<AppUser>().Object;
             var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
             {
-                services.AddScoped<IAuthorizationHandler, ChefAuthorizationHandler>();
+                services.AddScoped<IAuthorizationHandler>(sp => new ChefAuthorizationHandler(userManager));
             });
             var user = new ClaimsPrincipal(
                 new ClaimsIdentity(
@@ -309,9 +312,10 @@ namespace Training1.Tests
         public async Task ChefAuthorization_ShowNotAllowProductDeleteWhenAccountant()
         {
             //Arrange
+            var userManager = MockIdentity.MockUserManager<AppUser>().Object;
             var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
             {
-                services.AddScoped<IAuthorizationHandler, ChefAuthorizationHandler>();
+                services.AddScoped<IAuthorizationHandler>(sp => new ChefAuthorizationHandler(userManager));
             });
             var user = new ClaimsPrincipal(
                 new ClaimsIdentity(
