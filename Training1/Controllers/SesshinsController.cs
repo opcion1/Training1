@@ -187,7 +187,13 @@ namespace Training1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var isAuthorized = await _authorizationService.AuthorizeAsync(User, new Sesshin(), UserOperations.Update);
+            var sesshin = await _sesshinRepository.GetByIdAsync((int)id);
+            if (sesshin == null)
+            {
+                return NotFound();
+            }
+
+            var isAuthorized = await _authorizationService.AuthorizeAsync(User, sesshin, UserOperations.Delete);
             if (isAuthorized.Succeeded)
             {
                 await _sesshinRepository.DeleteAsync(id);
