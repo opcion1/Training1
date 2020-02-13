@@ -240,4 +240,3 @@ C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netc
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Razor\Views\Sesshins\Details.cshtml.g.cs
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Razor\Views\Sesshins\Edit.cshtml.g.cs
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Razor\Views\Sesshins\Index.cshtml.g.cs
-C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Training1.csprojAssemblyReference.cache
