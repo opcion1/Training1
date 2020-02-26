@@ -8,35 +8,78 @@
 <h1>Details</h1>
 
 <div>
-    <h4>Sesshin</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class="col-sm-2">
-            Dates
-        </dt>
-        <dd class="col-sm-10">
-            <tetx>From </tetx>@Html.DisplayFor(model => model.StartDate)<text> to </text> @Html.DisplayFor(model => model.EndDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AppUserId)
-        </dt>
-        <dd class = "col-sm-10" app-user-id="@Model.AppUserId">
-        </dd>
-    </dl>
+    <ul class="nav nav-tabs">
+        <li class="nav-item active">
+            <a class="nav-link active" data-toggle="tab" href="#details">Details</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#menus">Menus</a>
+        </li>
+    </ul>
+
+    <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade show active" id="details">
+            <div>
+                <h4>Sesshin</h4>
+                <hr />
+                <dl class="row">
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.Name)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Name)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.Description)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Description)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.NumberOfPeople)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.NumberOfPeople)
+                    </dd>
+                    <dt class="col-sm-2">
+                        Dates
+                    </dt>
+                    <dd class="col-sm-10">
+                        <tetx>From </tetx>@Html.DisplayFor(model => model.StartDate)<text> to </text> @Html.DisplayFor(model => model.EndDate)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.AppUserId)
+                    </dt>
+                    <dd class="col-sm-10" app-user-id="@Model.AppUserId">
+                    </dd>
+                </dl>
+            </div>
+            <div>
+                <a asp-action="Edit" asp-route-id="@Model.SesshinId">Edit</a> |
+                <a asp-action="Index">Back to List</a>
+            </div>
+        </div>
+
+
+        <div class="tab-pane fade show" id="menus">
+            @await Component.InvokeAsync("SesshinDays", new { sesshinId = Model.SesshinId })
+        </div>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.SesshinId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+
+@section Scripts{
+    <script>
+        $(function () {
+            var showMenus = @(ViewBag.ShowMenus.ToString().ToLower());
+            if (showMenus) {
+                $('a[href="#menus"]').tab('show');
+                var mealId = @(ViewBag.MealId);
+                if (mealId > 0) {
+                    $('a[href="#meal' + mealId + '"]').removeClass('collapsed');
+                    $('div#meal' + mealId).addClass('show');
+                }
+            }
+        });
+    </script>
+}

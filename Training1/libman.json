@@ -5,6 +5,25 @@
     {
       "library": "font-awesome@5.11.2",
       "destination": "wwwroot/lib/font-awesome/"
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "jquery-ui@1.12.1",
+      "destination": "wwwroot/jquery-ui/"
+    },
+    {
+      "library": "jqueryui@1.12.1",
+      "destination": "wwwroot/jqueryui/"
+    },
+    {
+      "library": "popper.js@1.16.1",
+      "destination": "wwwroot/lib/popper.js/"
     }
-  ]
+,
+{
+  "provider": "jsdelivr",
+  "library": "bootstrap@4.4.1",
+  "destination": "wwwroot/lib/bootstrap/"
+}
+]
 }

@@ -1,0 +1,118 @@
+﻿@model MealFoodViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h1>Add Food to the meal</h1>
+
+<h4>Food</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddFood" asp-controller="Meals">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Food.FoodId" />
+            <input type="hidden" asp-for="MealId" />
+            <input type="hidden" asp-for="SesshinId" />
+            <div class="form-group">
+                <label asp-for="Food.Name" class="control-label"></label>
+                <div class="input-container">
+                    <input asp-for="Food.Name" class="form-control food-name" /><i class="fas fa-times cancel-icon" style="display:none;"></i>
+                </div>
+                <span asp-validation-for="Food.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Food.Description" class="control-label"></label>
+                <input asp-for="Food.Description" class="form-control" />
+                <span asp-validation-for="Food.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Food.Commentary" class="control-label"></label>
+                <input asp-for="Food.Commentary" class="form-control" />
+                <span asp-validation-for="Food.Commentary" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Add Food" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Details" asp-controller="Sesshins" asp-route-id="@Model.SesshinId" asp-route-showMenus="true" asp-route-mealId="@Model.MealId">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+            $('.food-name').autocomplete({
+                delay: 300,
+                minLength:3,
+                source: function (request, response) {
+                    $.ajax({
+                        url: '/Foods/Search',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: { searchText: request.term }
+                        ,
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return { label: item.name, value: item.name, id: item.foodId, desc: item.description, commentary: item.commentary};
+                            }));
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    showFood(ui);
+                }
+            });
+
+            $('#Food_Name').focus(function () {
+                $('.input-container').addClass('focused');
+            });
+            $('#Food_Name').focusout(function () {
+                $('.input-container').removeClass('focused');
+            });
+            $('i.cancel-icon').click(function () {
+                cancelFood();
+            });
+        });
+
+        function Food(id, name, desc, commentary) {
+            this.foodId = id;
+            this.name = name;
+            this.description = desc;
+            this.commentary = commentary;
+        }
+
+        function showFood(ui) {
+            debugger
+            var food = new Food(ui.item.id, ui.item.label, ui.item.desc, ui.item.commentary);
+            displayFood(food);
+            $('i.cancel-icon').show();
+            $('#Food_Name').addClass('icon');
+            $('#Food_Name').addClass('cancel-form-control-focus');
+        }
+
+        function cancelFood() {
+            var emptyFood = new Food(-1, '', '', '');
+            displayFood(emptyFood);
+                    $('i.cancel-icon').hide();
+                    $('#Food_Name').removeClass('icon');
+                    $('#Food_Name').removeClass('cancel-form-control-focus');
+        }
+
+        function displayFood(food) {
+            $('#Food_FoodId').val(food.foodId);
+            $('#Food_Name').val(food.name);
+            $('#Food_Description').val(food.description);
+            $('#Food_Commentary').val(food.commentary);
+        }
+
+
+    </script>
+}

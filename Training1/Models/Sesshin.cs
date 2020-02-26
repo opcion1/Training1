@@ -29,7 +29,7 @@ namespace Training1.Models
         [Required]
         [Display(Name="Tenzo")]
         public string AppUserId { get; set; }
-        public IEnumerable<DayOfSesshin> Days { get; set; }
+        public ICollection<DayOfSesshin> Days { get; set; }
     }
     public class DayOfSesshin
     {
@@ -38,7 +38,7 @@ namespace Training1.Models
         [DataType(DataType.Date)]
         public DateTime Date { get; set; }
         [Required]
-        public IEnumerable<Meal> Meals { get; set; }
+        public ICollection<Meal> Meals { get; set; }
         [Required]
         public int NumberOfPeople { get; set; }
         public int SesshinId { get; set; }
@@ -51,7 +51,7 @@ namespace Training1.Models
         [Required]
         public MealType Type { get; set; }
         [Required]
-        public IEnumerable<Food> Foods { get; set; }
+        public IList<MealFood> MealFoods { get; set; }
         public int DayOfSesshinId { get; set; }
         public DayOfSesshin DayOfSesshin { get; set; }
     }
@@ -69,7 +69,8 @@ namespace Training1.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public string Commentary { get; set; }
-        public IEnumerable<Ingredient> Ingredients { get; set; }
+        public ICollection<Ingredient> Ingredients { get; set; }
+        public IList<MealFood> MealFoods { get; set; }
     }
     public class Ingredient
     {
@@ -84,5 +85,13 @@ namespace Training1.Models
         public decimal Quantity { get; set; }
         [Required]
         public UnityType UnityType { get; set; }
+    }
+    public class MealFood
+    {
+        public int MealId { get; set; }
+        public Meal Meal { get; set; }
+
+        public int FoodId { get; set; }
+        public Food Food { get; set; }
     }
 }

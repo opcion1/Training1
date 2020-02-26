@@ -35,7 +35,7 @@ namespace Training1.Migrations
 
                     b.HasIndex("SesshinId");
 
-                    b.ToTable("DayOfSesshin");
+                    b.ToTable("DaysOfSesshin");
                 });
 
             modelBuilder.Entity("Training1.Models.Food", b =>
@@ -48,14 +48,10 @@ namespace Training1.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<int?>("MealId");
-
                     b.Property<string>("Name")
                         .IsRequired();
 
                     b.HasKey("FoodId");
-
-                    b.HasIndex("MealId");
 
                     b.ToTable("Food");
                 });
@@ -99,6 +95,19 @@ namespace Training1.Migrations
                     b.HasIndex("DayOfSesshinId");
 
                     b.ToTable("Meal");
+                });
+
+            modelBuilder.Entity("Training1.Models.MealFood", b =>
+                {
+                    b.Property<int>("MealId");
+
+                    b.Property<int>("FoodId");
+
+                    b.HasKey("MealId", "FoodId");
+
+                    b.HasIndex("FoodId");
+
+                    b.ToTable("MealFood");
                 });
 
             modelBuilder.Entity("Training1.Models.Product", b =>
@@ -182,13 +191,6 @@ namespace Training1.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Training1.Models.Food", b =>
-                {
-                    b.HasOne("Training1.Models.Meal")
-                        .WithMany("Foods")
-                        .HasForeignKey("MealId");
-                });
-
             modelBuilder.Entity("Training1.Models.Ingredient", b =>
                 {
                     b.HasOne("Training1.Models.Food", "Food")
@@ -207,6 +209,19 @@ namespace Training1.Migrations
                     b.HasOne("Training1.Models.DayOfSesshin", "DayOfSesshin")
                         .WithMany("Meals")
                         .HasForeignKey("DayOfSesshinId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Training1.Models.MealFood", b =>
+                {
+                    b.HasOne("Training1.Models.Food", "Food")
+                        .WithMany("MealFoods")
+                        .HasForeignKey("FoodId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Training1.Models.Meal", "Meal")
+                        .WithMany("MealFoods")
+                        .HasForeignKey("MealId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

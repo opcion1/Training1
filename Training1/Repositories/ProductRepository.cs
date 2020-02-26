@@ -19,11 +19,11 @@ namespace Training1.Repositories
 
         public IQueryable<Product> Products => _context.Product;
 
-        public async Task<List<Product>> ListAsync()
+        public async Task<ICollection<Product>> ListAsync()
         {
             return await Products.ToListAsync();
         }
-        public async Task<List<Product>> ListAsyncByCategory(ProductCategory category)
+        public async Task<ICollection<Product>> ListAsyncByCategory(ProductCategory category)
         {
             return await Products.Where(p => p.Category == category).ToListAsync();
         }

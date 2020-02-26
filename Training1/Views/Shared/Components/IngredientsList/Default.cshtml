@@ -1,0 +1,74 @@
+﻿@model IngredientsViewModel
+
+@{
+    Layout = null;
+}
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Ingredients.FirstOrDefault().Product)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ingredients.FirstOrDefault().Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ingredients.FirstOrDefault().UnityType)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr id="new_ingredient">
+            <td>
+                <input type="hidden" id="hidden-product" />
+                <div class="dropdown">
+                    <input type="text" id="input-product" class="form-control select-like" data-toggle="dropdown" />
+                    <drop-down-list-product class="dropdown-menu product">
+                    </drop-down-list-product>
+                </div>
+            </td>
+            <td>
+                <input class="form-control" id="input_qty" type="text" />
+            </td>
+            <td>
+                <select class="form-control" id="select_unityType" asp-items="Enum<UnityType>.FriendlyNames"></select>
+            </td>
+            <td>
+                <i class="fas fa-save" id="icon_save"></i>
+            </td>
+        </tr>
+        @foreach (var item in Model.Ingredients)
+        {
+            <tr id="tr_ingredient_@(item.IngredientId)">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Product.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnityType)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.IngredientId">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.IngredientId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+@section Scripts {
+    @*<script>
+        $(document).ready(function () {
+            $('#list_product').editableSelect();
+        });
+    </script>*@
+}
+

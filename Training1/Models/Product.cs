@@ -13,7 +13,7 @@ namespace Training1.Models
         public ProductCategory Category { get; set; }
         [Display(Name="Tell me more")]
         public string Description { get; set; }
-        public List<Stock> Stocks { get; set; }
+        public ICollection<Stock> Stocks { get; set; }
     }
 
     public enum ProductCategory

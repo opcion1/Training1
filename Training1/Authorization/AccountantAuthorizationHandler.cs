@@ -27,6 +27,7 @@ namespace Training1.Authorization
                     }
                     break;
                 case Sesshin sesshin:
+                case Food food:
                     //Accountant can only read
                     if (requirement.Name == Constants.ReadOperationName)
                     {

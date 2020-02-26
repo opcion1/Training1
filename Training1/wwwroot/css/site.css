@@ -1,6 +1,11 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+
+datalist {
+    display: none;
+}
+
 a.navbar-brand {
   white-space: normal;
   text-align: center;
@@ -98,4 +103,56 @@ li.nav-item .fas {
 ul.navbar-nav{
     margin:6px;
     padding-left:0px;
+}
+
+.btn-card-link {
+    color: #18BC9C;
+    text-decoration:none;
+    background-color:transparent;
+    border:none;
+}
+.padding-left-5{
+    padding-left:5px;
+}
+.cancel-icon {
+    padding: 10px;
+    background-color: white;
+    color: #2C3E50;
+    border-top: 1px solid #ced4da;
+    border-right: 1px solid #ced4da;
+    border-bottom: 1px solid #ced4da;
+    border-bottom-right-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+}
+.cancel-form-control-focus:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    border-color: #ced4da;
+}
+.input-container{
+    display:flex;
+    width:100%;
+}
+    .input-container .icon {
+        border-right: none;
+        border-bottom-right-radius: 0;
+        border-top-right-radius: 0;
+    }
+    .input-container.focused {
+        -webkit-box-shadow: 0 0 0 0.2rem rgba(44, 62, 80, 0.25);
+        box-shadow: 0 0 0 0.2rem rgba(44, 62, 80, 0.25);
+        border-radius: 0.25rem;
+        border-color: #597ea2;
+        border: 1px solid #597ea2;
+    }
+
+input.select-like {
+    padding-right: 20px !important;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAICAYAAADJEc7MAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAG2YAABzjgAA4DIAAIM2AAB5CAAAxgwAADT6AAAgbL5TJ5gAAABGSURBVHjaYvz//z8DOYCJgUzA0tnZidPK8vJyRpw24pLEpwnuVHRFhDQxMDAwMPz//x+OOzo6/iPz8WFGuocqAAAA//8DAD/sORHYg7kaAAAAAElFTkSuQmCC) right center no-repeat;
+}
+.li-invisible{
+    display:none;
+}
+.dropdown-menu.product.show{
+    width:100%;
 }
