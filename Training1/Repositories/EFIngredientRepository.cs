@@ -31,7 +31,7 @@ namespace Training1.Repositories
 
         public async Task<Ingredient> GetByIdAsync(int id)
         {
-            var ingredient = await _productContext.Ingredient.FirstOrDefaultAsync(i => i.IngredientId == id);
+            var ingredient = await _productContext.Ingredient.Include(i => i.Product).FirstOrDefaultAsync(i => i.IngredientId == id);
             return ingredient;
         }
 
@@ -47,7 +47,7 @@ namespace Training1.Repositories
 
         public async Task<ICollection<Ingredient>> ListAsyncByFoodId(int foodId)
         {
-            return await Ingredients.Where(i => i.FoodId == foodId).ToListAsync();
+            return await Ingredients.Where(i => i.FoodId == foodId).Include(i => i.Product).ToListAsync();
         }
 
         public async Task UpdateAsync(Ingredient ingredient)
