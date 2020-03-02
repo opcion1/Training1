@@ -59,6 +59,10 @@ namespace Training1
             services.AddScoped<IProductRepository, EFProductRepository>();
             services.AddScoped<IStockRepository, EFStockRepository>();
             services.AddScoped<ISesshinRepository, EFSesshinRepository>();
+            services.AddScoped<IFoodRepository, EFFoodRepository>();
+            services.AddScoped<IDayOfSesshinRepository, EFDayOfSesshinRepository>();
+            services.AddScoped<IMealRepository, EFMealRepository>();
+            services.AddScoped<IIngredientRepository, EFIngredientRepository>();
             //scoped for this one because of the usermanager
             services.AddSingleton<IAuthorizationHandler,
                           AdminAuthorizationHandler>();

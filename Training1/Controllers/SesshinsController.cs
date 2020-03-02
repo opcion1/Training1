@@ -36,7 +36,7 @@ namespace Training1.Controllers
         }
 
         // GET: Sesshins/Details/5
-        public async Task<IActionResult> Details(int? id, bool? showStock)
+        public async Task<IActionResult> Details(int? id, bool? showMenus, int? mealId)
         {
             if (!id.HasValue)
             {
@@ -52,7 +52,8 @@ namespace Training1.Controllers
             var isAuthorized = await _authorizationService.AuthorizeAsync(User, sesshin, UserOperations.Read);
             if (isAuthorized.Succeeded)
             {
-                ViewData["ShowStock"] = showStock ?? false;
+                ViewData["ShowMenus"] = showMenus ?? false;
+                ViewData["MealId"] = mealId ?? -1;
                 return View(sesshin);
             }
             else

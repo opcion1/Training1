@@ -11,7 +11,7 @@ namespace Training1.Repositories
     {
         IQueryable<Sesshin> Sesshins { get; }
 
-        Task<List<Sesshin>> ListAsync();
+        Task<ICollection<Sesshin>> ListAsync();
         Task<Sesshin> GetByIdAsync(int id);
 
         Task AddAsync(Sesshin sesshin);

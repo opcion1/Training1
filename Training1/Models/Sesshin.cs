@@ -24,7 +24,74 @@ namespace Training1.Models
         [Display(Name = "End Date")]
         public DateTime EndDate { get; set; }
         [Required]
+        [Display(Name="Number of people")]
+        public int NumberOfPeople { get; set; }
+        [Required]
         [Display(Name="Tenzo")]
         public string AppUserId { get; set; }
+        public ICollection<DayOfSesshin> Days { get; set; }
+    }
+    public class DayOfSesshin
+    {
+        public int DayOfSesshinId { get; set; }
+        [Required]
+        [DataType(DataType.Date)]
+        public DateTime Date { get; set; }
+        [Required]
+        public ICollection<Meal> Meals { get; set; }
+        [Required]
+        public int NumberOfPeople { get; set; }
+        public int SesshinId { get; set; }
+        public Sesshin Sesshin { get; set; }
+    }
+
+    public class Meal
+    {
+        public int MealId { get; set; }
+        [Required]
+        public MealType Type { get; set; }
+        [Required]
+        public IList<MealFood> MealFoods { get; set; }
+        public int DayOfSesshinId { get; set; }
+        public DayOfSesshin DayOfSesshin { get; set; }
+    }
+    public enum MealType
+    {
+        Breakfast,
+        Genmai,
+        Lunch,
+        Diner
+    }
+    public class Food
+    {
+        public int FoodId { get; set; }
+        [Required]
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Commentary { get; set; }
+        public ICollection<Ingredient> Ingredients { get; set; }
+        public IList<MealFood> MealFoods { get; set; }
+    }
+    public class Ingredient
+    {
+        public int IngredientId { get; set; }
+        public int FoodId { get; set; }
+        public Food Food { get; set; }
+        [Required]
+        public int ProductId { get; set; }
+        public Product Product { get; set; }
+        [Required]
+        [Column(TypeName = "decimal(18, 2)")]
+        public decimal Quantity { get; set; }
+        [Required]
+        public UnityType UnityType { get; set; }
+    }
+    public class MealFood
+    {
+        public int MealId { get; set; }
+        public Meal Meal { get; set; }
+
+        public int FoodId { get; set; }
+        public Food Food { get; set; }
     }
 }

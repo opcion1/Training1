@@ -11,8 +11,8 @@ namespace Training1.Repositories
     {
         IQueryable<Stock> Stocks { get; }
 
-        Task<List<Stock>> ListAsync();
-        Task<List<Stock>> ListAsyncByProductId(int productId);
+        Task<ICollection<Stock>> ListAsync();
+        Task<ICollection<Stock>> ListAsyncByProductId(int productId);
         Task<Stock> GetByIdAsync(int id);
 
         Task AddAsync(Stock stock);

@@ -1,0 +1,53 @@
+﻿@model MealFoodViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h1>Edit Food</h1>
+
+<h4>Food</h4>
+<hr />
+<div class="row">
+    <div class="">
+        <form asp-action="EditFood" asp-controller="Meals">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Food.FoodId" />
+            <input type="hidden" asp-for="MealId" />
+            <input type="hidden" asp-for="SesshinId" />
+            <div class="form-group">
+                <label asp-for="Food.Name" class="control-label"></label>
+                <input readonly asp-for="Food.Name" class="form-control" />
+                <span asp-validation-for="Food.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Food.Description" class="control-label"></label>
+                <input asp-for="Food.Description" class="form-control" />
+                <span asp-validation-for="Food.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Food.Commentary" class="control-label"></label>
+                <input asp-for="Food.Commentary" class="form-control" />
+                <span asp-validation-for="Food.Commentary" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Edit Food" class="btn btn-primary" />
+            </div>
+        </form>
+        @await Component.InvokeAsync("IngredientsList", new { foodId = Model.Food.FoodId, mealId = Model.MealId })
+    </div>
+</div>
+
+<div>
+    <a asp-action="Details" asp-controller="Sesshins" asp-route-id="@Model.SesshinId" asp-route-showMenus="true" asp-route-mealId="@Model.MealId">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/ingredients-list-view-component.js"></script>
+}
+
+
+
+

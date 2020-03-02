@@ -5,16 +5,20 @@ using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Training1.Areas.Identity.Data;
 using Training1.Models;
+using Training1.Repositories;
 
 namespace Training1.Authorization
 {
     public class ChefAuthorizationHandler : AuthorizationHandler<OperationAuthorizationRequirement, object>
     {
         private readonly UserManager<AppUser> _userManager;
+        private readonly IMealRepository _mealRepository; 
 
-        public ChefAuthorizationHandler(UserManager<AppUser> userManager)
+        public ChefAuthorizationHandler(UserManager<AppUser> userManager,
+                                        IMealRepository mealRepository)
         {
             _userManager = userManager;
+            _mealRepository = mealRepository;
         }
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
@@ -40,9 +44,35 @@ namespace Training1.Authorization
                         context.Succeed(requirement);
                     }
                     break;
+                case Food food:
+                    if (IsAuthorizedFoodOperation(context, requirement, resource as Food))
+                    {
+                        context.Succeed(requirement);
+                    }
+                    break;
+                case MealFood mealFood:
+                    if (IsAuthorizedMealFoodOperation(context, requirement, resource as MealFood))
+                    {
+                        context.Succeed(requirement);
+                    }
+                    break;
             }
 
             return Task.CompletedTask;
+        }
+
+        private bool IsAuthorizedMealFoodOperation(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, MealFood mealFood)
+        {
+            //Get the sesshin tenzo
+            Meal meal = _mealRepository.GetById(mealFood.MealId);
+            string mealFoodOwner = _mealRepository.GetSesshinOwner(meal);
+            return (mealFoodOwner == _userManager.GetUserId(context.User));
+        }
+
+        private bool IsAuthorizedFoodOperation(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, Food food)
+        {
+            //get 
+            return true;
         }
 
         private bool IsAuthorizedSesshinOperation(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, Sesshin sesshin)

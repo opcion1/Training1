@@ -14,8 +14,18 @@ namespace Training1.Models
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<MealFood>().HasKey(sc => new { sc.MealId, sc.FoodId });
+        }
+
         public DbSet<Training1.Models.Product> Product { get; set; }
         public DbSet<Training1.Models.Stock> Stock { get; set; }
         public DbSet<Training1.Models.Sesshin> Sesshin { get; set; }
+        public DbSet<Training1.Models.DayOfSesshin> DaysOfSesshin { get; set; }
+        public DbSet<Training1.Models.Meal> Meal { get; set; }
+        public DbSet<Training1.Models.Food> Food { get; set; }
+        public DbSet<MealFood> MealFood { get; set; }
+        public DbSet<Training1.Models.Ingredient> Ingredient { get; set; }
     }
 }

@@ -39,13 +39,13 @@ namespace Training1.Repositories
             return stock;
         }
 
-        public async Task<List<Stock>> ListAsync()
+        public async Task<ICollection<Stock>> ListAsync()
         {
             var stocks = _productContext.Stock.Include(s => s.Product);
             return await stocks.ToListAsync();
         }
 
-        public async Task<List<Stock>> ListAsyncByProductId(int productId)
+        public async Task<ICollection<Stock>> ListAsyncByProductId(int productId)
         {
             var stocks = _productContext.Stock.Include(s => s.Product)
                             .Where(s => s.ProductId == productId);

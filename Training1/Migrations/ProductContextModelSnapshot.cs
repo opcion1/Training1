@@ -19,6 +19,97 @@ namespace Training1.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("Training1.Models.DayOfSesshin", b =>
+                {
+                    b.Property<int>("DayOfSesshinId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<int>("NumberOfPeople");
+
+                    b.Property<int>("SesshinId");
+
+                    b.HasKey("DayOfSesshinId");
+
+                    b.HasIndex("SesshinId");
+
+                    b.ToTable("DaysOfSesshin");
+                });
+
+            modelBuilder.Entity("Training1.Models.Food", b =>
+                {
+                    b.Property<int>("FoodId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Commentary");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("FoodId");
+
+                    b.ToTable("Food");
+                });
+
+            modelBuilder.Entity("Training1.Models.Ingredient", b =>
+                {
+                    b.Property<int>("IngredientId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("FoodId");
+
+                    b.Property<int>("ProductId");
+
+                    b.Property<decimal>("Quantity")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<int>("UnityType");
+
+                    b.HasKey("IngredientId");
+
+                    b.HasIndex("FoodId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Ingredient");
+                });
+
+            modelBuilder.Entity("Training1.Models.Meal", b =>
+                {
+                    b.Property<int>("MealId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("DayOfSesshinId");
+
+                    b.Property<int>("Type");
+
+                    b.HasKey("MealId");
+
+                    b.HasIndex("DayOfSesshinId");
+
+                    b.ToTable("Meal");
+                });
+
+            modelBuilder.Entity("Training1.Models.MealFood", b =>
+                {
+                    b.Property<int>("MealId");
+
+                    b.Property<int>("FoodId");
+
+                    b.HasKey("MealId", "FoodId");
+
+                    b.HasIndex("FoodId");
+
+                    b.ToTable("MealFood");
+                });
+
             modelBuilder.Entity("Training1.Models.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -52,6 +143,8 @@ namespace Training1.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired();
+
+                    b.Property<int>("NumberOfPeople");
 
                     b.Property<DateTime>("StartDate");
 
@@ -88,6 +181,48 @@ namespace Training1.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("Stock");
+                });
+
+            modelBuilder.Entity("Training1.Models.DayOfSesshin", b =>
+                {
+                    b.HasOne("Training1.Models.Sesshin", "Sesshin")
+                        .WithMany("Days")
+                        .HasForeignKey("SesshinId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Training1.Models.Ingredient", b =>
+                {
+                    b.HasOne("Training1.Models.Food", "Food")
+                        .WithMany("Ingredients")
+                        .HasForeignKey("FoodId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Training1.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Training1.Models.Meal", b =>
+                {
+                    b.HasOne("Training1.Models.DayOfSesshin", "DayOfSesshin")
+                        .WithMany("Meals")
+                        .HasForeignKey("DayOfSesshinId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Training1.Models.MealFood", b =>
+                {
+                    b.HasOne("Training1.Models.Food", "Food")
+                        .WithMany("MealFoods")
+                        .HasForeignKey("FoodId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Training1.Models.Meal", "Meal")
+                        .WithMany("MealFoods")
+                        .HasForeignKey("MealId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Training1.Models.Stock", b =>

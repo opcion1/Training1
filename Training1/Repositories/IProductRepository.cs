@@ -11,8 +11,8 @@ namespace Training1.Repositories
     {
         IQueryable<Product> Products { get; }
 
-        Task<List<Product>> ListAsync();
-        Task<List<Product>> ListAsyncByCategory(ProductCategory category);
+        Task<ICollection<Product>> ListAsync();
+        Task<ICollection<Product>> ListAsyncByCategory(ProductCategory category);
         Task<Product> GetByIdAsync(int id);
 
         Task AddAsync(Product product);

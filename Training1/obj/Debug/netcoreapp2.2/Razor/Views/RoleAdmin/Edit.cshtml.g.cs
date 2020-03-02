@@ -24,32 +24,37 @@ using Training1.Models;
 #line default
 #line hidden
 #line 3 "C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\Views\_ViewImports.cshtml"
-using Training1.Areas.Identity.Data;
+using Training1.Models.ViewModels;
 
 #line default
 #line hidden
 #line 4 "C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\Views\_ViewImports.cshtml"
-using Microsoft.AspNetCore.Identity;
+using Training1.Areas.Identity.Data;
 
 #line default
 #line hidden
 #line 5 "C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\Views\_ViewImports.cshtml"
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 #line default
 #line hidden
 #line 6 "C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\Views\_ViewImports.cshtml"
-using Training1.Authorization;
+using Microsoft.AspNetCore.Authorization;
 
 #line default
 #line hidden
 #line 7 "C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\Views\_ViewImports.cshtml"
+using Training1.Authorization;
+
+#line default
+#line hidden
+#line 8 "C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\Views\_ViewImports.cshtml"
 using Training1.Infrastructure;
 
 #line default
 #line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"f09d5790ae6331d90a4802541358085c81e0fff5", @"/Views/RoleAdmin/Edit.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"c43358e4efcd300270dd1550cc6c900b08158d99", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"0e76f9ac57d77e792a01c5e45bfff1b08bda3e9a", @"/Views/_ViewImports.cshtml")]
     public class Views_RoleAdmin_Edit : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<RoleEditModel>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("class", new global::Microsoft.AspNetCore.Html.HtmlString("text-danger"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -86,7 +91,7 @@ using Training1.Infrastructure;
             WriteLiteral("\r\n\r\n");
             EndContext();
             BeginContext(26, 60, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("div", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f09d5790ae6331d90a4802541358085c81e0fff56130", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("div", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f09d5790ae6331d90a4802541358085c81e0fff56300", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.TagHelpers.ValidationSummaryTagHelper>();
@@ -110,7 +115,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper.ValidationSumma
             WriteLiteral("\r\n\r\n");
             EndContext();
             BeginContext(90, 1643, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f09d5790ae6331d90a4802541358085c81e0fff57848", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f09d5790ae6331d90a4802541358085c81e0fff58018", async() => {
                 BeginContext(128, 42, true);
                 WriteLiteral("\r\n    <input type=\"hidden\" name=\"roleName\"");
                 EndContext();
@@ -275,7 +280,7 @@ WriteAttributeValue("", 1495, user.Id, 1495, 8, false);
                 WriteLiteral("    </table>\r\n    <button type=\"submit\" class=\"btn btn-primary\">Save</button>\r\n    ");
                 EndContext();
                 BeginContext(1666, 58, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f09d5790ae6331d90a4802541358085c81e0fff515065", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f09d5790ae6331d90a4802541358085c81e0fff515235", async() => {
                     BeginContext(1714, 6, true);
                     WriteLiteral("Cancel");
                     EndContext();
