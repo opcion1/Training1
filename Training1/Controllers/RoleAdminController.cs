@@ -23,8 +23,6 @@ namespace Training1.Controllers
             userManager = userMrg;
         }
 
-        public ViewResult Index() => View(roleManager.Roles);
-
         public IActionResult Create() => View();
 
         [HttpPost]
@@ -36,7 +34,7 @@ namespace Training1.Controllers
                     = await roleManager.CreateAsync(new IdentityRole(name));
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", "Accounts", new { showRoles = true});
                 }
                 else
                 {
@@ -55,7 +53,7 @@ namespace Training1.Controllers
                 IdentityResult result = await roleManager.DeleteAsync(role);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", "Accounts", new { showRoles = true });
                 }
                 else
                 {
@@ -125,7 +123,7 @@ namespace Training1.Controllers
 
             if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Accounts", new { showRoles = true });
             }
             else
             {

@@ -28,11 +28,6 @@ using Training1.Models.ViewModels;
 
 #line default
 #line hidden
-#line 4 "C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\Views\_ViewImports.cshtml"
-using Training1.Areas.Identity.Data;
-
-#line default
-#line hidden
 #line 5 "C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\Views\_ViewImports.cshtml"
 using Microsoft.AspNetCore.Identity;
 
@@ -53,8 +48,13 @@ using Training1.Infrastructure;
 
 #line default
 #line hidden
+#line 9 "C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\Views\_ViewImports.cshtml"
+using Training1.Areas.Identity.Data;
+
+#line default
+#line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"8f70923d37ca55992c2594953536e0893bbd5268", @"/Views/HelloWorld/Index.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"0e76f9ac57d77e792a01c5e45bfff1b08bda3e9a", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"0f95c6722548269e38d79ddacd75cbd9393b4095", @"/Views/_ViewImports.cshtml")]
     public class Views_HelloWorld_Index : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<dynamic>
     {
         #pragma warning disable 1998

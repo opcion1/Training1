@@ -162,3 +162,30 @@ input.select-like {
     background-color: transparent;
     border: none;
 }
+
+.circle {
+    border-radius: 50%;
+    color: #2C3E50;
+    font-weight: bold;
+    font-size: 1.40625rem;
+    text-align: center;
+    background: #95a5a6;
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    right: 0;
+    line-height: 40px;
+    font-family:initial;
+}
+
+.dropdown-menu {
+    transition: all 5s ease 5s;
+}
+
+.dropdown-hover:hover .dropdown-menu{
+    display:block;
+}
+.dropdown-bottom-right{
+    right:0;
+    left:unset;
+}

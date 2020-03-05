@@ -214,7 +214,6 @@ C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netc
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Razor\Views\Products\Index.cshtml.g.cs
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Razor\Views\RoleAdmin\Create.cshtml.g.cs
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Razor\Views\RoleAdmin\Edit.cshtml.g.cs
-C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Razor\Views\RoleAdmin\Index.cshtml.g.cs
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Error.cshtml.g.cs
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_CookieConsentPartial.cshtml.g.cs
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_Layout.cshtml.g.cs
@@ -256,3 +255,8 @@ C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netc
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Razor\Views\Ingredients\Edit.cshtml.g.cs
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Razor\Views\Ingredients\Index.cshtml.g.cs
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_LayoutIngredientsList.cshtml.g.cs
+C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Razor\Views\Accounts\Index.cshtml.g.cs
+C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Razor\Views\Accounts\Edit.cshtml.g.cs
+C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Components\AccountsList\Default.cshtml.g.cs
+C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Components\RolesList\Default.cshtml.g.cs
+C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Components\MyAccount\Default.cshtml.g.cs

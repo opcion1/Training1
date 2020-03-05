@@ -18,6 +18,8 @@ namespace Training1.Authorization
           new OperationAuthorizationRequirement { Name = Constants.ApproveOperationName };
         public static OperationAuthorizationRequirement Reject =
           new OperationAuthorizationRequirement { Name = Constants.RejectOperationName };
+        public static OperationAuthorizationRequirement PersonalData =
+          new OperationAuthorizationRequirement { Name = Constants.UpdatePersonalData };
     }
 
     public class Constants
@@ -28,6 +30,7 @@ namespace Training1.Authorization
         public static readonly string DeleteOperationName = "Delete";
         public static readonly string ApproveOperationName = "Approve";
         public static readonly string RejectOperationName = "Reject";
+        public static readonly string UpdatePersonalData = "PersonalData";
 
         public static readonly string UserAdministratorsRole =
                                                               "Admin";

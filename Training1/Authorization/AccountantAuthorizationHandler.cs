@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
+using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
+using Training1.Areas.Identity.Data;
 using Training1.Models;
 
 namespace Training1.Authorization
@@ -34,9 +36,26 @@ namespace Training1.Authorization
                         context.Succeed(requirement);
                     }
                     break;
+                case AppUser user:
+                    if (IsAuthorizedAdminOperation(context, requirement, resource as AppUser))
+                    {
+                        context.Succeed(requirement);
+                    }
+                    break;
+
             }
 
             return Task.CompletedTask;
+        }
+        private bool IsAuthorizedAdminOperation(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, AppUser appUser)
+        {
+            if (requirement.Name == Constants.ApproveOperationName || requirement.Name == Constants.RejectOperationName)
+            {
+                return false;
+            }
+            string userName = appUser.UserName;
+            string currentUserName = context.User.Identity.Name;
+            return (userName == currentUserName);
         }
 
         private bool IsUserAccoutant(AuthorizationHandlerContext context)

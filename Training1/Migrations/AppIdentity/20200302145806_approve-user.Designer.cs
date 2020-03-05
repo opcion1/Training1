@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Training1.Models;
 
 namespace Training1.Migrations.AppIdentity
 {
     [DbContext(typeof(AppIdentityContext))]
-    partial class AppIdentityContextModelSnapshot : ModelSnapshot
+    [Migration("20200302145806_approve-user")]
+    partial class approveuser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -140,7 +142,7 @@ namespace Training1.Migrations.AppIdentity
 
                     b.Property<int>("AccessFailedCount");
 
-                    b.Property<int>("AccountStatus");
+                    b.Property<bool>("Approved");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();

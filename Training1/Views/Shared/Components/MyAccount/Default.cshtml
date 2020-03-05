@@ -1,0 +1,11 @@
+﻿@model  AppUser
+
+    <div class="dropdown dropdown-hover">
+        <div style="width:70px; height: 40px">
+            <div class="circle">@Model.UserName.Substring(0, 1)</div>
+        </div>
+        <div class="dropdown-menu dropdown-bottom-right">
+            <a class="dropdown-item" asp-controller="Accounts" asp-action="Edit" asp-route-id="@Model.Id">MyAccount</a>
+            <a class="dropdown-item" asp-controller="Accounts" asp-action="Logout">Logout</a>
+        </div>
+    </div>

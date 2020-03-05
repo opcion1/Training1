@@ -56,9 +56,26 @@ namespace Training1.Authorization
                         context.Succeed(requirement);
                     }
                     break;
+                case AppUser user:
+                    if (IsAuthorizedAdminOperation(context, requirement, resource as AppUser))
+                    {
+                        context.Succeed(requirement);
+                    }
+                    break;
             }
 
             return Task.CompletedTask;
+        }
+
+        private bool IsAuthorizedAdminOperation(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, AppUser appUser)
+        {
+            if (requirement.Name == Constants.ApproveOperationName || requirement.Name == Constants.RejectOperationName)
+            {
+                return false;
+            }
+            string userId = appUser.Id;
+            string currentUserID = _userManager.GetUserId(context.User);
+            return (userId == currentUserID);
         }
 
         private bool IsAuthorizedMealFoodOperation(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, MealFood mealFood)
