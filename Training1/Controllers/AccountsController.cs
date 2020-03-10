@@ -14,13 +14,19 @@ namespace Training1.Controllers
         private readonly IAuthorizationService _authorizationService;
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly IUserValidator<AppUser> _userValidator;
+        private readonly IPasswordHasher<AppUser> _passwordHasher;
         public AccountsController(IAuthorizationService authorizationService,
                                     UserManager<AppUser> userManager,
-                                    SignInManager<AppUser> signInManager)
+                                    SignInManager<AppUser> signInManager,
+                                    IUserValidator<AppUser> userValidator,
+                                    IPasswordHasher<AppUser> passwordHasher)
         {
             _authorizationService = authorizationService;
             _userManager = userManager;
             _signInManager = signInManager;
+            _userValidator = userValidator;
+            _passwordHasher = passwordHasher;
         }
 
 
@@ -58,7 +64,7 @@ namespace Training1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, string userName, string email)
+        public async Task<IActionResult> Edit(string id, string fullName, string email)
         {
             if (ModelState.IsValid)
             {
@@ -70,9 +76,33 @@ namespace Training1.Controllers
                         var isAuthorized = await _authorizationService.AuthorizeAsync(User, user, UserOperations.Update);
                         if (isAuthorized.Succeeded)
                         {
-                            user.UserName = userName;
+                            user.UserName = email;
                             user.Email = email;
-                            await _userManager.UpdateAsync(user);
+                            user.FullName = fullName;
+
+                            IdentityResult validEmail = await _userValidator.ValidateAsync(_userManager, user);
+                            if (!validEmail.Succeeded)
+                            {
+                                foreach (IdentityError error in validEmail.Errors)
+                                {
+                                    ModelState.AddModelError("", error.Description);
+                                }
+                            }
+                            else
+                            {
+                                var result = await _userManager.UpdateAsync(user);
+                                if (result.Succeeded)
+                                {
+                                    return await Edit(id);
+                                }
+                                else
+                                {
+                                    foreach (var error in result.Errors)
+                                    {
+                                        ModelState.AddModelError(string.Empty, error.Description);
+                                    }
+                                }
+                            }
                         }
                         else
                         {

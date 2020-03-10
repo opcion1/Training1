@@ -19,6 +19,7 @@ using System.Globalization;
 using Training1.Areas.Identity.Data;
 using Training1.Authorization;
 using Training1.Infrastructure;
+using Training1.Infrastructure.Validators;
 using Training1.Models;
 using Training1.Repositories;
 
@@ -45,7 +46,8 @@ namespace Training1
 
             services.AddDefaultIdentity<AppUser>()
                 .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<AppIdentityContext>();
+                .AddEntityFrameworkStores<AppIdentityContext>()
+                .AddDefaultTokenProviders();
 
             // The DefaultModelMetadataProvider does significant caching and should be a singleton.
             services.TryAddSingleton<IModelMetadataProvider, DefaultModelMetadataProvider>();
@@ -71,6 +73,7 @@ namespace Training1
                                   ChefAuthorizationHandler>();
             services.AddSingleton<IAuthorizationHandler,
                                   AccountantAuthorizationHandler>();
+            //services.AddTransient<IUserValidator<AppUser>, CustomAppUserValidator>();
 
             services.AddMvc(config =>
             {
