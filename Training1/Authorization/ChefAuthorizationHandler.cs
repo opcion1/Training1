@@ -29,6 +29,10 @@ namespace Training1.Authorization
             {
                 return Task.CompletedTask;
             }
+            if (IsUserSubmitted(context) && requirement.Name != Constants.ReadOperationName)
+            {
+                return Task.CompletedTask;
+            }
 
             switch (resource)
             {
@@ -65,6 +69,16 @@ namespace Training1.Authorization
             }
 
             return Task.CompletedTask;
+        }
+
+        private bool IsUserSubmitted(AuthorizationHandlerContext context)
+        {
+            string status = context.User.FindFirst("AccountStatus").Value;
+            if (Enum.TryParse(status, out Status userStatus))
+            {
+                return userStatus == Status.Submitted;
+            }
+            return false;
         }
 
         private bool IsAuthorizedAdminOperation(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, AppUser appUser)

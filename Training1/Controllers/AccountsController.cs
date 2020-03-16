@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Threading.Tasks;
 using Training1.Areas.Identity.Data;
 using Training1.Authorization;
@@ -135,6 +136,11 @@ namespace Training1.Controllers
                     var isAuthorized = await _authorizationService.AuthorizeAsync(User, user, UserOperations.Update);
                     if (isAuthorized.Succeeded)
                     {
+                        user.LockoutEnabled = (status == Status.Rejected);
+                        if (user.LockoutEnabled)
+                        {
+                            user.LockoutEnd = DateTime.Now.AddYears(100);
+                        }
                         user.AccountStatus = status;
                         await _userManager.UpdateAsync(user);
                     }

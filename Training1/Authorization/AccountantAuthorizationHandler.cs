@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Identity;
+using System;
 using System.Threading.Tasks;
 using Training1.Areas.Identity.Data;
 using Training1.Models;
@@ -15,6 +16,11 @@ namespace Training1.Authorization
                                                             object resource)
         {
             if (!IsUserAccoutant(context))
+            {
+                return Task.CompletedTask;
+            }
+
+            if (IsUserSubmitted(context) && requirement.Name != Constants.ReadOperationName)
             {
                 return Task.CompletedTask;
             }
@@ -47,6 +53,17 @@ namespace Training1.Authorization
 
             return Task.CompletedTask;
         }
+
+        private bool IsUserSubmitted(AuthorizationHandlerContext context)
+        {
+            string status = context.User.FindFirst("AccountStatus").Value;
+            if (Enum.TryParse(status, out Status userStatus))
+            {
+                return userStatus == Status.Submitted;
+            }
+            return false;
+        }
+
         private bool IsAuthorizedAdminOperation(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, AppUser appUser)
         {
             if (requirement.Name == Constants.ApproveOperationName || requirement.Name == Constants.RejectOperationName)

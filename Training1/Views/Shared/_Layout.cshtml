@@ -52,9 +52,9 @@
                             </li>
                             @if (User.IsInRole(Constants.UserAdministratorsRole) || User.IsInRole(Constants.UserChefRole))
                             {
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#"><i class='fas fa-home'></i>Sesshins</a>
-                                </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Sesshins" asp-action="Index"><i class='fas fa-home'></i>Sesshins</a>
+                        </li>
                             }
                             @if (User.IsInRole(Constants.UserAdministratorsRole) || User.IsInRole(Constants.UserAccountantRole))
                             {
