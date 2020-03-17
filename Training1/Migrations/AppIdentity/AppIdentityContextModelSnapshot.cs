@@ -140,6 +140,8 @@ namespace Training1.Migrations.AppIdentity
 
                     b.Property<int>("AccessFailedCount");
 
+                    b.Property<int>("AccountStatus");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
@@ -147,6 +149,9 @@ namespace Training1.Migrations.AppIdentity
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
+
+                    b.Property<string>("FullName")
+                        .IsRequired();
 
                     b.Property<bool>("LockoutEnabled");
 

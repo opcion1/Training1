@@ -24,15 +24,19 @@
 <body>
     <header class="navbar navbar-dark bg-primary">
         @if (SignInManager.IsSignedIn(User))
-            {
+        {
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#kitchenNavbar" aria-controls="kitchenNavbar" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-                }
+        }
 
         <span class="navbar-brand" href="#"><i class='fas fa-carrot' style="padding-right:10px"></i>Zen Kitchen</span>
-    </header>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            @await Component.InvokeAsync("MyAccount", UserManager.GetUserId(User))
+        }
+        </header>
     <div class='container-fluid'>
         <div class='row flex-xl-nowrap'>
             <div class='col-12 col-md-3 col-xl-2 bd-sidebar bg-primary' style="padding-left:0px">
@@ -48,9 +52,9 @@
                             </li>
                             @if (User.IsInRole(Constants.UserAdministratorsRole) || User.IsInRole(Constants.UserChefRole))
                             {
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#"><i class='fas fa-home'></i>Sesshins</a>
-                                </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Sesshins" asp-action="Index"><i class='fas fa-home'></i>Sesshins</a>
+                        </li>
                             }
                             @if (User.IsInRole(Constants.UserAdministratorsRole) || User.IsInRole(Constants.UserAccountantRole))
                             {
@@ -61,7 +65,7 @@
                             @if (User.IsInRole(Constants.UserAdministratorsRole))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="RoleAdmin" asp-action="Index"><i class="fas fa-users"></i>Role management</a>
+                                    <a class="nav-link" asp-area="" asp-controller="Accounts" asp-action="Index"><i class="fas fa-users"></i>Admin</a>
                                 </li>
                             }
                             </ul>

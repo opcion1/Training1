@@ -32,6 +32,12 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.StockId">Edit</a> |
-    <a asp-action="Details" asp-controller="Products" asp-route-id="@Model.ProductId" asp-route-showStock="true">Back to List</a>
+
+    @if ((await AuthorizationService.AuthorizeAsync(
+      User, new Stock(),
+      UserOperations.Update)).Succeeded)
+    {
+        <a asp-action="Edit" asp-route-id="@Model.StockId">Edit</a> <text>|</text>
+    }
+<a asp-action="Details" asp-controller="Products" asp-route-id="@Model.ProductId" asp-route-showStock="true">Back to List</a>
 </div>

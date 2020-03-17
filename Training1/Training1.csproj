@@ -6,6 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\AppIdentity\20200309142303_FullName.cs" />
+    <Compile Remove="Migrations\AppIdentity\20200309142303_FullName.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\images\vegetables.jpg" />
   </ItemGroup>
 

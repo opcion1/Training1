@@ -29,6 +29,10 @@ namespace Training1.Authorization
             {
                 return Task.CompletedTask;
             }
+            if (IsUserSubmitted(context) && requirement.Name != Constants.ReadOperationName)
+            {
+                return Task.CompletedTask;
+            }
 
             switch (resource)
             {
@@ -56,9 +60,36 @@ namespace Training1.Authorization
                         context.Succeed(requirement);
                     }
                     break;
+                case AppUser user:
+                    if (IsAuthorizedAdminOperation(context, requirement, resource as AppUser))
+                    {
+                        context.Succeed(requirement);
+                    }
+                    break;
             }
 
             return Task.CompletedTask;
+        }
+
+        private bool IsUserSubmitted(AuthorizationHandlerContext context)
+        {
+            string status = context.User.FindFirst("AccountStatus").Value;
+            if (Enum.TryParse(status, out Status userStatus))
+            {
+                return userStatus == Status.Submitted;
+            }
+            return false;
+        }
+
+        private bool IsAuthorizedAdminOperation(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, AppUser appUser)
+        {
+            if (requirement.Name == Constants.ApproveOperationName || requirement.Name == Constants.RejectOperationName)
+            {
+                return false;
+            }
+            string userId = appUser.Id;
+            string currentUserID = _userManager.GetUserId(context.User);
+            return (userId == currentUserID);
         }
 
         private bool IsAuthorizedMealFoodOperation(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, MealFood mealFood)
