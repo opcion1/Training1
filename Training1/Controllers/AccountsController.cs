@@ -13,17 +13,20 @@ namespace Training1.Controllers
     public class AccountsController : Controller
     {
         private readonly IAuthorizationService _authorizationService;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IUserValidator<AppUser> _userValidator;
         private readonly IPasswordHasher<AppUser> _passwordHasher;
         public AccountsController(IAuthorizationService authorizationService,
+                                    RoleManager<IdentityRole> roleManager,
                                     UserManager<AppUser> userManager,
                                     SignInManager<AppUser> signInManager,
                                     IUserValidator<AppUser> userValidator,
                                     IPasswordHasher<AppUser> passwordHasher)
         {
             _authorizationService = authorizationService;
+            _roleManager = roleManager;
             _userManager = userManager;
             _signInManager = signInManager;
             _userValidator = userValidator;
@@ -51,7 +54,10 @@ namespace Training1.Controllers
             var isAuthorized = await _authorizationService.AuthorizeAsync(User, user, UserOperations.Read);
             if (isAuthorized.Succeeded)
             {
-                return View(user);
+                var roles = await _userManager.GetRolesAsync(user);
+                AccountEditViewModel vm = new AccountEditViewModel(_roleManager) { Account = user, CurrentRole = roles[0] };
+
+                return View(vm);
             }
             else
             {
@@ -65,7 +71,7 @@ namespace Training1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, string fullName, string email)
+        public async Task<IActionResult> Edit(string id, [Bind("Id, FullName, Email")]AppUser account, string currentRole, string formerRole)
         {
             if (ModelState.IsValid)
             {
@@ -77,9 +83,9 @@ namespace Training1.Controllers
                         var isAuthorized = await _authorizationService.AuthorizeAsync(User, user, UserOperations.Update);
                         if (isAuthorized.Succeeded)
                         {
-                            user.UserName = email;
-                            user.Email = email;
-                            user.FullName = fullName;
+                            user.UserName = account.Email;
+                            user.Email = account.Email;
+                            user.FullName = account.FullName;
 
                             IdentityResult validEmail = await _userValidator.ValidateAsync(_userManager, user);
                             if (!validEmail.Succeeded)
@@ -94,6 +100,11 @@ namespace Training1.Controllers
                                 var result = await _userManager.UpdateAsync(user);
                                 if (result.Succeeded)
                                 {
+                                    if (currentRole != formerRole)
+                                    {
+                                        result = await _userManager.RemoveFromRoleAsync(user, formerRole);
+                                        result = await _userManager.AddToRoleAsync(user, currentRole);
+                                    }
                                     return await Edit(id);
                                 }
                                 else

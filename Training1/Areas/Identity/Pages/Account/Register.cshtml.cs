@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Training1.Areas.Identity.Data;
+using Training1.Authorization;
 
 namespace Training1.Areas.Identity.Pages.Account
 {
@@ -44,7 +45,7 @@ namespace Training1.Areas.Identity.Pages.Account
 
         private List<SelectListItem> GetItemsRole() 
         {
-            return _roleManager.Roles.Select(r => new SelectListItem { Text = r.Name }).ToList();
+            return _roleManager.Roles.Where(r => r.Name != Constants.UserAdministratorsRole).Select(r => new SelectListItem { Text = r.Name }).ToList();
         }
 
         [BindProperty]

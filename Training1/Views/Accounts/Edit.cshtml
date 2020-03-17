@@ -1,5 +1,4 @@
-﻿@model Training1.Areas.Identity.Data.AppUser
-
+﻿@model AccountEditViewModel
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -11,16 +10,29 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="@Model.Account.Id" />
             <div class="form-group">
-                <label asp-for="FullName" class="control-label"></label>
-                <input asp-for="FullName" class="form-control" />
-                <span asp-validation-for="FullName" class="text-danger"></span>
+                <label asp-for="@Model.Account.FullName" class="control-label"></label>
+                <input asp-for="@Model.Account.FullName" class="form-control" />
+                <span asp-validation-for="@Model.Account.FullName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+                <label asp-for="@Model.Account.Email" class="control-label"></label>
+                <input asp-for="@Model.Account.Email" class="form-control" />
+                <span asp-validation-for="@Model.Account.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @if (SignInManager.IsSignedIn(User) && User.IsInRole(Constants.UserAdministratorsRole))
+                {
+                    <label asp-for="@Model.CurrentRole" class="control-label"></label>
+                    <select asp-for="@Model.CurrentRole" class="form-control" asp-items="@Model.Roles"></select>
+                    <span asp-validation-for="@Model.CurrentRole" class="text-danger"></span>
+                }
+                else
+                {
+                    <input type="hidden" asp-for="@Model.CurrentRole" />
+                }
+                <input type="hidden" name="formerRole" value="@Model.CurrentRole" />
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -28,26 +40,26 @@
         </form>
     </div>
 </div>
-@if (Model.AccountStatus != Status.Approved)
+@if (Model.Account.AccountStatus != Status.Approved)
 {
     @if ((await AuthorizationService.AuthorizeAsync(
  User, Model, UserOperations.Approve)).Succeeded)
     {
         <form style="display:inline;" method="post" asp-action="UpdateStatus">
-            <input type="hidden" name="id" value="@Model.Id" />
+            <input type="hidden" name="id" value="@Model.Account.Id" />
             <input type="hidden" name="status" value="@Status.Approved" />
             <button type="submit" class="btn btn-xs btn-success">Approve</button>
         </form>
     }
 }
 
-@if (Model.AccountStatus != Status.Rejected)
+@if (Model.Account.AccountStatus != Status.Rejected)
 {
     @if ((await AuthorizationService.AuthorizeAsync(
  User, Model, UserOperations.Reject)).Succeeded)
     {
         <form style="display:inline;" method="post" asp-action="UpdateStatus">
-            <input type="hidden" name="id" value="@Model.Id" />
+            <input type="hidden" name="id" value="@Model.Account.Id" />
             <input type="hidden" name="status" value="@Status.Rejected" />
             <button type="submit" class="btn btn-xs btn-success">Reject</button>
         </form>
