@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Training1.Authorization;
 using Training1.Models;
@@ -14,14 +11,17 @@ namespace Training1.Controllers
 {
     public class MealsController : Controller
     {
+        private readonly ISesshinRepository _sesshinRepository;
         private readonly IMealRepository _mealRepository;
         private readonly IFoodRepository _foodRepository;
         private readonly IAuthorizationService _authorizationService;
 
-        public MealsController(IMealRepository mealRepository,
+        public MealsController(ISesshinRepository sesshinRepository,
+                                    IMealRepository mealRepository,
                                     IFoodRepository foodRepository,
                                     IAuthorizationService authorizationService)
         {
+            _sesshinRepository = sesshinRepository;
             _mealRepository = mealRepository;
             _foodRepository = foodRepository;
             _authorizationService = authorizationService;
@@ -29,10 +29,16 @@ namespace Training1.Controllers
 
 
         // GET: Meals/AddFood
-        public IActionResult AddFood(int mealId, int sesshinId)
+        public async Task<IActionResult> AddFood(int mealId, int sesshinId)
         {
-            MealFoodViewModel mealFoodView = new MealFoodViewModel { MealId = mealId, SesshinId = sesshinId, Food = new Food() };
-            return View(mealFoodView);
+            Sesshin sesshin = await _sesshinRepository.GetByIdAsync(sesshinId);
+            if (sesshin != null)
+            {
+                MealFoodViewModel mealFoodView = new MealFoodViewModel { MealId = mealId, SesshinId = sesshinId, Food = new Food { NumberOfPeople = sesshin.NumberOfPeople } };
+                return View(mealFoodView);
+            }
+            else
+                return NotFound();
         }
 
 
@@ -81,7 +87,7 @@ namespace Training1.Controllers
         // GET: Meals/EditFood
         public async Task<IActionResult> EditFood(int mealId, int foodId, int sesshinId)
         {
-            Food food = await _foodRepository.GetByIdAsync(mealId);
+            Food food = await _foodRepository.GetByIdAsync(foodId);
             MealFoodViewModel mealFoodView = new MealFoodViewModel { MealId = mealId, SesshinId = sesshinId, Food = food };
             return View(mealFoodView);
         }

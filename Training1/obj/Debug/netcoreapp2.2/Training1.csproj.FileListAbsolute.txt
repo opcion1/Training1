@@ -259,4 +259,3 @@ C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netc
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Training1.dll
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Training1.pdb
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Training1.csproj.CopyComplete
-C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\obj\Debug\netcoreapp2.2\Training1.csprojAssemblyReference.cache

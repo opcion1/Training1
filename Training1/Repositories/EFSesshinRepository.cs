@@ -60,7 +60,7 @@ namespace Training1.Repositories
                 {
                     Date = loopDate,
                     NumberOfPeople = sesshin.NumberOfPeople,
-                    Meals = GetDailyMeals(comingDay)
+                    Meals = GetDailyMeals(comingDay, loopDate == sesshin.EndDate)
                 };
                 daysOfSesshins.Add(dayOfSesshin);
                 comingDay = false;
@@ -69,7 +69,7 @@ namespace Training1.Repositories
             return daysOfSesshins;
         }
 
-        private ICollection<Meal> GetDailyMeals(bool comingDay)
+        private ICollection<Meal> GetDailyMeals(bool comingDay, bool lastDay)
         {
             List<Meal> meals = new List<Meal>();
             if (!comingDay)
@@ -77,6 +77,7 @@ namespace Training1.Repositories
                 meals.Add(AddGenMaiMeal());
                 meals.Add(new Meal { Type = MealType.Lunch });
             }
+            if (!lastDay)
             meals.Add(new Meal { Type = MealType.Diner });
 
             return meals;
@@ -85,19 +86,23 @@ namespace Training1.Repositories
         private Meal AddGenMaiMeal()
         {
             Meal genMaiMeal = new Meal { Type = MealType.Genmai };
-            Food genMai = _foodRepository.GetByName("genMai");
-            if (genMai == null)
+            Food genmai = _foodRepository.GetByName("genmai");
+            if (genmai == null)
             {
-                genMai = new Food { 
+                genmai = new Food { 
                     Name = "genmai",
                     Description = "Riz and vegetable soap",
                     Commentary = ""
                 };
-                _foodRepository.AddAsync(genMai);
+                _foodRepository.AddAsync(genmai);
             }
-            if (genMai != null)
+            if (genmai != null)
             {
-                genMaiMeal.MealFoods.Add(new MealFood { Meal = genMaiMeal, Food = genMai});
+                if (genMaiMeal.MealFoods == null)
+                {
+                    genMaiMeal.MealFoods = new List<MealFood>();
+                }
+                genMaiMeal.MealFoods.Add(new MealFood { Meal = genMaiMeal, Food = genmai});
             }
 
             return genMaiMeal;

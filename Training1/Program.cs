@@ -5,10 +5,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Training1.Areas.Identity.Data;
+using Training1.Data;
 using Training1.Models;
 
 namespace Training1
@@ -25,9 +28,16 @@ namespace Training1
 
                 try
                 {
-                    var context = services.GetRequiredService<ProductContext>();
-                    context.Database.Migrate();
-                    SeedData.Initialize(services);
+                    var roleManager = scope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
+                    var userManager = scope.ServiceProvider.GetService<UserManager<AppUser>>();
+                    var identityContext = scope.ServiceProvider.GetRequiredService<AppIdentityContext>();
+                    var productContext = services.GetRequiredService<ProductContext>();
+                    
+                    identityContext.Database.Migrate();
+                    IdentitySeedData.EnsurePopulated(identityContext, roleManager, userManager);
+
+                    productContext.Database.Migrate();
+                    ProductSeedData.EnsurePopulated(productContext, identityContext);
                 }
                 catch (Exception ex)
                 {

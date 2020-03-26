@@ -22,6 +22,8 @@ namespace Training1.Models
         Fruit,
         Cereal,
         Coffee,
-        Condiment
+        Condiment, 
+        Legume,
+        Else
     }
 }

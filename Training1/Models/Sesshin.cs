@@ -69,6 +69,9 @@ namespace Training1.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public string Commentary { get; set; }
+        [Required]
+        [Display(Name = "Number of people")]
+        public int NumberOfPeople { get; set; }
         public ICollection<Ingredient> Ingredients { get; set; }
         public IList<MealFood> MealFoods { get; set; }
     }
