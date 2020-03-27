@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,8 +30,9 @@ namespace Training1.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index(ProductCategory? category, int? indexPage)
+        public async Task<IActionResult> Index(ProductCategory? category, int? indexPage, string sortOrder)
         {
+            int itemsPerPage = _configuration.GetValue<int>("ItemsPerPage");
             var isAuthorized = await _authorizationService.AuthorizeAsync(User, new Product(), UserOperations.Read);
             if (isAuthorized.Succeeded)
             {
@@ -44,7 +46,21 @@ namespace Training1.Controllers
                     products = await _productRepository.ListAsync();
 
                 }
-                int itemsPerPage = _configuration.GetValue<int>("ItemsPerPage");
+                switch (sortOrder)
+                {
+                    case "name_desc":
+                        products = products.OrderByDescending(p => p.Name).ToList();
+                        break;
+                    case "category":
+                        products = products.OrderBy(p => p.Category.ToString()).ToList();
+                        break;
+                    case "category_desc":
+                        products = products.OrderByDescending(p => p.Category.ToString()).ToList();
+                        break;
+                    default:
+                        products = products.OrderBy(p => p.Name).ToList();
+                        break;
+                }
                 
                 ProductsViewModel vm = new ProductsViewModel {
                     Products = products
@@ -52,7 +68,10 @@ namespace Training1.Controllers
                                 .Take(itemsPerPage),
                     PageIndex = indexPage ?? 1,
                     TotalItems = products.Count(),
-                    CategoryFilter = category?.ToString()
+                    CategoryFilter = category,
+                    CurrentSort = sortOrder,
+                    NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "",
+                    CategorySort = sortOrder == "category" ? "category_desc" : "category"
                 };
                 return View(vm);
             }

@@ -28,6 +28,11 @@ using Training1.Models.ViewModels;
 
 #line default
 #line hidden
+#line 4 "C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\Views\_ViewImports.cshtml"
+using Training1.Areas.Identity.Data;
+
+#line default
+#line hidden
 #line 5 "C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\Views\_ViewImports.cshtml"
 using Microsoft.AspNetCore.Identity;
 
@@ -48,13 +53,8 @@ using Training1.Infrastructure;
 
 #line default
 #line hidden
-#line 9 "C:\Users\Julien\source\repos\Github\Training1\Training1\Training1\Views\_ViewImports.cshtml"
-using Training1.Areas.Identity.Data;
-
-#line default
-#line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"c39d5cc5d60690c7a351d473cd83d488a4ecdc37", @"/Views/RoleAdmin/Create.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"795616398f2d29fffe0dce4cbbfd27f6c7ff12c1", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"de617592c414bc1588d7d044d9350a35a2afde86", @"/Views/_ViewImports.cshtml")]
     public class Views_RoleAdmin_Create : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<string>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("class", new global::Microsoft.AspNetCore.Html.HtmlString("text-danger"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);

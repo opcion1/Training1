@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
@@ -15,6 +17,7 @@ using Training1.Authorization;
 //using System.Web.Mvc;
 using Training1.Controllers;
 using Training1.Models;
+using Training1.Models.ViewModels;
 using Training1.Repositories;
 using Training1.Tests.Mock;
 using Xunit;
@@ -40,16 +43,18 @@ namespace Training1.Tests
                 services.AddScoped<IProductRepository>(sp => mockRepo.Object);
                 services.AddScoped<IAuthorizationHandler, AdminAuthorizationHandler>();
             });
+            Mock<IConfiguration> mockConfiguration = new MockConfiguration().MockGetValueInt("ItemsPerPage");
 
-            var controller = new ProductsController(mockRepo.Object, authService);
+
+            var controller = new ProductsController(mockRepo.Object, authService, mockConfiguration.Object);
             MockAuthorizationService.SetupUserWithRole(controller, Constants.UserAdministratorsRole);
 
-            var result = await controller.Index(null);
+            var result = await controller.Index(null, null, null);
 
             var viewResult = Assert.IsType<ViewResult>(result);
-            var model = Assert.IsAssignableFrom<IEnumerable<Product>>(viewResult.ViewData.Model);
+            var model = Assert.IsAssignableFrom<ProductsViewModel>(viewResult.ViewData.Model);
 
-            Assert.Equal(4, model.Count());
+            Assert.Equal(4, model.Products.Count());
         }
 
         [Fact]
@@ -58,7 +63,7 @@ namespace Training1.Tests
             // Arrange
             var newProduct = new Product()
             {
-                Name = "Riz",
+                Name = "Rice",
                 Description = "Very popular in China",
                 Category = ProductCategory.Cereal
             };
@@ -70,7 +75,7 @@ namespace Training1.Tests
                 services.AddScoped<IAuthorizationHandler, AdminAuthorizationHandler>();
             });
 
-            var controller = new ProductsController(mockRepo.Object, authService);
+            var controller = new ProductsController(mockRepo.Object, authService, configuration: null);
             MockAuthorizationService.SetupUserWithRole(controller, Constants.UserAdministratorsRole);
 
             // Act
@@ -94,7 +99,7 @@ namespace Training1.Tests
                 services.AddScoped<IAuthorizationHandler, AdminAuthorizationHandler>();
             });
 
-            var controller = new ProductsController(mockRepo.Object, authService);
+            var controller = new ProductsController(mockRepo.Object, authService, configuration: null);
             MockAuthorizationService.SetupUserWithRole(controller, Constants.UserAdministratorsRole);
             controller.ModelState.AddModelError("error", "some error");
 
@@ -109,7 +114,7 @@ namespace Training1.Tests
         public async Task Edit_ReturnsHttpNotFound_ForNulldId()
         {
             // Arrange
-            var controller = new ProductsController(productRepository: null, authorizationService: null);
+            var controller = new ProductsController(productRepository: null, authorizationService: null, configuration: null);
 
             // Act
             var result = await controller.Edit(null);
@@ -124,7 +129,7 @@ namespace Training1.Tests
             // Arrange
             int nonExistentProductId = 123;
             var mockRepo = new MockProductRepository();
-            var controller = new ProductsController(mockRepo.Object, authorizationService: null);
+            var controller = new ProductsController(mockRepo.Object, authorizationService: null, configuration:null);
 
             // Act
             var result = await controller.Edit(nonExistentProductId);
@@ -146,7 +151,7 @@ namespace Training1.Tests
                 services.AddScoped<IAuthorizationHandler, AdminAuthorizationHandler>();
             });
 
-            var controller = new ProductsController(mockRepo.Object, authService);
+            var controller = new ProductsController(mockRepo.Object, authService, configuration: null);
             MockAuthorizationService.SetupUserWithRole(controller, Constants.UserAdministratorsRole);
 
             // Act
@@ -166,7 +171,7 @@ namespace Training1.Tests
         public async Task Delete_ReturnsHttpNotFound_ForNulldId()
         {
             // Arrange
-            var controller = new ProductsController(productRepository: null, authorizationService:null);
+            var controller = new ProductsController(productRepository: null, authorizationService:null, configuration: null);
 
             // Act
             var result = await controller.Delete(null);
@@ -181,7 +186,7 @@ namespace Training1.Tests
             // Arrange
             int nonExistentProductId = 123;
             var mockRepo = new MockProductRepository().MockGetByIdAsync(nonExistentProductId, null);
-            var controller = new ProductsController(mockRepo.Object, authorizationService:null);
+            var controller = new ProductsController(mockRepo.Object, authorizationService:null, configuration: null);
 
             // Act
             var result = await controller.Delete(nonExistentProductId);
@@ -203,7 +208,7 @@ namespace Training1.Tests
                 services.AddScoped<IAuthorizationHandler, AdminAuthorizationHandler>();
             });
 
-            var controller = new ProductsController(mockRepo.Object, authService);
+            var controller = new ProductsController(mockRepo.Object, authService, configuration: null);
             MockAuthorizationService.SetupUserWithRole(controller, Constants.UserAdministratorsRole);
 
             // Act
@@ -234,7 +239,7 @@ namespace Training1.Tests
                 services.AddScoped<IAuthorizationHandler, AdminAuthorizationHandler>();
             });
 
-            var controller = new ProductsController(mockRepo.Object, authService);
+            var controller = new ProductsController(mockRepo.Object, authService, configuration: null);
             MockAuthorizationService.SetupUserWithRole(controller, Constants.UserAdministratorsRole);
 
             // Act

@@ -8,6 +8,25 @@
 
     int itemsPerPage = 100;
     int.TryParse(Configuration["ItemsPerPage"].ToString(), out itemsPerPage);
+
+    var symboleNameSort = "";
+    var symboleCategorySort ="";
+    switch (Model.CurrentSort)
+    {
+        case "name_desc":
+            symboleNameSort = "fa-sort-down";
+            break;
+        case "category_desc":
+            symboleCategorySort = "fa-sort-down";
+            break;
+        case "category":
+            symboleCategorySort = "fa-sort-up";
+            break;
+        default:
+            symboleNameSort = "fa-sort-up";
+            break;
+
+    }
 }
 
 <h1>Kitchen Stock</h1>
@@ -16,7 +35,7 @@
     <div class="flexRowStart">
         <form asp-controller="Products" asp-action="Index" method="get">
             @Html.DisplayNameFor(model => model.Products.FirstOrDefault().Category)
-            <select name="category" asp-items="Html.GetEnumSelectList<ProductCategory>()" class="form-control-sm">
+            <select name="category" asp-items="Html.GetEnumSelectList<ProductCategory>().OrderBy(c => c.Text)" class="form-control-sm">
                 <option selected="selected" value="">Select a filter</option>
             </select>
             <input type="submit" value="Filter" class="btn btn-primary" />
@@ -35,10 +54,14 @@
         <thead>
             <tr class="table-primary">
                 <th>
-                    @Html.DisplayNameFor(model => model.Products.FirstOrDefault().Name)
+                    <a asp-controller="Products" asp-action="Index" asp-route-category="@Model.CategoryFilter" asp-route-sortOrder="@Model.NameSort">
+                        @Html.DisplayNameFor(model => model.Products.FirstOrDefault().Name) <i class="fas @symboleNameSort"></i>
+                    </a>
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Products.FirstOrDefault().Category)
+                    <a asp-controller="Products" asp-action="Index" asp-route-category="@Model.CategoryFilter" asp-route-sortOrder="@Model.CategorySort">
+                        @Html.DisplayNameFor(model => model.Products.FirstOrDefault().Category) <i class="fas @symboleCategorySort"></i>
+                    </a>
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Products.FirstOrDefault().Description)
@@ -48,7 +71,7 @@
         </thead>
         <tbody>
             @foreach (var item in Model.Products)
-            {
+        {
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.Name)
@@ -65,10 +88,10 @@
                            UserOperations.Update)).Succeeded)
                         {
                             <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
-                        }
-                        @if ((await AuthorizationService.AuthorizeAsync(
-                        User, item,
-                        UserOperations.Read)).Succeeded)
+    }
+    @if ((await AuthorizationService.AuthorizeAsync(
+    User, item,
+    UserOperations.Read)).Succeeded)
                         {
                             <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
                         }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using Training1.Models;
 using Training1.Models.ViewModels;
 
 namespace Training1.ViewComponents
@@ -9,7 +10,7 @@ namespace Training1.ViewComponents
     {
 
         public IViewComponentResult Invoke(
-            int numberOfItems, int itemsPerPage, int currentPage, string controller, string action, string category)
+            int numberOfItems, int itemsPerPage, int currentPage, string controller, string action, ProductCategory? category)
         {
             PaginationViewModel vm = new PaginationViewModel
             {
