@@ -1,9 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Training1.Authorization;
 using Training1.Models;
+using Training1.Models.ViewModels;
 using Training1.Repositories;
 
 namespace Training1.Controllers
@@ -13,25 +17,44 @@ namespace Training1.Controllers
     {
         private readonly IProductRepository _productRepository;
         private readonly IAuthorizationService _authorizationService;
+        private readonly IConfiguration _configuration;
 
         public ProductsController(IProductRepository productRepository,
-                                    IAuthorizationService authorizationService)
+                                    IAuthorizationService authorizationService,
+                                    IConfiguration configuration)
         {
             _productRepository = productRepository;
             _authorizationService = authorizationService;
+            _configuration = configuration;
         }
 
         // GET: Products
-        public async Task<IActionResult> Index(ProductCategory? category)
+        public async Task<IActionResult> Index(ProductCategory? category, int? indexPage)
         {
             var isAuthorized = await _authorizationService.AuthorizeAsync(User, new Product(), UserOperations.Read);
             if (isAuthorized.Succeeded)
             {
+                ICollection<Product> products;
                 if (category.HasValue)
                 {
-                    return View(await _productRepository.ListAsyncByCategory((ProductCategory)category));
+                    products = await _productRepository.ListAsyncByCategory((ProductCategory)category);
                 }
-                return View(await _productRepository.ListAsync());
+                else
+                {
+                    products = await _productRepository.ListAsync();
+
+                }
+                int itemsPerPage = _configuration.GetValue<int>("ItemsPerPage");
+                
+                ProductsViewModel vm = new ProductsViewModel {
+                    Products = products
+                                .Skip(((indexPage ?? 1) - 1) * itemsPerPage)
+                                .Take(itemsPerPage),
+                    PageIndex = indexPage ?? 1,
+                    TotalItems = products.Count(),
+                    CategoryFilter = category?.ToString()
+                };
+                return View(vm);
             }
             else
             {

@@ -44,4 +44,15 @@ namespace Training1.Infrastructure
             }
         }
     }
+    public static class NullableEnum
+    {
+        public static bool TryParse<T>(string value, out T? result) where T : struct, IConvertible
+        {
+            if (!typeof(T).IsEnum)
+                throw new Exception("This method is only for Enums");
+
+            result = Enum.TryParse<T>(value, out T tempResult) ? tempResult : (T?) null;
+            return (result != null);
+        }
+    }
 }
