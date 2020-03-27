@@ -184,14 +184,7 @@ namespace Training1.Data
             //Create the genmai food that will be used after
             await AddGenMaiFood(productContext);
             EFSesshinRepository sesshinRepo = new EFSesshinRepository(productContext, new EFFoodRepository(productContext), new EFDayOfSesshinRepository(productContext));
-            try
-            {
-                await sesshinRepo.AddAsync(newYear);
-            }
-            catch (Exception ex)
-            {
-
-            }
+            await sesshinRepo.AddAsync(newYear);
             
             //Add Food For Sesshins
             await CreateNewYearMeal(newYear, productContext);
@@ -637,18 +630,11 @@ namespace Training1.Data
         {
             if (stock != null)
             {
-                try
+                if (product.Stocks == null)
                 {
-                    if (product.Stocks == null)
-                    {
-                        product.Stocks = new List<Stock>();
-                    }
-                    product.Stocks.Add(stock);
+                    product.Stocks = new List<Stock>();
                 }
-                catch (Exception ex)
-                {
-
-                }
+                product.Stocks.Add(stock);
             }
             context.Add(product);
             await context.SaveChangesAsync();
@@ -677,14 +663,7 @@ namespace Training1.Data
             genmai.Ingredients.Add(new Ingredient { Product = productContext.Product.FirstOrDefault(p => p.Name == "Celery"), Quantity = 1M, UnityType = UnityType.Kilogrammes });
 
             productContext.Food.Add(genmai);
-            try
-            {
-                await productContext.SaveChangesAsync();
-            }
-            catch(Exception ex)
-            {
-
-            }
+            await productContext.SaveChangesAsync();
         }
         #endregion
     }

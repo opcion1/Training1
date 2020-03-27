@@ -26,7 +26,8 @@ namespace Training1.Tests
                 new ClaimsIdentity(
                     new Claim[] {
                         new Claim(ClaimTypes.Name, "homer.simpson"),
-                        new Claim(ClaimTypes.Role, Constants.UserAdministratorsRole) }));
+                        new Claim(ClaimTypes.Role, Constants.UserAdministratorsRole),
+                        new Claim("AccountStatus","Approved")}));
 
             //Act
             var allowed = await authorizationService.AuthorizeAsync(user, new Stock(), UserOperations.Create);
@@ -57,7 +58,8 @@ namespace Training1.Tests
                 new ClaimsIdentity(
                     new Claim[] {
                         new Claim(ClaimTypes.Name, "homer.simpson"),
-                        new Claim(ClaimTypes.Role, Constants.UserChefRole) }));
+                        new Claim(ClaimTypes.Role, Constants.UserChefRole),
+                        new Claim("AccountStatus","Approved")}));
 
             //Act
             var allowed = await authorizationService.AuthorizeAsync(user, new Stock(), UserOperations.Create);
@@ -78,7 +80,8 @@ namespace Training1.Tests
                 new ClaimsIdentity(
                     new Claim[] {
                         new Claim(ClaimTypes.Name, "homer.simpson"),
-                        new Claim(ClaimTypes.Role, Constants.UserAccountantRole) }));
+                        new Claim(ClaimTypes.Role, Constants.UserAccountantRole),
+                        new Claim("AccountStatus","Approved")}));
 
             //Act
             var allowed = await authorizationService.AuthorizeAsync(user, new Stock(), UserOperations.Create);
@@ -100,7 +103,8 @@ namespace Training1.Tests
                 new ClaimsIdentity(
                     new Claim[] {
                         new Claim(ClaimTypes.Name, "homer.simpson"),
-                        new Claim(ClaimTypes.Role, Constants.UserAdministratorsRole) }));
+                        new Claim(ClaimTypes.Role, Constants.UserAdministratorsRole),
+                        new Claim("AccountStatus","Approved")}));
 
             //Act
             var allowed = await authorizationService.AuthorizeAsync(user, new Stock(), UserOperations.Update);
@@ -131,7 +135,8 @@ namespace Training1.Tests
                 new ClaimsIdentity(
                     new Claim[] {
                         new Claim(ClaimTypes.Name, "homer.simpson"),
-                        new Claim(ClaimTypes.Role, Constants.UserChefRole) }));
+                        new Claim(ClaimTypes.Role, Constants.UserChefRole),
+                        new Claim("AccountStatus","Approved")}));
 
             //Act
             var allowed = await authorizationService.AuthorizeAsync(user, new Stock(), UserOperations.Update);
@@ -152,7 +157,8 @@ namespace Training1.Tests
                 new ClaimsIdentity(
                     new Claim[] {
                         new Claim(ClaimTypes.Name, "homer.simpson"),
-                        new Claim(ClaimTypes.Role, Constants.UserAccountantRole) }));
+                        new Claim(ClaimTypes.Role, Constants.UserAccountantRole) ,
+                        new Claim("AccountStatus","Approved")}));
 
             //Act
             var allowed = await authorizationService.AuthorizeAsync(user, new Stock(), UserOperations.Update);
@@ -174,7 +180,8 @@ namespace Training1.Tests
                 new ClaimsIdentity(
                     new Claim[] {
                         new Claim(ClaimTypes.Name, "homer.simpson"),
-                        new Claim(ClaimTypes.Role, Constants.UserAdministratorsRole) }));
+                        new Claim(ClaimTypes.Role, Constants.UserAdministratorsRole),
+                        new Claim("AccountStatus","Approved")}));
 
             //Act
             var allowed = await authorizationService.AuthorizeAsync(user, new Stock(), UserOperations.Read);
@@ -205,7 +212,8 @@ namespace Training1.Tests
                 new ClaimsIdentity(
                     new Claim[] {
                         new Claim(ClaimTypes.Name, "homer.simpson"),
-                        new Claim(ClaimTypes.Role, Constants.UserChefRole) }));
+                        new Claim(ClaimTypes.Role, Constants.UserChefRole),
+                        new Claim("AccountStatus","Approved")}));
 
             //Act
             var allowed = await authorizationService.AuthorizeAsync(user, new Stock(), UserOperations.Read);
@@ -226,7 +234,8 @@ namespace Training1.Tests
                 new ClaimsIdentity(
                     new Claim[] {
                         new Claim(ClaimTypes.Name, "homer.simpson"),
-                        new Claim(ClaimTypes.Role, Constants.UserAccountantRole) }));
+                        new Claim(ClaimTypes.Role, Constants.UserAccountantRole),
+                        new Claim("AccountStatus","Approved")}));
 
             //Act
             var allowed = await authorizationService.AuthorizeAsync(user, new Stock(), UserOperations.Read);
@@ -249,7 +258,8 @@ namespace Training1.Tests
                 new ClaimsIdentity(
                     new Claim[] {
                         new Claim(ClaimTypes.Name, "homer.simpson"),
-                        new Claim(ClaimTypes.Role, Constants.UserAdministratorsRole) }));
+                        new Claim(ClaimTypes.Role, Constants.UserAdministratorsRole),
+                        new Claim("AccountStatus","Approved")}));
 
             //Act
             var allowed = await authorizationService.AuthorizeAsync(user, new Stock(), UserOperations.Delete);
@@ -269,7 +279,8 @@ namespace Training1.Tests
                 new ClaimsIdentity(
                     new Claim[] {
                         new Claim(ClaimTypes.Name, "homer.simpson"),
-                        new Claim(ClaimTypes.Role, Constants.UserChefRole) }));
+                        new Claim(ClaimTypes.Role, Constants.UserChefRole) ,
+                        new Claim("AccountStatus","Approved")}));
 
             //Act
             var allowed = await authorizationService.AuthorizeAsync(user, new Stock(), UserOperations.Delete);
@@ -289,7 +300,8 @@ namespace Training1.Tests
                 new ClaimsIdentity(
                     new Claim[] {
                         new Claim(ClaimTypes.Name, "homer.simpson"),
-                        new Claim(ClaimTypes.Role, Constants.UserAccountantRole) }));
+                        new Claim(ClaimTypes.Role, Constants.UserAccountantRole),
+                        new Claim("AccountStatus","Approved")}));
 
             //Act
             var allowed = await authorizationService.AuthorizeAsync(user, new Stock(), UserOperations.Delete);
@@ -321,7 +333,8 @@ namespace Training1.Tests
                 new ClaimsIdentity(
                     new Claim[] {
                         new Claim(ClaimTypes.Name, "homer.simpson"),
-                        new Claim(ClaimTypes.Role, Constants.UserChefRole) }));
+                        new Claim(ClaimTypes.Role, Constants.UserChefRole) ,
+                        new Claim("AccountStatus","Approved")}));
 
             //Act
             var allowed = await authorizationService.AuthorizeAsync(user, new Stock(), UserOperations.Delete);
@@ -352,7 +365,8 @@ namespace Training1.Tests
                 new ClaimsIdentity(
                     new Claim[] {
                         new Claim(ClaimTypes.Name, "homer.simpson"),
-                        new Claim(ClaimTypes.Role, Constants.UserAdministratorsRole) }));
+                        new Claim(ClaimTypes.Role, Constants.UserAdministratorsRole),
+                        new Claim("AccountStatus","Approved")}));
 
             //Act
             var allowed = await authorizationService.AuthorizeAsync(user, new Stock(), UserOperations.Delete);
@@ -383,7 +397,8 @@ namespace Training1.Tests
                 new ClaimsIdentity(
                     new Claim[] {
                         new Claim(ClaimTypes.Name, "homer.simpson"),
-                        new Claim(ClaimTypes.Role, Constants.UserAccountantRole) }));
+                        new Claim(ClaimTypes.Role, Constants.UserAccountantRole),
+                        new Claim("AccountStatus","Approved")}));
 
             //Act
             var allowed = await authorizationService.AuthorizeAsync(user, new Stock(), UserOperations.Delete);
@@ -404,7 +419,8 @@ namespace Training1.Tests
                 new ClaimsIdentity(
                     new Claim[] {
                         new Claim(ClaimTypes.Name, "homer.simpson"),
-                        new Claim(ClaimTypes.Role, Constants.UserChefRole) }));
+                        new Claim(ClaimTypes.Role, Constants.UserChefRole),
+                        new Claim("AccountStatus","Approved")}));
 
             //Act
             var allowed = await authorizationService.AuthorizeAsync(user, new Stock(), UserOperations.Delete);
@@ -424,7 +440,8 @@ namespace Training1.Tests
                 new ClaimsIdentity(
                     new Claim[] {
                         new Claim(ClaimTypes.Name, "homer.simpson"),
-                        new Claim(ClaimTypes.Role, Constants.UserAdministratorsRole) }));
+                        new Claim(ClaimTypes.Role, Constants.UserAdministratorsRole),
+                        new Claim("AccountStatus","Approved")}));
 
             //Act
             var allowed = await authorizationService.AuthorizeAsync(user, new Stock(), UserOperations.Delete);
@@ -444,7 +461,8 @@ namespace Training1.Tests
                 new ClaimsIdentity(
                     new Claim[] {
                         new Claim(ClaimTypes.Name, "homer.simpson"),
-                        new Claim(ClaimTypes.Role, Constants.UserAccountantRole) }));
+                        new Claim(ClaimTypes.Role, Constants.UserAccountantRole),
+                        new Claim("AccountStatus","Approved")}));
 
             //Act
             var allowed = await authorizationService.AuthorizeAsync(user, new Stock(), UserOperations.Delete);
