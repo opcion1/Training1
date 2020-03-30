@@ -3,6 +3,31 @@
 @{
     ViewData["Title"] = "User's administration";
     Layout = null;
+
+    var symboleFullNameSort = "";
+    var symboleEmailSort = "";
+    var symboleStatusSort = "";
+    switch (Model.CurrentSort)
+    {
+        case "fullname_desc":
+            symboleFullNameSort = "fa-sort-down";
+            break;
+        case "email_desc":
+            symboleEmailSort = "fa-sort-down";
+            break;
+        case "email":
+            symboleEmailSort = "fa-sort-up";
+            break;
+        case "status_desc":
+            symboleStatusSort = "fa-sort-down";
+            break;
+        case "status":
+            symboleStatusSort = "fa-sort-up";
+            break;
+        default:
+            symboleFullNameSort = "fa-sort-up";
+            break;
+    }
 }
 
 <div style="padding-top:10px;padding-bottom:10px">
@@ -20,13 +45,19 @@
                     @Html.DisplayNameFor(model => model.Users.First().Id)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Users.First().FullName)
+                    <a asp-controller="Accounts" asp-action="Index" asp-route-tab="Accounts" asp-route-searchStr="@Model.SearchStr" asp-route-sortOrder="@Model.FullNameSort">
+                        @Html.DisplayNameFor(model => model.Users.First().FullName) <i class="fas @symboleFullNameSort"></i>
+                    </a>
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Users.First().Email)
+                    <a asp-controller="Accounts" asp-action="Index" asp-route-tab="Accounts" asp-route-searchStr="@Model.SearchStr" asp-route-sortOrder="@Model.EmailSort">
+                        @Html.DisplayNameFor(model => model.Users.First().Email) <i class="fas @symboleEmailSort"></i>
+                    </a>
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Users.First().AccountStatus)
+                    <a asp-controller="Accounts" asp-action="Index" asp-route-tab="Accounts" asp-route-searchStr="@Model.SearchStr" asp-route-sortOrder="@Model.StatusSort">
+                        @Html.DisplayNameFor(model => model.Users.First().AccountStatus) <i class="fas @symboleStatusSort"></i>
+                    </a>
                 </th>
                 <th>
                 </th>

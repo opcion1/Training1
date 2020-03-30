@@ -35,9 +35,13 @@ namespace Training1.Controllers
 
 
         [Authorize(Roles = "Admin")]
-        public ViewResult Index(ActiveTab? tab, string searchStr)
+        public ViewResult Index(ActiveTab? tab, string searchStr, string sortOrder)
         {
-            AccountViewModel accountViewModel = new AccountViewModel { ActiveTab = tab ?? ActiveTab.Accounts, SearchStr = searchStr };
+            AccountViewModel accountViewModel = new AccountViewModel { 
+                ActiveTab = tab ?? ActiveTab.Accounts, 
+                SearchStr = searchStr,
+                CurrentSort = sortOrder
+            };
 
             return View(accountViewModel);
         }
