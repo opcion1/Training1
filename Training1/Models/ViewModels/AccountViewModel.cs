@@ -8,6 +8,7 @@ namespace Training1.Models.ViewModels
     public class AccountViewModel
     {
         public ActiveTab ActiveTab { get; set; }
+        public string SearchStr { get; set; }
     }
     public enum ActiveTab
     {
