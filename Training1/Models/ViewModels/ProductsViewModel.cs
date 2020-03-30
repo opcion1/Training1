@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Training1.Models.ViewModels
 {
-    public class ProductsViewModel : PagingViewModel
+    public class ProductsViewModel : PagingBaseViewModel
     {
         public IEnumerable<Product> Products{ get; set; }
         public ProductCategory? CategoryFilter { get; set; }

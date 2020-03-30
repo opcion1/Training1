@@ -10,6 +10,7 @@ namespace Training1.Models.ViewModels
         public int NumberOfPage { get; set; }
         public string ControllerName { get; set; }
         public string ActionName { get; set; }
-        public ProductCategory? CategoryFilter { get; set; }
+        public string SearchOrFilter { get; set; }
+        public string SortOrder { get; set; }
     }
 }

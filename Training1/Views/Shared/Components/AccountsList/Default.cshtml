@@ -1,8 +1,14 @@
 ﻿@model AccountListViewModel
 
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+
 @{
     ViewData["Title"] = "User's administration";
     Layout = null;
+
+    int itemsPerPage = 100;
+    int.TryParse(Configuration["ItemsPerPage"].ToString(), out itemsPerPage);
 
     var symboleFullNameSort = "";
     var symboleEmailSort = "";
@@ -31,8 +37,8 @@
 }
 
 <div style="padding-top:10px;padding-bottom:10px">
-    <form class="form-inline my-2 my-lg-0" asp-action="Index" asp-controller="Accounts">
-        <input type="hidden" name="tab" value="Accounts" />
+    <form class="form-inline my-2 my-lg-0" asp-action="SearchingSortingAndPaging" asp-controller="Accounts">
+        <input type="hidden" name="sortOrder" value="@Model.CurrentSort" />
         <input class="form-control mr-sm-2" type="text" placeholder="Search" name="searchStr" value="@Model.SearchStr" />
         <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
     </form>
@@ -45,17 +51,17 @@
                     @Html.DisplayNameFor(model => model.Users.First().Id)
                 </th>
                 <th>
-                    <a asp-controller="Accounts" asp-action="Index" asp-route-tab="Accounts" asp-route-searchStr="@Model.SearchStr" asp-route-sortOrder="@Model.FullNameSort">
+                    <a asp-controller="Accounts" asp-action="SearchingSortingAndPaging" asp-route-searchStr="@Model.SearchStr" asp-route-sortOrder="@Model.FullNameSort">
                         @Html.DisplayNameFor(model => model.Users.First().FullName) <i class="fas @symboleFullNameSort"></i>
                     </a>
                 </th>
                 <th>
-                    <a asp-controller="Accounts" asp-action="Index" asp-route-tab="Accounts" asp-route-searchStr="@Model.SearchStr" asp-route-sortOrder="@Model.EmailSort">
+                    <a asp-controller="Accounts" asp-action="SearchingSortingAndPaging" asp-route-searchStr="@Model.SearchStr" asp-route-sortOrder="@Model.EmailSort">
                         @Html.DisplayNameFor(model => model.Users.First().Email) <i class="fas @symboleEmailSort"></i>
                     </a>
                 </th>
                 <th>
-                    <a asp-controller="Accounts" asp-action="Index" asp-route-tab="Accounts" asp-route-searchStr="@Model.SearchStr" asp-route-sortOrder="@Model.StatusSort">
+                    <a asp-controller="Accounts" asp-action="SearchingSortingAndPaging" asp-route-searchStr="@Model.SearchStr" asp-route-sortOrder="@Model.StatusSort">
                         @Html.DisplayNameFor(model => model.Users.First().AccountStatus) <i class="fas @symboleStatusSort"></i>
                     </a>
                 </th>
@@ -87,4 +93,5 @@
         </tbody>
     </table>
 </div>
+@await Component.InvokeAsync("Pagination", new { numberOfItems = Model.TotalItems, itemsPerPage = itemsPerPage, currentPage = Model.PageIndex, controller = "Accounts", action = "SearchingSortingAndPaging", searchOrFilter = Model.SearchStr, sortOrder = Model.CurrentSort })
 

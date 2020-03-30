@@ -35,16 +35,29 @@ namespace Training1.Controllers
 
 
         [Authorize(Roles = "Admin")]
-        public ViewResult Index(ActiveTab? tab, string searchStr, string sortOrder)
+        public ViewResult Index(ActiveTab? tab)
         {
             AccountViewModel accountViewModel = new AccountViewModel { 
-                ActiveTab = tab ?? ActiveTab.Accounts, 
-                SearchStr = searchStr,
-                CurrentSort = sortOrder
+                ActiveTab = tab ?? ActiveTab.Accounts
             };
 
             return View(accountViewModel);
         }
+
+        [Authorize(Roles = "Admin")]
+        public ViewResult SearchingSortingAndPaging(string searchStr, int? indexPage, string sortOrder)
+        {
+            AccountViewModel accountViewModel = new AccountViewModel
+            {
+                ActiveTab = ActiveTab.Accounts,
+                SearchStr = searchStr,
+                PageIndex = indexPage ?? 1,
+                CurrentSort = sortOrder
+            };
+
+            return View("Index", accountViewModel);
+        }
+
 
         // GET: Accounts/Edit/5
         public async Task<IActionResult> Edit(string id)

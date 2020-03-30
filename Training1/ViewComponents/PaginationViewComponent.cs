@@ -10,7 +10,7 @@ namespace Training1.ViewComponents
     {
 
         public IViewComponentResult Invoke(
-            int numberOfItems, int itemsPerPage, int currentPage, string controller, string action, ProductCategory? category)
+            int numberOfItems, int itemsPerPage, int currentPage, string controller, string action, string searchOrFilter, string sortOrder)
         {
             PaginationViewModel vm = new PaginationViewModel
             {
@@ -20,7 +20,8 @@ namespace Training1.ViewComponents
                 NumberOfPage = (int)Math.Ceiling(numberOfItems / (double)itemsPerPage),
                 ControllerName = controller,
                 ActionName = action,
-                CategoryFilter = category
+                SearchOrFilter = searchOrFilter,
+                SortOrder = sortOrder
             };
             return View(vm);
         }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,16 +17,20 @@ namespace Training1.ViewComponents
     {
         private readonly IAccountRepository _accountRepository;
         private readonly UserManager<AppUser> _userManager;
+        private readonly IConfiguration _configuration;
 
         public AccountsListViewComponent(IAccountRepository accountRepository,
-                                    UserManager<AppUser> userManager)
+                                    UserManager<AppUser> userManager,
+                                    IConfiguration configuration)
         {
             _accountRepository = accountRepository;
             _userManager = userManager;
+            _configuration = configuration;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(string searchStr, string sortOrder)
+        public async Task<IViewComponentResult> InvokeAsync(string searchStr, int? indexPage, string sortOrder)
         {
+            int itemsPerPage = _configuration.GetValue<int>("ItemsPerPage");
             ICollection<AppUser> users = await _accountRepository.ListAsync();
             if (searchStr != null)
             {
@@ -54,8 +59,12 @@ namespace Training1.ViewComponents
             }
             AccountListViewModel vm = new AccountListViewModel
             {
-                Users = users,
+                Users = users
+                    .Skip(((indexPage ?? 1) - 1) * itemsPerPage)
+                    .Take(itemsPerPage),
                 SearchStr = searchStr,
+                PageIndex = indexPage ?? 1,
+                TotalItems = users.Count(),
                 CurrentSort = sortOrder,
                 FullNameSort = String.IsNullOrEmpty(sortOrder) ? "fullname_desc" : "",
                 EmailSort = sortOrder == "email" ? "email_desc" : "email",
