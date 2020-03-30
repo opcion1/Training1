@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Training1.Models.ViewModels
 {
-    public class AccountViewModel
+    public class AccountViewModel : AccountBaseViewModel
     {
         public ActiveTab ActiveTab { get; set; }
     }

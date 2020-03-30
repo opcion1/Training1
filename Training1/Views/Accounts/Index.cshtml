@@ -20,13 +20,13 @@
         @switch (Model.ActiveTab)
             {
                 case ActiveTab.Accounts:
-                    @await Component.InvokeAsync("AccountsList");
+                    @await Component.InvokeAsync("AccountsList", new { searchStr = Model.SearchStr, sortOrder = Model.CurrentSort, indexPage = Model.PageIndex });
                     break;
                 case ActiveTab.Roles:
                     @await Component.InvokeAsync("RolesList");
                     break;
                 default:
-                    @await Component.InvokeAsync("AccountsList");
+                    @await Component.InvokeAsync("AccountsList", new { searchStr = Model.SearchStr, sortOrder = Model.CurrentSort, indexPage = Model.PageIndex });
                 break;
 
             }

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Training1.Authorization;
+using Training1.Infrastructure;
 using Training1.Models;
 using Training1.Models.ViewModels;
 using Training1.Repositories;
@@ -30,14 +31,14 @@ namespace Training1.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index(ProductCategory? category, int? indexPage, string sortOrder)
+        public async Task<IActionResult> Index(string searchOrFilter, int? indexPage, string sortOrder)
         {
             int itemsPerPage = _configuration.GetValue<int>("ItemsPerPage");
             var isAuthorized = await _authorizationService.AuthorizeAsync(User, new Product(), UserOperations.Read);
             if (isAuthorized.Succeeded)
             {
                 ICollection<Product> products;
-                if (category.HasValue)
+                if (NullableEnum.TryParse(searchOrFilter, out ProductCategory? category))
                 {
                     products = await _productRepository.ListAsyncByCategory((ProductCategory)category);
                 }

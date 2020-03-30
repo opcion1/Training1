@@ -8,7 +8,7 @@
 
     int itemsPerPage = 100;
     int.TryParse(Configuration["ItemsPerPage"].ToString(), out itemsPerPage);
-
+    
     var symboleNameSort = "";
     var symboleCategorySort ="";
     switch (Model.CurrentSort)
@@ -34,8 +34,9 @@
 <p>
     <div class="flexRowStart">
         <form asp-controller="Products" asp-action="Index" method="get">
+            <input type="hidden" name="sortOrder" value="@Model.CurrentSort" />
             @Html.DisplayNameFor(model => model.Products.FirstOrDefault().Category)
-            <select name="category" asp-items="Html.GetEnumSelectList<ProductCategory>().OrderBy(c => c.Text)" class="form-control-sm">
+            <select name="searchOrFilter" asp-items="Html.GetEnumSelectList<ProductCategory>().OrderBy(c => c.Text)" class="form-control-sm">
                 <option selected="selected" value="">Select a filter</option>
             </select>
             <input type="submit" value="Filter" class="btn btn-primary" />
@@ -54,12 +55,12 @@
         <thead>
             <tr class="table-primary">
                 <th>
-                    <a asp-controller="Products" asp-action="Index" asp-route-category="@Model.CategoryFilter" asp-route-sortOrder="@Model.NameSort">
+                    <a asp-controller="Products" asp-action="Index" asp-route-searchOrFilter="@Model.CategoryFilter?.ToString()" asp-route-sortOrder="@Model.NameSort">
                         @Html.DisplayNameFor(model => model.Products.FirstOrDefault().Name) <i class="fas @symboleNameSort"></i>
                     </a>
                 </th>
                 <th>
-                    <a asp-controller="Products" asp-action="Index" asp-route-category="@Model.CategoryFilter" asp-route-sortOrder="@Model.CategorySort">
+                    <a asp-controller="Products" asp-action="Index" asp-route-searchOrFilter="@Model.CategoryFilter?.ToString()" asp-route-sortOrder="@Model.CategorySort">
                         @Html.DisplayNameFor(model => model.Products.FirstOrDefault().Category) <i class="fas @symboleCategorySort"></i>
                     </a>
                 </th>
@@ -107,4 +108,4 @@
         </tbody>
     </table>
 </div>
-@await Component.InvokeAsync("Pagination", new { numberOfItems = Model.TotalItems, itemsPerPage = itemsPerPage, currentPage = Model.PageIndex, controller = "Products", action = "Index", category = Model.CategoryFilter })
+@await Component.InvokeAsync("Pagination", new { numberOfItems = Model.TotalItems, itemsPerPage = itemsPerPage, currentPage = Model.PageIndex, controller = "Products", action = "Index", searchOrFilter = Model.CategoryFilter?.ToString(), sortOrder = Model.CurrentSort })
