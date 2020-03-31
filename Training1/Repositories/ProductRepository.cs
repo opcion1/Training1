@@ -31,6 +31,13 @@ namespace Training1.Repositories
         {
             return await Products.FirstOrDefaultAsync(p => p.Id == id);
         }
+        public async Task<Product> GetByIdWithStocksAsync(int id)
+        {
+            return await Products
+                .Where(p => p.Id == id)
+                .Include(p => p.Stocks)
+                .FirstOrDefaultAsync();
+        }
 
         public async Task AddAsync(Product product)
         {
