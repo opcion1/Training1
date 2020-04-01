@@ -28,8 +28,6 @@
 
     }
 }
-    <div class="header-vegetable">
-    </div>
 
 <div class="clearfix my-2">
     <form class="form-inline float-left" asp-controller="Products" asp-action="Index" method="get">
@@ -85,19 +83,19 @@
                            User, item,
                            UserOperations.Update)).Succeeded)
                         {
-                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
-    }
-    @if ((await AuthorizationService.AuthorizeAsync(
-    User, item,
-    UserOperations.Read)).Succeeded)
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Edit</a>
+                        }
+                        @if ((await AuthorizationService.AuthorizeAsync(
+                        User, item,
+                        UserOperations.Read)).Succeeded)
                         {
-                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Details</a>
                         }
                         @if ((await AuthorizationService.AuthorizeAsync(
                           User, item,
                           UserOperations.Delete)).Succeeded)
                         {
-                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-primary">Delete</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Delete</a>
                         }
                     </td>
                 </tr>
