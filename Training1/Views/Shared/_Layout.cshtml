@@ -48,18 +48,18 @@
                                 <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index"><i class='fas fa-home'></i>Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Products" asp-action="Index"><i class='fas fa-home'></i>Stock</a>
+                                <a class="nav-link" asp-area="" asp-controller="Products" asp-action="Index"><i class='fas fa-carrot'></i>Stock</a>
                             </li>
                             @if (User.IsInRole(Constants.UserAdministratorsRole) || User.IsInRole(Constants.UserChefRole))
                             {
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Sesshins" asp-action="Index"><i class='fas fa-home'></i>Sesshins</a>
+                            <a class="nav-link" asp-area="" asp-controller="Sesshins" asp-action="Index"><i class="fas fa-utensil-spoon"></i>Sesshins</a>
                         </li>
                             }
                             @if (User.IsInRole(Constants.UserAdministratorsRole) || User.IsInRole(Constants.UserAccountantRole))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link" area="" href="#"><i class='fas fa-home'></i>Accountant</a>
+                                    <a class="nav-link" area="" href="#"><i class='fas fa-chart-bar'></i>Accountant</a>
                                 </li>
                             }
                             @if (User.IsInRole(Constants.UserAdministratorsRole))
