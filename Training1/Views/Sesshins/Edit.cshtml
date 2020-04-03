@@ -5,64 +5,71 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
+<div class="d-flex row align-items-center">
+    <i class="fas fa-user-alt fa-2x btn btn-primary ml-3 mr-2"></i>
+    <h1 class="mt-2">Edit @Model.Name</h1>
+</div>
 
-<h4>Sesshin</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="SesshinId" />
-            @if (User.IsInRole(Constants.UserChefRole))
-            {
-                <input type="hidden" asp-for="AppUserId" value="@UserManager.GetUserId(Context.User)" />
-            }
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <textarea asp-for="Description" class="form-control" spellcheck="false" rows="3"></textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NumberOfPeople" class="control-label"></label>
-                <input asp-for="NumberOfPeople" class="form-control" />
-                <span asp-validation-for="NumberOfPeople" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StartDate" class="control-label"></label>
-                <input asp-for="StartDate" class="form-control" />
-                <span asp-validation-for="StartDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EndDate" class="control-label"></label>
-                <input asp-for="EndDate" class="form-control" />
-                <span asp-validation-for="EndDate" class="text-danger"></span>
-            </div>
-            @if (User.IsInRole(Constants.UserAdministratorsRole))
-            {
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="SesshinId" />
+                @if (User.IsInRole(Constants.UserChefRole))
+                {
+                    <input type="hidden" asp-for="AppUserId" value="@UserManager.GetUserId(Context.User)" />
+                }
                 <div class="form-group">
-                    <label asp-for="AppUserId" class="control-label"></label>
-                    <select asp-for="AppUserId" class="form-control" list-role="@Constants.UserChefRole">
-                    </select>
-                    <span asp-validation-for="AppUserId" class="text-danger"></span>
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
-            }
-            <div class="form-group">
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <textarea asp-for="Description" class="form-control" spellcheck="false" rows="3"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="NumberOfPeople" class="control-label"></label>
+                    <input asp-for="NumberOfPeople" class="form-control" />
+                    <span asp-validation-for="NumberOfPeople" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="StartDate" class="control-label"></label>
+                    <input asp-for="StartDate" class="form-control" />
+                    <span asp-validation-for="StartDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EndDate" class="control-label"></label>
+                    <input asp-for="EndDate" class="form-control" />
+                    <span asp-validation-for="EndDate" class="text-danger"></span>
+                </div>
+                @if (User.IsInRole(Constants.UserAdministratorsRole))
+                {
+                    <div class="form-group">
+                        <label asp-for="AppUserId" class="control-label"></label>
+                        <select asp-for="AppUserId" class="form-control" list-role="@Constants.UserChefRole">
+                        </select>
+                        <span asp-validation-for="AppUserId" class="text-danger"></span>
+                    </div>
+                }
+            <div class="form-group d-flex row mx-1">
                 <input type="submit" value="Save" class="btn btn-primary" />
+                @if (ViewBag.FromDetail)
+                {
+                    <a asp-action="Details" asp-route-id="@Model.SesshinId" class="btn btn-secondary ml-auto"><text> << </text>Back to Details</a>
+                }
+                else
+                {
+                    <a asp-action="Index" class="btn btn-secondary ml-auto"><text> << </text>Back to List</a>
+                }
             </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

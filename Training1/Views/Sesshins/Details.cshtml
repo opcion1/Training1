@@ -3,88 +3,97 @@
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var tenzo = UserManager.FindByIdAsync(Model.AppUserId).GetAwaiter().GetResult();
+    var tenzo_name = tenzo.FullName;
 }
 
-<h1>Details</h1>
+<div class="media border p-3 w-100">
+    <img src="~/images/tenzo.jpg" alt="@(Model.Name)" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+    <div class="media-body">
+        <div class="d-inline-flex align-items-center">
+            <h3>@Model.Name <small> @($" from {Model.StartDate.ToShortDateString()} to {Model.EndDate.ToShortDateString()}") </small></h3>
 
-<div>
-    <ul class="nav nav-tabs">
-        <li class="nav-item active">
-            <a class="nav-link active" data-toggle="tab" href="#details">Details</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#menus">Menus</a>
-        </li>
-    </ul>
-
-    <div id="myTabContent" class="tab-content">
-        <div class="tab-pane fade show active" id="details">
-            <div>
-                <h4>Sesshin</h4>
-                <hr />
-                <dl class="row">
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.Name)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.Name)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.Description)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.Description)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.NumberOfPeople)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.NumberOfPeople)
-                    </dd>
-                    <dt class="col-sm-2">
-                        Dates
-                    </dt>
-                    <dd class="col-sm-10">
-                        <tetx>From </tetx>@Html.DisplayFor(model => model.StartDate)<text> to </text> @Html.DisplayFor(model => model.EndDate)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.AppUserId)
-                    </dt>
-                    <dd class="col-sm-10" app-user-id="@Model.AppUserId">
-                    </dd>
-                </dl>
-            </div>
-            <div>
-                @if ((await AuthorizationService.AuthorizeAsync(
-                  User, Model,
-                  UserOperations.Update)).Succeeded)
-                {
-                    <a asp-action="Edit" asp-route-id="@Model.SesshinId">Edit</a> <text>|</text>
-                }
-            <a asp-action="Index">Back to List</a>
-            </div>
+            @if ((await AuthorizationService.AuthorizeAsync(
+        User, new Stock(),
+        UserOperations.Update)).Succeeded)
+            {
+                <a asp-action="Edit" asp-route-id="@Model.SesshinId" asp-route-fromDetail="true" title="Edit @(Model.Name)" class="btn ml-2"><i class="fas fa-pen"></i></a>
+            }
         </div>
-
-
-        <div class="tab-pane fade show" id="menus">
-            @await Component.InvokeAsync("SesshinDays", new { sesshinId = Model.SesshinId })
+        <p><h4>@($"Tenzo: {tenzo_name}")</h4></p>
+        <p><h4>@($"{Model.NumberOfPeople} people")</h4></p>
+        <p>@Model.Description</p>
+        
+        @await Component.InvokeAsync("SesshinDays", new { sesshinId = Model.SesshinId })
+        
+        <div class="d-flex flex-row flex-row-reverse">
+            <a asp-action="Index" class="btn btn-secondary"><text> << </text>Back to List</a>
         </div>
     </div>
 </div>
 
-
 @section Scripts{
     <script>
         $(function () {
-            var showMenus = @(ViewBag.ShowMenus.ToString().ToLower());
-            if (showMenus) {
-                $('a[href="#menus"]').tab('show');
-                var mealId = @(ViewBag.MealId);
-                if (mealId > 0) {
-                    $('a[href="#meal' + mealId + '"]').removeClass('collapsed');
-                    $('div#meal' + mealId).addClass('show');
-                }
+            var mealId = @(ViewBag.MealId);
+            if (mealId > 0) {
+                $('a[href="#div_meal' + mealId + '"]').removeClass('collapsed');
+                $('#div_meal' + mealId).addClass('show');
             }
+
         });
+
+        $(document).tooltip({
+            items:".a_meal.collapsed",
+            content: display_tooltip_menu
+        });
+
+        function display_tooltip_menu() {
+            var divId = $(this).attr('href');
+            var menuClone = $(divId).clone();
+            menuClone.find('a').remove();
+            menuClone.find('form').remove();
+            menuClone.find('ul').removeClass("p-1");
+            menuClone.find('ul').addClass("p-2");
+            return menuClone.html();
+        }
+
+        $(document).ready(function () {
+            $(document).on('click', 'i.edit-people', function () {
+                debugger
+                $(this).closest('.card-body').find('.f-edit-people').show();
+                $(this).closest('.p-people').hide();
+            });
+            $(document).on("submit", ".f-edit-people", function (event) {
+                event.preventDefault();
+                submitNumberOfPeople($(this));
+            });
+        });
+
+        function submitNumberOfPeople($form) {
+            var json = $form.serialize();
+
+            $.ajax({
+                url: $form.attr('action'),
+                type: $form.attr('method'),
+                data: json
+            }).done(function (data) {
+                updateNumberOfPeople($form);
+            });
+
+        }
+        function updateNumberOfPeople($form) {
+                var number_of_people = $form.find('.input-people').val();
+                var divDay = $form.closest('.div-day');
+                divDay.find('.span-people').html(number_of_people);
+                divDay.find('.p-people').show();
+                $form.hide();
+                while (divDay.next('.div-day').length > 0) {
+                    divDay = divDay.next('.div-day');
+                    divDay.find('.span-people').html(number_of_people);
+                }
+        }
+
     </script>
 }

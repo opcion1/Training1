@@ -149,6 +149,7 @@ ul.navbar-nav{
 input.select-like {
     padding-right: 20px !important;
     background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAICAYAAADJEc7MAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAG2YAABzjgAA4DIAAIM2AAB5CAAAxgwAADT6AAAgbL5TJ5gAAABGSURBVHjaYvz//z8DOYCJgUzA0tnZidPK8vJyRpw24pLEpwnuVHRFhDQxMDAwMPz//x+OOzo6/iPz8WFGuocqAAAA//8DAD/sORHYg7kaAAAAAElFTkSuQmCC) right center no-repeat;
+    background-color: #fff;
 }
 .li-invisible{
     display:none;
@@ -200,4 +201,8 @@ div.header-vegetable::after {
     right: 0;
     position: absolute;
     z-index: -1;
+}
+
+.hide{
+    display:none;
 }
