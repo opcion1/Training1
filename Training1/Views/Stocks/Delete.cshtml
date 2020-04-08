@@ -35,6 +35,6 @@
         <input type="hidden" asp-for="StockId" />
         <input type="hidden" asp-for="ProductId" />
         <input type="submit" value="Delete" class="btn btn-primary" /> |
-        <a asp-action="Details" asp-controller="Products" asp-route-id="@Model.ProductId" asp-route-showStock="true">Back to List</a>
+        <a asp-action="Details" asp-controller="Products" asp-route-id="@Model.ProductId">Back to List</a>
     </form>
 </div>

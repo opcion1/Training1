@@ -4,15 +4,13 @@
     Layout = null;
 }
 
-
-<p style="margin-top:10px">
+<h4>Commands</h4>
     @if ((await AuthorizationService.AuthorizeAsync(
          User, new Stock(),
          UserOperations.Create)).Succeeded)
     {
-        <a asp-controller="Stocks" asp-action="Create" asp-route-productId="@Model.ProductId" class="btn btn-primary">Create New</a>
+        <a asp-controller="Stocks" asp-action="Create" asp-route-productId="@Model.ProductId" class="btn btn-primary float-right my-2">Create New</a>
     }
-</p>
 <table class="table table-striped table-dark">
     <thead>
         <tr class="table-primary">
@@ -20,13 +18,7 @@
                 @Html.DisplayNameFor(model => model.Stocks.FirstOrDefault().Quantity)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Stocks.FirstOrDefault().UnityType)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Stocks.FirstOrDefault().PricePorUnity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Stocks.FirstOrDefault().Currency)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Stocks.FirstOrDefault().TotalPrice)
@@ -42,19 +34,13 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Quantity)
+                    @Html.DisplayFor(modelItem => item.Quantity) @item.UnityType.GetDescription()
                 </td>
                 <td>
-                    @item.UnityType.GetDescription()
+                    @Html.DisplayFor(modelItem => item.PricePorUnity) @item.Currency.GetDescription()
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PricePorUnity)
-                </td>
-                <td>
-                    @item.Currency.GetDescription()
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TotalPrice)
+                    @Html.DisplayFor(modelItem => item.TotalPrice) @item.Currency.GetDescription()
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.CommandDate)
@@ -64,19 +50,13 @@
                       User, item,
                       UserOperations.Update)).Succeeded)
                     {
-                        <a asp-controller="Stocks" asp-action="Edit" asp-route-id="@item.StockId" class="btn btn-primary">Edit</a>
-                    }
-                    @if ((await AuthorizationService.AuthorizeAsync(
-                   User, item,
-                   UserOperations.Read)).Succeeded)
-                    {
-                        <a asp-controller="Stocks" asp-action="Details" asp-route-id="@item.StockId" class="btn btn-primary">Details</a>
+                        <a asp-controller="Stocks" asp-action="Edit" asp-route-id="@item.StockId" class="btn btn-sm btn-primary">Edit</a>
                     }
                     @if ((await AuthorizationService.AuthorizeAsync(
                      User, item,
                      UserOperations.Delete)).Succeeded)
                     {
-                        <a asp-controller="Stocks" asp-action="Delete" asp-route-id="@item.StockId" class="btn btn-primary">Delete</a>
+                        <a asp-controller="Stocks" asp-action="Delete" asp-route-id="@item.StockId" class="btn btn-sm btn-primary">Delete</a>
                     }
                 </td>
             </tr>

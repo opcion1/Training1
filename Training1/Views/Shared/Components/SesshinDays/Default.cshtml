@@ -5,61 +5,80 @@
 }
 
 
-    <div class="d-flex flex-row">
-        @foreach (DayOfSesshin day in Model)
-        {
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">@day.Date.ToLongDateString()</h4>
-                    <p class="card-text">@day.NumberOfPeople people</p>
-                    <div id="menus@(day.DayOfSesshinId)">
-                        @foreach (Meal meal in day.Meals)
-                        {
-                            <div class="d-flex flex-column">
-                                <a class="collapsed card-link" data-toggle="collapse" href="#meal@(meal.MealId)">@meal.Type.ToString()</a>
-                                <div id="meal@(meal.MealId)" class="collapse" data-parent="#menus@(day.DayOfSesshinId)">
-                                    @foreach (MealFood mealFood in meal.MealFoods)
-                                    {
-                                        Food food = mealFood.Food;
-                                    <div class="d-flex flex-row">
-                                        <h4 class="card-text">@food.Name</h4>
-                                        @if ((await AuthorizationService.AuthorizeAsync(
-                                    User, mealFood,
-                                    UserOperations.Update)).Succeeded)
-                                        {
-                                            <a asp-controller="Meals" asp-action="EditFood" asp-route-mealId="@meal.MealId" asp-route-foodId="@food.FoodId" asp-route-sesshinId="@day.SesshinId"><i class="fas fa-pen padding-left-5"></i></a>
-                                        }
+    <div class="container">
+        <div class="row">
+            @foreach (DayOfSesshin day in Model)
+            {
+                <div class="col pb-3 div-day" style="min-width:33%">
+                    <div class="card h-100 " >
+                        <div class="card-body">
+                            <h4 class="card-title">@day.Date.ToLongDateString()</h4>
+                            <p class="card-text p-people row"><span class="span-people">@day.NumberOfPeople</span>&nbsp;people <i class="btn btn-sm fas fa-pen edit-people"></i></p>
+                            <form class="f-edit-people form-inline hide" asp-action="UpdateNumberOfPeople" asp-controller="DayOfSesshins">
+                                <div class="form-group row">
+                                    <input type="hidden" name="id" value="@day.DayOfSesshinId" />
+                                    <input class="form-control-sm input-people" name="numberOfPeople" value="@(day.NumberOfPeople)" />
+                                    <button type="submit" class="btn-invisible" title="save ingredient">
+                                        <i class="btn btn-sm fas fa-save save-people"></i>
+                                    </button>
 
-                                        @if ((await AuthorizationService.AuthorizeAsync(
-                                     User, mealFood,
-                                     UserOperations.Delete)).Succeeded)
-                                        {
-                                            <form asp-action="DeleteMealFood" asp-controller="Meals" method="post">
-                                                <input type="hidden" value="@food.FoodId" id="foodId" name="foodId" />
-                                                <input type="hidden" value="@meal.MealId" id="mealID" name="mealId" />
-                                                <input type="hidden" value="@day.DayOfSesshinId" id="sesshinId" name="sesshinId" />
-                                                <button type="submit"
-                                                        class="btn-card-link">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </button>
-                                            </form>
-                                        }
-                                        </div>
-                                    }
-
-                                    @if ((await AuthorizationService.AuthorizeAsync(
-                                    User, day,
-                                    UserOperations.Create)).Succeeded)
-                                    {
-                                        <a class="nav-link card-text" asp-controller="Meals" asp-action="AddFood" asp-route-mealId="@meal.MealId" asp-route-sesshinId="@day.SesshinId">
-                                            <i class="fas fa-plus"></i>Add Food
-                                        </a>
-                                    }
                                 </div>
+                            </form> 
+                            <div id="menus@(day.DayOfSesshinId)">
+                                @foreach (Meal meal in day.Meals)
+                                {
+                                    <div class="d-flex flex-column">
+                                        <a class="collapsed card-link a_meal" id="a_meal@(meal.MealId)" data-toggle="collapse" href="#div_meal@(meal.MealId)">@meal.Type.ToString()</a>
+                                        <div id="div_meal@(meal.MealId)" class="collapse" data-parent="#menus@(day.DayOfSesshinId)">
+                                            <ul class="p-1">
+                                                @foreach (MealFood mealFood in meal.MealFoods)
+                                                {
+                                                    Food food = mealFood.Food;
+                                                    <li>
+                                                        <div class="d-flex flex-row align-items-center">
+                                                            <h4 class="card-text">@food.Name</h4>
+                                                            @if ((await AuthorizationService.AuthorizeAsync(
+                                                   User, mealFood,
+                                                   UserOperations.Update)).Succeeded)
+                                                            {
+                                                                <a class="btn btn-sm" asp-controller="Meals" asp-action="EditFood" asp-route-mealId="@meal.MealId" asp-route-foodId="@food.FoodId" asp-route-sesshinId="@day.SesshinId"><i class="fas fa-pen"></i></a>
+                                                            }
+
+                                                            @if ((await AuthorizationService.AuthorizeAsync(
+                                                    User, mealFood,
+                                                    UserOperations.Delete)).Succeeded)
+                                                            {
+                                                                <form asp-action="DeleteMealFood" asp-controller="Meals" method="post">
+                                                                    <input type="hidden" value="@food.FoodId" name="foodId" />
+                                                                    <input type="hidden" value="@meal.MealId"  name="mealId" />
+                                                                    <input type="hidden" value="@day.SesshinId" name="sesshinId" />
+                                                                    <button type="submit"
+                                                                            class="btn btn-sm">
+                                                                        <i class="fas fa-trash-alt"></i>
+                                                                    </button>
+                                                                </form>
+                                                            }
+                                                        </div>
+                                                    </li>
+                                                }
+
+                                            </ul>
+
+                                            @if ((await AuthorizationService.AuthorizeAsync(
+                                          User, day,
+                                          UserOperations.Create)).Succeeded)
+                                            {
+                                                <a class="btn btn-primary btn-sm card-text" asp-controller="Meals" asp-action="AddFood" asp-route-mealId="@meal.MealId" asp-route-sesshinId="@day.SesshinId">
+                                                    <i class="fas fa-plus"></i> Add Food
+                                                </a>
+                                            }
+                                        </div>
+                                    </div>
+                                }
                             </div>
-                        }
+                        </div>
                     </div>
                 </div>
-            </div>
-        }
+            }
+        </div>
     </div>

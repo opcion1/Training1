@@ -14,6 +14,7 @@ namespace Training1.Repositories
         Task<ICollection<Product>> ListAsync();
         Task<ICollection<Product>> ListAsyncByCategory(ProductCategory category);
         Task<Product> GetByIdAsync(int id);
+        Task<Product> GetByIdWithStocksAsync(int id);
 
         Task AddAsync(Product product);
 

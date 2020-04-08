@@ -22,9 +22,13 @@ namespace Training1.Infrastructure.Factory
         {
             var principal = await base.CreateAsync(user);
 
-            ((ClaimsIdentity)principal.Identity).AddClaim(
-                new Claim("AccountStatus", user.AccountStatus.ToString())
-            );
+            ((ClaimsIdentity)principal.Identity)
+                .AddClaim(
+                    new Claim("AccountStatus", user.AccountStatus.ToString()));
+            ((ClaimsIdentity)principal.Identity)
+                .AddClaim(
+                    new Claim("AppStyle", user?.AppStyle ?? "flatly"));
+
 
             return principal;
         }

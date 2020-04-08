@@ -116,7 +116,7 @@ namespace Training1.Tests
             var controller = new SesshinsController(sesshinRepository: null, authorizationService: null);
 
             // Act
-            var result = await controller.Edit(null);
+            var result = await controller.Edit(null, null);
 
             // Assert
             Assert.IsType<NotFoundResult>(result);
@@ -131,7 +131,7 @@ namespace Training1.Tests
             var controller = new SesshinsController(mockRepo.Object, authorizationService: null);
 
             // Act
-            var result = await controller.Edit(nonExistentSesshinId);
+            var result = await controller.Edit(nonExistentSesshinId, null);
 
             // Assert
             Assert.IsType<NotFoundResult>(result);
@@ -162,7 +162,7 @@ namespace Training1.Tests
             MockAuthorizationService.SetupUserWithRole(controller, Constants.UserAdministratorsRole);
 
             // Act
-            var result = await controller.Edit(testSesshinId);
+            var result = await controller.Edit(testSesshinId, null);
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);

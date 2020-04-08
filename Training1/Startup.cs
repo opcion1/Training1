@@ -45,6 +45,13 @@ namespace Training1
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddSession(options =>
+            {
+                options.Cookie.HttpOnly = true;
+                // Make the session cookie essential
+                options.Cookie.IsEssential = true;
+            });
+
             services.AddDefaultIdentity<AppUser>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<AppIdentityContext>()
@@ -119,6 +126,7 @@ namespace Training1
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseAuthentication();
+            app.UseSession();
             //app.UseCookiePolicy();
 
             app.UseMvc(routes =>

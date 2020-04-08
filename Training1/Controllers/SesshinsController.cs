@@ -36,7 +36,7 @@ namespace Training1.Controllers
         }
 
         // GET: Sesshins/Details/5
-        public async Task<IActionResult> Details(int? id, bool? showMenus, int? mealId)
+        public async Task<IActionResult> Details(int? id, int? mealId)
         {
             if (!id.HasValue)
             {
@@ -52,7 +52,6 @@ namespace Training1.Controllers
             var isAuthorized = await _authorizationService.AuthorizeAsync(User, sesshin, UserOperations.Read);
             if (isAuthorized.Succeeded)
             {
-                ViewData["ShowMenus"] = showMenus ?? false;
                 ViewData["MealId"] = mealId ?? -1;
                 return View(sesshin);
             }
@@ -92,7 +91,7 @@ namespace Training1.Controllers
         }
 
         // GET: Sesshins/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, bool? fromDetail)
         {
             if (!id.HasValue)
             {
@@ -108,6 +107,7 @@ namespace Training1.Controllers
             var isAuthorized = await _authorizationService.AuthorizeAsync(User, sesshin, UserOperations.Update);
             if (isAuthorized.Succeeded)
             {
+                ViewData["FromDetail"] = fromDetail ?? false;
                 return View(sesshin);
             }
             else
