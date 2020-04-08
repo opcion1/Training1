@@ -234,7 +234,7 @@ namespace Training1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var isAuthorized = await _authorizationService.AuthorizeAsync(User, new Product(), UserOperations.Update);
+            var isAuthorized = await _authorizationService.AuthorizeAsync(User, new Product(), UserOperations.Delete);
             if (isAuthorized.Succeeded)
             {
                 await _productRepository.DeleteAsync(id);
