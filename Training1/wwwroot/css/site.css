@@ -173,10 +173,12 @@ input.select-like {
     background: #95a5a6;
     height: 40px;
     width: 40px;
-    position: absolute;
     right: 0;
     line-height: 40px;
     font-family:initial;
+}
+.circle:hover{
+    cursor: pointer;
 }
 
 .dropdown-menu {
@@ -190,6 +192,7 @@ input.select-like {
     right:0;
     left:unset;
 }
+
 
 div.header-vegetable::after {
     content: "";

@@ -28,5 +28,38 @@ namespace Training1.Repositories
         {
             return await Roles.ToListAsync();
         }
+
+        public async Task UpdateAccountStatus(string id, Status status)
+        {
+            var user = await Users.FirstOrDefaultAsync(u => u.Id == id);
+            if (user!= null)
+            {
+                user.AccountStatus = status;
+                user.LockoutEnabled = (status == Status.Rejected);
+                if (user.LockoutEnabled)
+                {
+                    user.LockoutEnd = DateTime.Now.AddYears(100);
+                }
+                await _identityContext.SaveChangesAsync();
+            }
+            else
+            {
+                throw new KeyNotFoundException();
+            }
+        }
+
+        public async Task UpdateAppStyle(string id, string appStyle)
+        {
+            var user = await Users.FirstOrDefaultAsync(u => u.Id == id);
+            if (user != null)
+            {
+                user.AppStyle = appStyle;
+                await _identityContext.SaveChangesAsync();
+            }
+            else
+            {
+                throw new KeyNotFoundException();
+            }
+        }
     }
 }

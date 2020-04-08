@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Training1.Areas.Identity.Data;
+using Training1.Infrastructure;
 
 namespace Training1.Areas.Identity.Pages.Account
 {

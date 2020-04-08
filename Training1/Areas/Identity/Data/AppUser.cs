@@ -14,6 +14,7 @@ namespace Training1.Areas.Identity.Data
         [DataType(DataType.Text)]
         public string FullName { get; set; }
         public Status AccountStatus{ get; set; }
+        public string AppStyle { get; set; }
     }
 
     public enum Status
