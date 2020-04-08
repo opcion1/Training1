@@ -24,5 +24,20 @@ namespace Training1.Repositories
 
             return days;
         }
+
+        public async Task UpdateNumberOfPeopleAsync(int id, int numberOfPeople)
+        {
+            DayOfSesshin day = await _productContext.DaysOfSesshin.FirstOrDefaultAsync(d => d.DayOfSesshinId == id);
+            if (day != null)
+            {
+                day.NumberOfPeople = numberOfPeople;
+                List<DayOfSesshin> nextDays = await _productContext.DaysOfSesshin.Where(d => d.SesshinId == day.SesshinId && d.Date > day.Date).ToListAsync();
+                foreach(DayOfSesshin nextDay in nextDays)
+                {
+                    nextDay.NumberOfPeople = numberOfPeople;
+                }
+                await _productContext.SaveChangesAsync();
+            }
+        }
     }
 }

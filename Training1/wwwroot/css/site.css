@@ -149,6 +149,7 @@ ul.navbar-nav{
 input.select-like {
     padding-right: 20px !important;
     background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAICAYAAADJEc7MAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAG2YAABzjgAA4DIAAIM2AAB5CAAAxgwAADT6AAAgbL5TJ5gAAABGSURBVHjaYvz//z8DOYCJgUzA0tnZidPK8vJyRpw24pLEpwnuVHRFhDQxMDAwMPz//x+OOzo6/iPz8WFGuocqAAAA//8DAD/sORHYg7kaAAAAAElFTkSuQmCC) right center no-repeat;
+    background-color: #fff;
 }
 .li-invisible{
     display:none;
@@ -172,10 +173,12 @@ input.select-like {
     background: #95a5a6;
     height: 40px;
     width: 40px;
-    position: absolute;
     right: 0;
     line-height: 40px;
     font-family:initial;
+}
+.circle:hover{
+    cursor: pointer;
 }
 
 .dropdown-menu {
@@ -188,4 +191,21 @@ input.select-like {
 .dropdown-bottom-right{
     right:0;
     left:unset;
+}
+
+
+div.header-vegetable::after {
+    content: "";
+    background: url('../images/vegetables.jpg');
+    opacity: 0.5;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1;
+}
+
+.hide{
+    display:none;
 }

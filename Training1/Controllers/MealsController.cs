@@ -78,7 +78,7 @@ namespace Training1.Controllers
                 {
                     throw;
                 }
-                return RedirectToAction("Details", "Sesshins", new { id = mealFoodView.SesshinId, showMenus = true, mealId = mealFoodView.MealId});
+                return RedirectToAction("EditFood", "Meals", new { sesshinId = mealFoodView.SesshinId, mealId = mealFoodView.MealId, foodId = mealFoodView.Food.FoodId});
             }
             return View(mealFoodView);
         }
@@ -121,7 +121,7 @@ namespace Training1.Controllers
                 {
                     throw;
                 }
-                return RedirectToAction("Details", "Sesshins", new { id = mealFoodView.SesshinId, showMenus = true, mealId = mealFoodView.MealId });
+                return RedirectToAction("Details", "Sesshins", new { id = mealFoodView.SesshinId, mealId = mealFoodView.MealId });
             }
             return View(mealFoodView);
         }
@@ -137,7 +137,7 @@ namespace Training1.Controllers
             if (isAuthorized.Succeeded)
             {
                 await _mealRepository.DeleteFoodMealAsync(mealId, foodId);
-                return RedirectToAction("Details", "Sesshins", new { id = sesshinId, showMenus = true, mealId = mealId });
+                return RedirectToAction("Details", "Sesshins", new { id = sesshinId, mealId = mealId });
             }
             else
             {

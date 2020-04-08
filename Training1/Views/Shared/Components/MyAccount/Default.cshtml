@@ -1,11 +1,41 @@
-﻿@model  AppUser
+﻿@model AppUser
 
-    <div class="dropdown dropdown-hover">
-        <div style="width:70px; height: 40px">
-            <div class="circle">@Model.UserName.Substring(0, 1).ToUpper()</div>
-        </div>
-        <div class="dropdown-menu dropdown-bottom-right">
-            <a class="dropdown-item" asp-controller="Accounts" asp-action="Edit" asp-route-id="@Model.Id">MyAccount</a>
-            <a class="dropdown-item" asp-controller="Accounts" asp-action="Logout">Logout</a>
-        </div>
-    </div>
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var appStyle = HttpContextAccessor.HttpContext.Session.Get<string>("AppStyle");
+    if (appStyle == null)
+    {
+        appStyle = "flatly";
+    }
+
+    var appStyles = new string[] { "Flatly", "Darkly", "Cyborg", "Slate", "Solar", "Superhero", "Lux" };
+}
+
+<div class="dropdown">
+    <div class="circle" id="myAccountMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@Model.UserName.Substring(0, 1).ToUpper()</div>
+
+    <ul class="dropdown-menu dropdown-bottom-right" aria-labelledby="myAccountMenuButton">
+        <li><a class="dropdown-item" asp-controller="Accounts" asp-action="Edit" asp-route-id="@Model.Id">MyAccount</a></li>
+        <li class="dropdown dropdown-hover dropleft">
+            <a class="dropdown-item  dropdown-toggle dropdo" href="#" id="appstyleDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Application style
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="appstyleDropdown">
+                @foreach (string style in appStyles)
+                {
+                    <li>
+                        <form asp-action="UpdateAppStyle" asp-controller="Home" class="update-app-style">
+                            <input type="hidden" name="id" value="@Model.Id" />
+                            <input type="hidden" name="appStyle" value="@(style.ToLower())" />
+                            <button type="submit" class="dropdown-item  @(appStyle == style.ToLower() ? "active" : "")">@style</button>
+                        </form>
+                    </li>
+                }
+            </ul>
+        </li>
+        <li class="dropdown-divider"></li>
+        <li><a class="dropdown-item" asp-controller="Accounts" asp-action="Logout">Logout</a></li>
+    </ul>
+</div>

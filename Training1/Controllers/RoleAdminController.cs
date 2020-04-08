@@ -23,50 +23,6 @@ namespace Training1.Controllers
             userManager = userMrg;
         }
 
-        public IActionResult Create() => View();
-
-        [HttpPost]
-        public async Task<IActionResult> Create([Required]string name)
-        {
-            if (ModelState.IsValid)
-            {
-                IdentityResult result
-                    = await roleManager.CreateAsync(new IdentityRole(name));
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("Index", "Accounts", new { showRoles = true});
-                }
-                else
-                {
-                    AddErrorsFromResult(result);
-                }
-            }
-            return View(name);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Delete(string id)
-        {
-            IdentityRole role = await roleManager.FindByIdAsync(id);
-            if (role != null)
-            {
-                IdentityResult result = await roleManager.DeleteAsync(role);
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("Index", "Accounts", new { showRoles = true });
-                }
-                else
-                {
-                    AddErrorsFromResult(result);
-                }
-            }
-            else
-            {
-                ModelState.AddModelError("", "No role found");
-            }
-            return View("Index", roleManager.Roles);
-        }
-
         public async Task<IActionResult> Edit(string id)
         {
 

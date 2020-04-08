@@ -13,5 +13,7 @@ namespace Training1.Repositories
         IQueryable<AppUser> Users { get; }
         Task<ICollection<AppUser>> ListAsync();
         Task<ICollection<IdentityRole>> ListRolesAsync();
+        Task UpdateAccountStatus(string id, Status status);
+        Task UpdateAppStyle(string id, string appStyle);
     }
 }

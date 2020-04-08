@@ -157,7 +157,7 @@ namespace Training1.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Details", "Products", new { id = stock.ProductId, showStock = true });
+                return RedirectToAction("Details", "Products", new { id = stock.ProductId });
             }
 
             return View(stock);
@@ -198,7 +198,7 @@ namespace Training1.Controllers
             if (isAuthorized.Succeeded)
             {
                 await _stockRepository.DeleteAsync(id);
-                return RedirectToAction("Details", "Products", new { id = productId, showStock = true });
+                return RedirectToAction("Details", "Products", new { id = productId });
             }
             else
             {

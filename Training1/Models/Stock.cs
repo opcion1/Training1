@@ -30,9 +30,13 @@ namespace Training1.Models
     }
     public enum UnityType
     {
+        [Description("g")]
         Grammes,
+        [Description("kg")]
         Kilogrammes,
+        [Description("l")]
         Liter,
+        [Description("U")]
         Unity
     }
     public enum Currency

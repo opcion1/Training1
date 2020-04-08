@@ -125,9 +125,9 @@ function displayRowIngredient(data, isNewIngredient) {
     ingredient.find('product-name').replaceWith(data.product.name);
     ingredient.find('product-qty').replaceWith(data.quantity);
     ingredient.find('product-unityType').replaceWith(getUnityTypeString(data.unityType));
-    ingredient.find('edit-ingredient').replaceWith("<button class='btn-invisible btn-edit-row' id='btn_edit_" + data.ingredientId + "'><i class='fas fa-pen'></i></button>");
+    ingredient.find('edit-ingredient').replaceWith("<a class='btn-edit-row' id='btn_edit_" + data.ingredientId + "' title='edit ingredient'><i class='btn fas fa-pen'></i></a>");
     
-    ingredient.find('delete-ingredient').replaceWith("<button class='btn-invisible btn-delete-row' id='btn_delete_" + data.ingredientId + "'><i class='fas fa-times'></i></button>");
+    ingredient.find('delete-ingredient').replaceWith("<a class='btn-delete-row' id='btn_delete_" + data.ingredientId + "' title='delete ingredient'><i class='btn fas fa-times'></i></a>");
 
     if (isNewIngredient) {
         removeEditRow();

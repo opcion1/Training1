@@ -9,5 +9,6 @@ namespace Training1.Repositories
     public interface IDayOfSesshinRepository
     {        
         Task<ICollection<DayOfSesshin>> ListAsync(int sesshinId);
+        Task UpdateNumberOfPeopleAsync(int id, int numberOfPeople);
     }
 }

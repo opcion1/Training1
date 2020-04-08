@@ -142,6 +142,8 @@ namespace Training1.Migrations.AppIdentity
 
                     b.Property<int>("AccountStatus");
 
+                    b.Property<string>("AppStyle");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
