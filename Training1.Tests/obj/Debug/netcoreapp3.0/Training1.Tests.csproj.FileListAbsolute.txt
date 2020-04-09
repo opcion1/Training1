@@ -526,3 +526,9 @@ C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\obj\Debu
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\obj\Debug\netcoreapp3.0\Training1.Tests.csproj.CopyComplete
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\obj\Debug\netcoreapp3.0\Training1.Tests.dll
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\obj\Debug\netcoreapp3.0\Training1.Tests.pdb
+C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\Microsoft.EntityFrameworkCore.dll
+C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\Microsoft.Extensions.Caching.Abstractions.dll
+C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\Microsoft.Extensions.Caching.Memory.dll
+C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\Remotion.Linq.dll
+C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\System.Interactive.Async.dll

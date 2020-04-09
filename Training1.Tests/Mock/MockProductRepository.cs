@@ -1,4 +1,5 @@
 ﻿using Moq;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Training1.Models;
@@ -35,6 +36,15 @@ namespace Training1.Tests.Mock
             Setup(repo => repo.DeleteAsync(id))
                 .Returns(Task.CompletedTask)
                 .Verifiable();
+            return this;
+        }
+
+        public MockProductRepository MockUpdateAsync(Product product)
+        {
+            Setup(repo => repo.UpdateAsync(product))
+                .Returns(Task.CompletedTask)
+                .Verifiable();
+
             return this;
         }
     }
