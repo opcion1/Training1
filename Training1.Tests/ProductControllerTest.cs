@@ -92,7 +92,7 @@ namespace Training1.Tests
             var controller = new ProductsController(productRepository: null, authorizationService: null, configuration: null);
 
             // Act
-            var result = await controller.Details(id: null, showStock:null);
+            var result = await controller.Details(id: null);
 
             // Assert
             Assert.IsType<NotFoundResult>(result);
@@ -108,7 +108,7 @@ namespace Training1.Tests
             var controller = new ProductsController(mockRepo.Object, authorizationService: null, configuration: null);
 
             // Act
-            var result = await controller.Details(id: nonExistentProductId, showStock:null);
+            var result = await controller.Details(id: nonExistentProductId);
 
             // Assert
             Assert.IsType<NotFoundResult>(result);
@@ -124,7 +124,7 @@ namespace Training1.Tests
             var controller = GetProductsController(mockRepo);
 
             // Act
-            var result = await controller.Details(testSessionId, showStock: null);
+            var result = await controller.Details(testSessionId);
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
