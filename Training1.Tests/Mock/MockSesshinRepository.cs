@@ -16,6 +16,14 @@ namespace Training1.Tests.Mock
 
             return this;
         }
+        public MockSesshinRepository MockUpdateAsync(Sesshin sesshin)
+        {
+            Setup(repo => repo.UpdateAsync(sesshin))
+                .Returns(Task.CompletedTask)
+                .Verifiable();
+
+            return this;
+        }
         public MockSesshinRepository MockListAsync(Sesshin[] sesshins)
         {
             this.Setup(repo => repo.ListAsync()).ReturnsAsync(sesshins.Cast<Sesshin>().ToList());

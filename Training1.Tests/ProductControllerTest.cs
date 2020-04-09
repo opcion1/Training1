@@ -26,6 +26,20 @@ namespace Training1.Tests
 {
     public class ProductControllerTest
     {
+        private const int _testProductId = 1;
+        private readonly Product _testProduct;
+        private readonly MockProductRepository _mockRepo;
+        private readonly ProductsController _controller;
+        private readonly MockConfiguration _mockConfig;
+
+        public ProductControllerTest()
+        {
+            _testProduct = new Product() { Id = _testProductId, Name = "Carot", Category = ProductCategory.Vegetable };
+            _mockRepo = new MockProductRepository();
+            _mockConfig = new MockConfiguration();
+            _controller = GetProductsController(_mockRepo, _mockConfig);
+        }
+
         [Fact]
         public async Task TestProductIndexAsync()
         {
@@ -36,11 +50,11 @@ namespace Training1.Tests
                 new Product { Id = 3, Name = "Ketchup", Category = ProductCategory.Condiment },
                 new Product { Id = 4, Name = "Apple", Category = ProductCategory.Fruit }
             };
+            _mockRepo.MockListAsync(products);
+            _mockConfig.MockGetValueInt("ItemsPerPage");
 
-            var mockRepo = new MockProductRepository().MockListAsync(products);
-            var controller = GetProductsController(mockRepo, new MockConfiguration().MockGetValueInt("ItemsPerPage"));
-
-            var result = await controller.Index(null, null, null);
+            //Act
+            var result = await _controller.Index(null, null, null);
 
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<ProductsViewModel>(viewResult.ViewData.Model);
@@ -52,35 +66,26 @@ namespace Training1.Tests
         public async Task CreatePost_ReturnsARedirectAndAddsProduct_WhenModelStateIsValid()
         {
             // Arrange
-            var newProduct = new Product()
-            {
-                Name = "Rice",
-                Description = "Very popular in China",
-                Category = ProductCategory.Cereal
-            };
-            var mockRepo = new MockProductRepository().MockAddAsync(newProduct);
-            var controller = GetProductsController(mockRepo);
+            _mockRepo.MockAddAsync(_testProduct);
 
             // Act
-            var result = await controller.Create(newProduct);
+            var result = await _controller.Create(_testProduct);
 
             // Assert
             var redirectToActionResult = Assert.IsType<RedirectToActionResult>(result);
             Assert.Null(redirectToActionResult.ControllerName);
             Assert.Equal("Index", redirectToActionResult.ActionName);
-            mockRepo.Verify();
+            _mockRepo.Verify();
         }
 
         [Fact]
-        public async Task Create_ReturnsViewResult_GivenInvalidModel()
+        public async Task CreatePost_ReturnsViewResult_GivenInvalidModel()
         {
-            // Arrange & Act
-            var mockRepo = new MockProductRepository();
-            var controller = GetProductsController(mockRepo);
-            controller.ModelState.AddModelError("error", "some error");
+            // Arrange
+            _controller.ModelState.AddModelError("error", "some error");
 
             // Act
-            var result = await controller.Create(product: null);
+            var result = await _controller.Create(product: null);
 
             // Assert
             Assert.IsType<ViewResult>(result);
@@ -89,10 +94,9 @@ namespace Training1.Tests
         public async Task Details_ReturnsHttpNotFound_ForNulldId()
         {
             // Arrange
-            var controller = new ProductsController(productRepository: null, authorizationService: null, configuration: null);
 
             // Act
-            var result = await controller.Details(id: null);
+            var result = await _controller.Details(id: null);
 
             // Assert
             Assert.IsType<NotFoundResult>(result);
@@ -102,13 +106,10 @@ namespace Training1.Tests
         public async Task Details_ReturnsHttpNotFound_ForInvalidId()
         {
             // Arrange
-            int nonExistentProductId = 1;
-            var mockRepo = new MockProductRepository()
-                .MockGetByIdAsync(nonExistentProductId, null);
-            var controller = new ProductsController(mockRepo.Object, authorizationService: null, configuration: null);
+            _mockRepo.MockGetByIdAsync(_testProductId, null);
 
             // Act
-            var result = await controller.Details(id: nonExistentProductId);
+            var result = await _controller.Details(_testProductId);
 
             // Assert
             Assert.IsType<NotFoundResult>(result);
@@ -118,19 +119,16 @@ namespace Training1.Tests
         public async Task Details_ReturnsProductView()
         {
             // Arrange
-            int testSessionId = 123;
-            var newProduct = new Product() { Id = testSessionId, Name = "Carot", Category = ProductCategory.Vegetable };
-            var mockRepo = new MockProductRepository().MockGetByIdAsync(testSessionId, newProduct);
-            var controller = GetProductsController(mockRepo);
+            _mockRepo.MockGetByIdAsync(_testProductId, _testProduct);
 
             // Act
-            var result = await controller.Details(testSessionId);
+            var result = await _controller.Details(_testProductId);
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<Product>(viewResult.ViewData.Model);
 
-            Assert.Equal(testSessionId, model.Id);
+            Assert.Equal(_testProductId, model.Id);
             Assert.Equal("Carot", model.Name);
             Assert.Equal(ProductCategory.Vegetable, model.Category);
         }
@@ -139,10 +137,9 @@ namespace Training1.Tests
         public async Task Edit_ReturnsHttpNotFound_ForNulldId()
         {
             // Arrange
-            var controller = new ProductsController(productRepository: null, authorizationService: null, configuration: null);
 
             // Act
-            var result = await controller.Edit(null);
+            var result = await _controller.Edit(null);
 
             // Assert
             Assert.IsType<NotFoundResult>(result);
@@ -152,13 +149,10 @@ namespace Training1.Tests
         public async Task Edit_ReturnsHttpNotFound_ForInvalidId()
         {
             // Arrange
-            int nonExistentProductId = 1;
-            var mockRepo = new MockProductRepository()
-                .MockGetByIdAsync(nonExistentProductId, null);
-            var controller = new ProductsController(mockRepo.Object, authorizationService: null, configuration:null);
+            _mockRepo.MockGetByIdAsync(_testProductId, null);
 
             // Act
-            var result = await controller.Edit(nonExistentProductId);
+            var result = await _controller.Edit(_testProductId);
 
             // Assert
             Assert.IsType<NotFoundResult>(result);
@@ -168,31 +162,70 @@ namespace Training1.Tests
         public async Task Edit_ReturnsProductView()
         {
             // Arrange
-            int testSessionId = 123;
-            var newProduct = new Product() { Id = testSessionId, Name = "Carot", Category = ProductCategory.Vegetable };
-            var mockRepo = new MockProductRepository().MockGetByIdAsync(testSessionId, newProduct);
-            var controller = GetProductsController(mockRepo);
+            _mockRepo.MockGetByIdAsync(_testProductId, _testProduct);
 
             // Act
-            var result = await controller.Edit(testSessionId);
+            var result = await _controller.Edit(_testProductId);
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<Product>(viewResult.ViewData.Model);
 
-            Assert.Equal(testSessionId, model.Id);
+            Assert.Equal(_testProductId, model.Id);
             Assert.Equal("Carot", model.Name);
             Assert.Equal(ProductCategory.Vegetable, model.Category);
+        }
+
+
+        [Fact]
+        public async Task EditPost_ReturnsHttpNotFound_ForIdDifferentSesshinId()
+        {
+            // Arrange
+            int invalidSesshinId = _testProductId + 1;
+
+            // Act
+            var result = await _controller.Edit(invalidSesshinId, _testProduct);
+
+            // Assert
+            Assert.IsType<NotFoundResult>(result);
+        }
+
+        [Fact]
+        public async Task EditPost_ReturnsViewResult_GivenInvalidModel()
+        {
+            // Arrange
+            _controller.ModelState.AddModelError("error", "some error");
+
+            // Act
+            var result = await _controller.Edit(_testProductId, _testProduct);
+
+            // Assert
+            Assert.IsType<ViewResult>(result);
+        }
+
+        [Fact]
+        public async Task EditPost_ReturnsARedirectAndAddsSesshin_WhenModelStateIsValid()
+        {
+            // Arrange
+            _mockRepo.MockUpdateAsync(_testProduct);
+
+            // Act
+            var result = await _controller.Edit(_testProductId, _testProduct);
+
+            // Assert
+            var redirectToActionResult = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Null(redirectToActionResult.ControllerName);
+            Assert.Equal("Index", redirectToActionResult.ActionName);
+            _mockRepo.Verify();
         }
 
         [Fact]
         public async Task Delete_ReturnsHttpNotFound_ForNulldId()
         {
             // Arrange
-            var controller = new ProductsController(productRepository: null, authorizationService:null, configuration: null);
 
             // Act
-            var result = await controller.Delete(null);
+            var result = await _controller.Delete(null);
 
             // Assert
             Assert.IsType<NotFoundResult>(result);
@@ -202,12 +235,10 @@ namespace Training1.Tests
         public async Task Delete_ReturnsHttpNotFound_ForInvalidId()
         {
             // Arrange
-            int nonExistentProductId = 1;
-            var mockRepo = new MockProductRepository().MockGetByIdAsync(nonExistentProductId, null);
-            var controller = new ProductsController(mockRepo.Object, authorizationService:null, configuration: null);
+            _mockRepo.MockGetByIdAsync(_testProductId, null);
 
             // Act
-            var result = await controller.Delete(nonExistentProductId);
+            var result = await _controller.Delete(_testProductId);
 
             // Assert
             Assert.IsType<NotFoundResult>(result);
@@ -217,19 +248,16 @@ namespace Training1.Tests
         public async Task Delete_ReturnsProductView()
         {
             // Arrange
-            int testSessionId = 123;
-            var product = new Product() { Id = testSessionId, Name = "Carot", Category = ProductCategory.Vegetable };
-            var mockRepo = new MockProductRepository().MockGetByIdAsync(testSessionId, product);
-            var controller = GetProductsController(mockRepo);
+            _mockRepo.MockGetByIdAsync(_testProductId, _testProduct);
 
             // Act
-            var result = await controller.Delete(testSessionId);
+            var result = await _controller.Delete(_testProductId);
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<Product>(viewResult.ViewData.Model);
 
-            Assert.Equal(123, model.Id);
+            Assert.Equal(_testProductId, model.Id);
             Assert.Equal("Carot", model.Name);
             Assert.Equal(ProductCategory.Vegetable, model.Category);
         }
@@ -238,21 +266,18 @@ namespace Training1.Tests
         public async Task DeletePost_ReturnsARedirectAndDeleteProduct()
         {
             // Arrange
-            int testSessionId = 123;
-            var product = new Product() { Id = testSessionId, Name = "Carot", Category = ProductCategory.Vegetable };
-            var mockRepo = new MockProductRepository()
-                .MockGetByIdAsync(testSessionId, product)
-                .MockDeleteAsync(testSessionId);
-            var controller = GetProductsController(mockRepo);
+            _mockRepo
+                .MockGetByIdAsync(_testProductId, _testProduct)
+                .MockDeleteAsync(_testProductId);
 
             // Act
-            var result = await controller.DeleteConfirmed(testSessionId);
+            var result = await _controller.DeleteConfirmed(_testProductId);
 
             // Assert
             var redirectToActionResult = Assert.IsType<RedirectToActionResult>(result);
             Assert.Null(redirectToActionResult.ControllerName);
             Assert.Equal("Index", redirectToActionResult.ActionName);
-            mockRepo.Verify();
+            _mockRepo.Verify();
         }
 
         private ProductsController GetProductsController(MockProductRepository mockProductRepository, Mock<IConfiguration> mockConfiguration = null)
