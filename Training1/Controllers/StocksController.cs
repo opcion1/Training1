@@ -76,7 +76,7 @@ namespace Training1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StockId,Quantity,UnityType,PricePorUnity,TotalPrice,Currency,ProductId")] Stock stock)
+        public async Task<IActionResult> Create([Bind("Id,Quantity,UnityType,PricePorUnity,TotalPrice,Currency,ProductId")] Stock stock)
         {
             if (ModelState.IsValid)
             {
@@ -125,9 +125,9 @@ namespace Training1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("StockId,Quantity,UnityType,PricePorUnity,TotalPrice,Currency,CommandDate,ProductId")] Stock stock)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Quantity,UnityType,PricePorUnity,TotalPrice,Currency,CommandDate,ProductId")] Stock stock)
         {
-            if (id != stock.StockId)
+            if (id != stock.Id)
             {
                 return NotFound();
             }
@@ -148,7 +148,7 @@ namespace Training1.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!StockExists(stock.StockId))
+                    if (!StockExists(stock.Id))
                     {
                         return NotFound();
                     }

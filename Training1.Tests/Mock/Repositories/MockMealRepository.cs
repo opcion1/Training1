@@ -5,7 +5,7 @@ using System.Text;
 using Training1.Models;
 using Training1.Repositories;
 
-namespace Training1.Tests.Mock
+namespace Training1.Tests.Mock.Repositories
 {
     public class MockMealRepository : Mock<IMealRepository>
     {

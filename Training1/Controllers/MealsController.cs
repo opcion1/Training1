@@ -6,6 +6,7 @@ using Training1.Authorization;
 using Training1.Models;
 using Training1.Models.ViewModels;
 using Training1.Repositories;
+using Training1.Repositories.Interfaces;
 
 namespace Training1.Controllers
 {
@@ -50,7 +51,7 @@ namespace Training1.Controllers
             {
                 try
                 {
-                    if (!_foodRepository.FoodExists(mealFoodView.Food.FoodId))
+                    if (!_foodRepository.FoodExists(mealFoodView.Food.Id))
                     {
                         var canCreateFood = await _authorizationService.AuthorizeAsync(User, mealFoodView.Food, UserOperations.Create);
                         if (canCreateFood.Succeeded)
@@ -63,7 +64,7 @@ namespace Training1.Controllers
                         }
                     }
 
-                    MealFood mealFood = new MealFood { FoodId = mealFoodView.Food.FoodId, MealId = mealFoodView.MealId };
+                    MealFood mealFood = new MealFood { FoodId = mealFoodView.Food.Id, MealId = mealFoodView.MealId };
                     var isAuthorized = await _authorizationService.AuthorizeAsync(User, mealFood, UserOperations.Create);
                     if (isAuthorized.Succeeded)
                     {
@@ -78,7 +79,7 @@ namespace Training1.Controllers
                 {
                     throw;
                 }
-                return RedirectToAction("EditFood", "Meals", new { sesshinId = mealFoodView.SesshinId, mealId = mealFoodView.MealId, foodId = mealFoodView.Food.FoodId});
+                return RedirectToAction("EditFood", "Meals", new { sesshinId = mealFoodView.SesshinId, mealId = mealFoodView.MealId, foodId = mealFoodView.Food.Id});
             }
             return View(mealFoodView);
         }
@@ -100,7 +101,7 @@ namespace Training1.Controllers
             {
                 try
                 {
-                    if (_foodRepository.FoodExists(mealFoodView.Food.FoodId))
+                    if (_foodRepository.FoodExists(mealFoodView.Food.Id))
                     {
                         var canUpdateFood = await _authorizationService.AuthorizeAsync(User, mealFoodView.Food, UserOperations.Create);
                         if (canUpdateFood.Succeeded)

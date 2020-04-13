@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Training1.Models;
 using Training1.Repositories;
 
-namespace Training1.Tests.Mock
+namespace Training1.Tests.Mock.Repositories
 {
     class MockStockRepository : Mock<IStockRepository>
     {

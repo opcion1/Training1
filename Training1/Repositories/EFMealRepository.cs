@@ -51,20 +51,20 @@ namespace Training1.Repositories
 
         public Meal GetById(int id)
         {
-            return Meals.FirstOrDefault(m => m.MealId == id);
+            return Meals.FirstOrDefault(m => m.Id == id);
         }
 
         public async Task<Meal> GetByIdAsync(int id)
         {
-            return await Meals.FirstOrDefaultAsync(m => m.MealId == id);
+            return await Meals.FirstOrDefaultAsync(m => m.Id == id);
         }
 
         public string GetSesshinOwner(Meal meal)
         {
-            DayOfSesshin day = _productContext.DaysOfSesshin.FirstOrDefault(d => d.DayOfSesshinId == meal.DayOfSesshinId);
+            DayOfSesshin day = _productContext.DaysOfSesshin.FirstOrDefault(d => d.Id == meal.Id);
             if (day != null)
             {
-                var sesshin = _productContext.Sesshin.FirstOrDefault(s => s.SesshinId == day.SesshinId);
+                var sesshin = _productContext.Sesshin.FirstOrDefault(s => s.Id == day.Id);
                 if (sesshin != null)
                 {
                     return sesshin.AppUserId;
@@ -80,12 +80,12 @@ namespace Training1.Repositories
 
         public async Task<ICollection<Meal>> ListAsyncByDayOfSesshin(int dayOfSesshinId)
         {
-            return await Meals.Where(m => m.DayOfSesshinId == dayOfSesshinId).ToListAsync();
+            return await Meals.Where(m => m.Id == dayOfSesshinId).ToListAsync();
         }
 
         public bool MealExists(int id)
         {
-            return Meals.Any(m => m.MealId == id);
+            return Meals.Any(m => m.Id == id);
         }
 
         public async Task UpdateAsync(Meal meal)

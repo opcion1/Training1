@@ -35,7 +35,7 @@ namespace Training1.Repositories
         {
             var stock = await _productContext.Stock
                 .Include(s => s.Product)
-                .FirstOrDefaultAsync(m => m.StockId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             return stock;
         }
 
@@ -54,7 +54,7 @@ namespace Training1.Repositories
 
         public bool StockExists(int id)
         {
-            return Stocks.Any(e => e.StockId == id);
+            return Stocks.Any(e => e.Id == id);
         }
 
         public async Task UpdateAsync(Stock stock)

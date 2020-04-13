@@ -25,14 +25,14 @@ namespace Training1.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Produces("application/json")]  
-        public async Task<IActionResult> Create([Bind("FoodId,ProductId,Quantity,UnityType")] Ingredient ingredient)
+        public async Task<IActionResult> Create([Bind("Id,ProductId,Quantity,UnityType")] Ingredient ingredient)
         {
             if (ModelState.IsValid)
             {
                 await _ingredientRepository.AddAsync(ingredient);
             }
             //We want to return ingredient with the product name
-            ingredient = await _ingredientRepository.GetByIdAsync(ingredient.IngredientId);
+            ingredient = await _ingredientRepository.GetByIdAsync(ingredient.Id);
             return Ok(ingredient);
         }
 
@@ -42,7 +42,7 @@ namespace Training1.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Produces("application/json")]
-        public async Task<IActionResult> Edit([Bind("IngredientId,FoodId,ProductId,Quantity,UnityType")] Ingredient ingredient)
+        public async Task<IActionResult> Edit([Bind("Id,Id,ProductId,Quantity,UnityType")] Ingredient ingredient)
         {
             try
             {
@@ -50,7 +50,7 @@ namespace Training1.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!IngredientExists(ingredient.IngredientId))
+                if (!IngredientExists(ingredient.Id))
                 {
                     return NotFound();
                 }
@@ -59,7 +59,7 @@ namespace Training1.Controllers
                     throw;
                 }
             }
-            ingredient = await _ingredientRepository.GetByIdAsync(ingredient.IngredientId);
+            ingredient = await _ingredientRepository.GetByIdAsync(ingredient.Id);
             return Ok(ingredient);
         }
 

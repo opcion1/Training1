@@ -5,19 +5,20 @@ using System.Threading.Tasks;
 using Training1.Authorization;
 using Training1.Models;
 using Training1.Repositories;
+using Training1.Services.Interfaces;
 
 namespace Training1.Controllers
 {
     [Authorize]
     public class SesshinsController : Controller
     {
-        private readonly ISesshinRepository _sesshinRepository;
+        private readonly ISesshinService _sesshinService;
         private readonly IAuthorizationService _authorizationService;
 
-        public SesshinsController(ISesshinRepository sesshinRepository,
+        public SesshinsController(ISesshinService sesshinService,
                                     IAuthorizationService authorizationService)
         {
-            _sesshinRepository = sesshinRepository;
+            _sesshinService = sesshinService;
             _authorizationService = authorizationService;
         }
 
@@ -27,7 +28,8 @@ namespace Training1.Controllers
             var isAuthorized = await _authorizationService.AuthorizeAsync(User, new Sesshin(), UserOperations.Read);
             if (isAuthorized.Succeeded)
             {
-                return View(await _sesshinRepository.ListAsync());
+
+                return View(await _sesshinService.Sesshin.ListAsync());
             }
             else
             {
@@ -43,7 +45,7 @@ namespace Training1.Controllers
                 return NotFound();
             }
 
-            var sesshin = await _sesshinRepository.GetByIdAsync((int)id);
+            var sesshin = await _sesshinService.Sesshin.GetByIdAsync((int)id);
             if (sesshin == null)
             {
                 return NotFound();
@@ -52,7 +54,7 @@ namespace Training1.Controllers
             var isAuthorized = await _authorizationService.AuthorizeAsync(User, sesshin, UserOperations.Read);
             if (isAuthorized.Succeeded)
             {
-                ViewData["MealId"] = mealId ?? -1;
+                ViewData["Id"] = mealId ?? -1;
                 return View(sesshin);
             }
             else
@@ -79,7 +81,7 @@ namespace Training1.Controllers
                 var isAuthorized = await _authorizationService.AuthorizeAsync(User, sesshin, UserOperations.Create);
                 if (isAuthorized.Succeeded)
                 {
-                    await _sesshinRepository.AddAsync(sesshin);
+                    await _sesshinService.CreateAsync(sesshin);
                     return RedirectToAction(nameof(Index));
                 }
                 else
@@ -98,7 +100,7 @@ namespace Training1.Controllers
                 return NotFound();
             }
 
-            var sesshin = await _sesshinRepository.GetByIdAsync((int)id);
+            var sesshin = await _sesshinService.Sesshin.GetByIdAsync((int)id);
             if (sesshin == null)
             {
                 return NotFound();
@@ -121,9 +123,9 @@ namespace Training1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("SesshinId,Name,Description,StartDate,EndDate,AppUserId")] Sesshin sesshin)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,StartDate,EndDate,AppUserId")] Sesshin sesshin)
         {
-            if (id != sesshin.SesshinId)
+            if (id != sesshin.Id)
             {
                 return NotFound();
             }
@@ -135,7 +137,7 @@ namespace Training1.Controllers
                     var isAuthorized = await _authorizationService.AuthorizeAsync(User, sesshin, UserOperations.Update);
                     if (isAuthorized.Succeeded)
                     {
-                        await _sesshinRepository.UpdateAsync(sesshin);
+                        await _sesshinService.EditAsync(sesshin);
                     }
                     else
                     {
@@ -144,7 +146,8 @@ namespace Training1.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SesshinExists(sesshin.SesshinId))
+                    var exists = await SesshinExists(id);
+                    if (!exists)
                     {
                         return NotFound();
                     }
@@ -166,7 +169,7 @@ namespace Training1.Controllers
                 return NotFound();
             }
 
-            var sesshin = await _sesshinRepository.GetByIdAsync((int)id);
+            var sesshin = await _sesshinService.Sesshin.GetByIdAsync((int)id);
             if (sesshin == null)
             {
                 return NotFound();
@@ -188,7 +191,7 @@ namespace Training1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var sesshin = await _sesshinRepository.GetByIdAsync((int)id);
+            var sesshin = await _sesshinService.Sesshin.GetByIdAsync((int)id);
             if (sesshin == null)
             {
                 return NotFound();
@@ -197,7 +200,7 @@ namespace Training1.Controllers
             var isAuthorized = await _authorizationService.AuthorizeAsync(User, sesshin, UserOperations.Delete);
             if (isAuthorized.Succeeded)
             {
-                await _sesshinRepository.DeleteAsync(id);
+                await _sesshinService.DeleteAsync(id);
                 return RedirectToAction(nameof(Index));
             }
             else
@@ -206,9 +209,9 @@ namespace Training1.Controllers
             }
         }
 
-        private bool SesshinExists(int id)
+        private async Task<bool> SesshinExists(int id)
         {
-            return _sesshinRepository.SesshinExists(id);
+            return await _sesshinService.Sesshin.Exists(id);
         }
     }
 }

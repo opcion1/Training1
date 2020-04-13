@@ -4,9 +4,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Training1.Models
 {
-    public class Product
+    public class Product : ModelBase
     {
-        public int Id { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]

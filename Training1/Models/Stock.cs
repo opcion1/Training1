@@ -6,9 +6,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Training1.Models
 {
-    public class Stock
+    public class Stock : ModelBase
     {
-        public int StockId { get; set; }
+        [Column("StockId")]
+        public override int Id { get; set; }
         [Required]
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Quantity { get; set; }

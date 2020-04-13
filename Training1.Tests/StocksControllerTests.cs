@@ -17,6 +17,7 @@ using Training1.Controllers;
 using Training1.Models;
 using Training1.Repositories;
 using Training1.Tests.Mock;
+using Training1.Tests.Mock.Repositories;
 using Xunit;
 
 namespace Training1.Tests
@@ -29,10 +30,10 @@ namespace Training1.Tests
             // Arrange
             var product = new Product() { Id = 123, Name = "Carot", Description = "Carot description", Category = ProductCategory.Vegetable };
             var stocks = new Stock[] {
-                new Stock { StockId = 1, Quantity = 1.5m, PricePorUnity = 10, Currency = Currency.US_Dollar, CommandDate = DateTime.Today,  UnityType = UnityType.Kilogrammes, Product = product, ProductId = 123 },
-                new Stock { StockId = 2, Quantity = 10m, PricePorUnity = 9, Currency = Currency.US_Dollar, CommandDate = DateTime.Today,  UnityType = UnityType.Kilogrammes, Product = product, ProductId = 123 },
-                new Stock { StockId = 3, Quantity = 15.5m, PricePorUnity = 9.5m, Currency = Currency.US_Dollar, CommandDate = DateTime.Today,  UnityType = UnityType.Kilogrammes, Product = product, ProductId = 123 },
-                new Stock { StockId = 4, Quantity = 4.5m, PricePorUnity = 8.75m, Currency = Currency.US_Dollar, CommandDate = DateTime.Today,  UnityType = UnityType.Kilogrammes, Product = product, ProductId = 123 }
+                new Stock { Id = 1, Quantity = 1.5m, PricePorUnity = 10, Currency = Currency.US_Dollar, CommandDate = DateTime.Today,  UnityType = UnityType.Kilogrammes, Product = product, ProductId = 123 },
+                new Stock { Id = 2, Quantity = 10m, PricePorUnity = 9, Currency = Currency.US_Dollar, CommandDate = DateTime.Today,  UnityType = UnityType.Kilogrammes, Product = product, ProductId = 123 },
+                new Stock { Id = 3, Quantity = 15.5m, PricePorUnity = 9.5m, Currency = Currency.US_Dollar, CommandDate = DateTime.Today,  UnityType = UnityType.Kilogrammes, Product = product, ProductId = 123 },
+                new Stock { Id = 4, Quantity = 4.5m, PricePorUnity = 8.75m, Currency = Currency.US_Dollar, CommandDate = DateTime.Today,  UnityType = UnityType.Kilogrammes, Product = product, ProductId = 123 }
             };
 
             Mock<IStockRepository> mockRepo = new MockStockRepository().MockListAsync(stocks);
@@ -153,7 +154,7 @@ namespace Training1.Tests
             };
             var newStock = new Stock
             {
-                StockId = 123,
+                Id = 123,
                 Quantity = 1.5m,
                 PricePorUnity = 10,
                 Currency = Currency.US_Dollar,
@@ -179,7 +180,7 @@ namespace Training1.Tests
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<Stock>(viewResult.ViewData.Model);
 
-            Assert.Equal(123, model.StockId);
+            Assert.Equal(123, model.Id);
             Assert.Equal(10, model.PricePorUnity);
             Assert.Equal(Currency.US_Dollar, model.Currency);
             Assert.Equal(DateTime.Today, model.CommandDate);
@@ -229,7 +230,7 @@ namespace Training1.Tests
             };
             var stock = new Stock
             {
-                StockId = 123,
+                Id = 123,
                 Quantity = 1.5m,
                 PricePorUnity = 10,
                 Currency = Currency.US_Dollar,
@@ -255,7 +256,7 @@ namespace Training1.Tests
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<Stock>(viewResult.ViewData.Model);
 
-            Assert.Equal(123, model.StockId);
+            Assert.Equal(123, model.Id);
             Assert.Equal(10, model.PricePorUnity);
             Assert.Equal(Currency.US_Dollar, model.Currency);
             Assert.Equal(DateTime.Today, model.CommandDate);
@@ -277,7 +278,7 @@ namespace Training1.Tests
             };
             var stock = new Stock
             {
-                StockId = 123,
+                Id = 123,
                 Quantity = 1.5m,
                 PricePorUnity = 10,
                 Currency = Currency.US_Dollar,

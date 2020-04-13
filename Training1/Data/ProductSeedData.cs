@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Training1.Areas.Identity.Data;
 using Training1.Models;
 using Training1.Repositories;
+using Training1.Services;
 
 namespace Training1.Data
 {
@@ -183,8 +184,8 @@ namespace Training1.Data
             Sesshin newYear = new Sesshin { AppUserId = chef.Id, Name = "New Year 2019", Description = "Until the end of the night!!!", StartDate = new DateTime(2019, 12, 28), EndDate = new DateTime(2020, 01, 01), NumberOfPeople = 90 };
             //Create the genmai food that will be used after
             await AddGenMaiFood(productContext);
-            EFSesshinRepository sesshinRepo = new EFSesshinRepository(productContext, new EFFoodRepository(productContext), new EFDayOfSesshinRepository(productContext));
-            await sesshinRepo.AddAsync(newYear);
+            SesshinService sesshinService = new SesshinService(new EFSesshinRepository(productContext), new EFFoodRepository(productContext), new EFDayOfSesshinRepository(productContext), new UnitOfWork(productContext));
+            await sesshinService.CreateAsync(newYear);
             
             //Add Food For Sesshins
             await CreateNewYearMeal(newYear, productContext);

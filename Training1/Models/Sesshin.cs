@@ -8,9 +8,11 @@ using Training1.Areas.Identity.Data;
 using Training1.Infrastructure;
 
 namespace Training1.Models
-{    public class Sesshin
+{   
+    public class Sesshin : ModelBase
     {
-        public int SesshinId { get; set; }
+        [Column("SesshinId")]
+        public override int Id { get; set; }
         [Required]
         public string Name { get; set; }
         public string Description { get; set; }
@@ -31,9 +33,10 @@ namespace Training1.Models
         public string AppUserId { get; set; }
         public ICollection<DayOfSesshin> Days { get; set; }
     }
-    public class DayOfSesshin
+    public class DayOfSesshin : ModelBase
     {
-        public int DayOfSesshinId { get; set; }
+        [Column("DayOfSesshinId")]
+        public override int Id { get; set; }
         [Required]
         [DataType(DataType.Date)]
         public DateTime Date { get; set; }
@@ -45,9 +48,10 @@ namespace Training1.Models
         public Sesshin Sesshin { get; set; }
     }
 
-    public class Meal
+    public class Meal : ModelBase
     {
-        public int MealId { get; set; }
+        [Column("MealId")]
+        public override int Id { get; set; }
         [Required]
         public MealType Type { get; set; }
         [Required]
@@ -62,9 +66,10 @@ namespace Training1.Models
         Lunch,
         Diner
     }
-    public class Food
+    public class Food : ModelBase
     {
-        public int FoodId { get; set; }
+        [Column("FoodId")]
+        public override int Id { get; set; }
         [Required]
         public string Name { get; set; }
         public string Description { get; set; }
@@ -75,9 +80,10 @@ namespace Training1.Models
         public ICollection<Ingredient> Ingredients { get; set; }
         public IList<MealFood> MealFoods { get; set; }
     }
-    public class Ingredient
+    public class Ingredient : ModelBase
     {
-        public int IngredientId { get; set; }
+        [Column("IngredientId")]
+        public override int Id { get; set; }
         public int FoodId { get; set; }
         public Food Food { get; set; }
         [Required]
