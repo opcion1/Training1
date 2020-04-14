@@ -71,6 +71,7 @@ namespace Training1
             services.AddSingleton<IEnumUtil, EnumUtil>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ISesshinService, SesshinService>();
+            services.AddScoped<IStockService, StockService>();
             services.AddScoped<IProductRepository, EFProductRepository>();
             services.AddScoped<IStockRepository, EFStockRepository>();
             services.AddScoped<ISesshinRepository, EFSesshinRepository>();

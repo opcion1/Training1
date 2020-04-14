@@ -5,39 +5,22 @@ using System.Threading.Tasks;
 using Training1.Authorization;
 using Training1.Models;
 using Training1.Repositories;
+using Training1.Services.Interfaces;
 
 namespace Training1.Controllers
 {
     public class StocksController : Controller
     {
-        private readonly IStockRepository _stockRepository;
+        private readonly IStockService _stockService;
         private readonly IAuthorizationService _authorizationService;
 
-        public StocksController(IStockRepository stockRepository,
+        public StocksController(IStockService stockService,
                                     IAuthorizationService authorizationService)
         {
-            _stockRepository = stockRepository;
+            _stockService = stockService;
             _authorizationService = authorizationService;
         }
-
-        // GET: Stocks
-        public async Task<IActionResult> Index(int? productId)
-        {
-            var isAuthorized = await _authorizationService.AuthorizeAsync(User, new Stock(), UserOperations.Read);
-            if (isAuthorized.Succeeded)
-            {
-                if (productId.HasValue)
-                {
-                    return View(await _stockRepository.ListAsyncByProductId((int)productId));
-                }
-                return View(await _stockRepository.ListAsync());
-            }
-            else
-            {
-                return new ChallengeResult();
-            }
-        }
-
+        
         // GET: Stocks/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -46,7 +29,7 @@ namespace Training1.Controllers
                 return NotFound();
             }
 
-            var stock = await _stockRepository.GetByIdAsync((int)id);
+            var stock = await _stockService.Stock.GetByIdAsync((int)id);
 
             if (stock == null)
             {
@@ -83,7 +66,7 @@ namespace Training1.Controllers
                 var isAuthorized = await _authorizationService.AuthorizeAsync(User, stock, UserOperations.Create);
                 if (isAuthorized.Succeeded)
                 {
-                    await _stockRepository.AddAsync(stock);
+                    await _stockService.CreateAsync(stock);
                     return RedirectToAction("Details", "Products", new { id = stock.ProductId, showStock = true });
                 }
                 else
@@ -103,7 +86,7 @@ namespace Training1.Controllers
                 return NotFound();
             }
 
-            var stock = await _stockRepository.GetByIdAsync((int)id);
+            var stock = await _stockService.Stock.GetByIdAsync((int)id);
             if (stock == null)
             {
                 return NotFound();
@@ -139,7 +122,7 @@ namespace Training1.Controllers
                     var isAuthorized = await _authorizationService.AuthorizeAsync(User, stock, UserOperations.Update);
                     if (isAuthorized.Succeeded)
                     {
-                        await _stockRepository.UpdateAsync(stock);
+                        await _stockService.EditAsync(stock);
                     }
                     else
                     {
@@ -148,7 +131,8 @@ namespace Training1.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!StockExists(stock.Id))
+                    var exists = await StockExists(stock.Id);
+                    if (!exists)
                     {
                         return NotFound();
                     }
@@ -171,7 +155,7 @@ namespace Training1.Controllers
                 return NotFound();
             }
 
-            var stock = await _stockRepository.GetByIdAsync((int)id);
+            var stock = await _stockService.Stock.GetByIdAsync((int)id);
             if (stock == null)
             {
                 return NotFound();
@@ -197,7 +181,7 @@ namespace Training1.Controllers
             var isAuthorized = await _authorizationService.AuthorizeAsync(User, new Stock(), UserOperations.Delete);
             if (isAuthorized.Succeeded)
             {
-                await _stockRepository.DeleteAsync(id);
+                await _stockService.DeleteAsync(id);
                 return RedirectToAction("Details", "Products", new { id = productId });
             }
             else
@@ -206,9 +190,9 @@ namespace Training1.Controllers
             }
         }
 
-        private bool StockExists(int id)
+        private async Task<bool> StockExists(int id)
         {
-            return _stockRepository.StockExists(id);
+            return await _stockService.Stock.Exists(id);
         }
     }
 }

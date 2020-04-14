@@ -10,13 +10,8 @@ namespace Training1.Tests.Mock.Services
 {
     public class MockProductService : Mock<IProductService>
     {
-        private readonly MockProductRepository _mockRepo;
-        private readonly MockConfiguration _mockConfig;
         public MockProductService()
         {
-            _mockRepo = new MockProductRepository();
-            _mockConfig = new MockConfiguration().MockGetValueInt("ItemsPerPage");
-
         }
         public MockProductService MockSearchSortAndPageProductAll(SearchSortPageResult<Product> results)
         {
@@ -28,7 +23,7 @@ namespace Training1.Tests.Mock.Services
 
         internal MockProductService MockCreateAsync(Product testProduct)
         {
-            Setup(service => service.CreateAsync(It.IsAny<Product>()))
+            Setup(service => service.CreateAsync(testProduct))
                 .Returns(Task.CompletedTask)
                 .Verifiable();
 

@@ -1,28 +1,23 @@
-﻿
-
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Training1.Authorization;
-using Training1.Models;
-using Training1.Repositories;
+using Training1.Models.ViewModels;
+using Training1.Services.Interfaces;
 
 namespace Training1.ViewComponents
 {
     public class StockListViewComponent : ViewComponent
     {
-        private readonly IStockRepository _stockRepository;
-        public StockListViewComponent(IStockRepository stockRepository)
+        private readonly IStockService _stockService;
+        public StockListViewComponent(IStockService stockService)
         {
-            _stockRepository = stockRepository;
+            _stockService = stockService;
         }
 
         public async Task<IViewComponentResult> InvokeAsync(
             int productId)
         {
-            var stocks = await _stockRepository.ListAsyncByProductId(productId);
-            var stockList = new StockList()
+            var stocks = await _stockService.GetStocksAsync(productId);
+            var stockList = new StockListViewModel()
             {
                 Stocks = stocks,
                 ProductId = productId
