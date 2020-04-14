@@ -10,66 +10,37 @@ using Training1.Authorization;
 using Training1.Infrastructure;
 using Training1.Models;
 using Training1.Models.ViewModels;
-using Training1.Repositories;
+using Training1.Services.Interfaces;
 
 namespace Training1.Controllers
 {
     [Authorize]
     public class ProductsController : Controller
     {
-        private readonly IProductRepository _productRepository;
+        private readonly IProductService _productService;
         private readonly IAuthorizationService _authorizationService;
-        private readonly IConfiguration _configuration;
 
-        public ProductsController(IProductRepository productRepository,
-                                    IAuthorizationService authorizationService,
-                                    IConfiguration configuration)
+        public ProductsController(IProductService productService,
+                                    IAuthorizationService authorizationService)
         {
-            _productRepository = productRepository;
+            _productService = productService;
             _authorizationService = authorizationService;
-            _configuration = configuration;
         }
 
         // GET: Products
         public async Task<IActionResult> Index(string searchOrFilter, int? indexPage, string sortOrder)
         {
-            int itemsPerPage = _configuration.GetValue<int>("ItemsPerPage");
             var isAuthorized = await _authorizationService.AuthorizeAsync(User, new Product(), UserOperations.Read);
             if (isAuthorized.Succeeded)
             {
-                ICollection<Product> products;
-                if (NullableEnum.TryParse(searchOrFilter, out ProductCategory? category))
-                {
-                    products = await _productRepository.ListAsyncByCategory((ProductCategory)category);
-                }
-                else
-                {
-                    products = await _productRepository.ListAsync();
-
-                }
-                switch (sortOrder)
-                {
-                    case "name_desc":
-                        products = products.OrderByDescending(p => p.Name).ToList();
-                        break;
-                    case "category":
-                        products = products.OrderBy(p => p.Category.ToString()).ToList();
-                        break;
-                    case "category_desc":
-                        products = products.OrderByDescending(p => p.Category.ToString()).ToList();
-                        break;
-                    default:
-                        products = products.OrderBy(p => p.Name).ToList();
-                        break;
-                }
-                
+                SearchSortPageResult<Product> searchSortPageResult = await _productService.SearchSortAndPageProductAll(new SearchSortPageParameters { indexPage = indexPage, searchOrFilter = searchOrFilter, sortOrder = sortOrder });
+                                
                 ProductsViewModel vm = new ProductsViewModel {
-                    Products = products
-                                .Skip(((indexPage ?? 1) - 1) * itemsPerPage)
-                                .Take(itemsPerPage),
+                    Products = searchSortPageResult.Entities,
                     PageIndex = indexPage ?? 1,
-                    TotalItems = products.Count(),
-                    CategoryFilter = category,
+                    TotalItems = searchSortPageResult.TotalItems,
+                    ItemsPerPage = searchSortPageResult.ItemsPerPage,
+                    CategoryFilter = searchOrFilter,
                     CurrentSort = sortOrder,
                     NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "",
                     CategorySort = sortOrder == "category" ? "category_desc" : "category"
@@ -90,7 +61,7 @@ namespace Training1.Controllers
                 return NotFound();
             }
 
-            var product = await _productRepository.GetByIdAsync((int)id);
+            var product = await _productService.Product.GetByIdAsync((int)id);
             if (product == null)
             {
                 return NotFound();
@@ -125,7 +96,7 @@ namespace Training1.Controllers
                 var isAuthorized = await _authorizationService.AuthorizeAsync(User, product, UserOperations.Create);
                 if (isAuthorized.Succeeded) 
                 { 
-                    await _productRepository.AddAsync(product);
+                    await _productService.CreateAsync(product);
                     return RedirectToAction(nameof(Index));
                 }
                 else
@@ -144,7 +115,7 @@ namespace Training1.Controllers
                 return NotFound();
             }
 
-            var product = await _productRepository.GetByIdAsync((int)id);
+            var product = await _productService.Product.GetByIdAsync((int)id);
             if (product == null)
             {
                 return NotFound();
@@ -180,7 +151,7 @@ namespace Training1.Controllers
                     var isAuthorized = await _authorizationService.AuthorizeAsync(User, product, UserOperations.Update);
                     if (isAuthorized.Succeeded)
                     {
-                        await _productRepository.UpdateAsync(product);
+                        await _productService.EditAsync(product);
                     }
                     else
                     {
@@ -189,7 +160,8 @@ namespace Training1.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductExists(product.Id))
+                    var exist = await ProductExists(product.Id);
+                    if (!exist)
                     {
                         return NotFound();
                     }
@@ -211,7 +183,7 @@ namespace Training1.Controllers
                 return NotFound();
             }
 
-            var product = await _productRepository.GetByIdAsync((int)id);
+            var product = await _productService.Product.GetByIdAsync((int)id);
             if (product == null)
             {
                 return NotFound();
@@ -236,7 +208,7 @@ namespace Training1.Controllers
             var isAuthorized = await _authorizationService.AuthorizeAsync(User, new Product(), UserOperations.Delete);
             if (isAuthorized.Succeeded)
             {
-                await _productRepository.DeleteAsync(id);
+                await _productService.DeleteAsync(id);
                 return RedirectToAction(nameof(Index));
             }
             else
@@ -245,9 +217,9 @@ namespace Training1.Controllers
             }
         }
 
-        private bool ProductExists(int id)
+        private async Task<bool> ProductExists(int id)
         {
-            return _productRepository.ProductExists(id);
+            return await _productService.Product.Exists(id);
         }
     }
 }

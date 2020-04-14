@@ -17,7 +17,7 @@ namespace Training1.Repositories
         public async Task<ICollection<DayOfSesshin>> ListAsync(int sesshinId)
         {
             ICollection<DayOfSesshin> days = await _productContext.DaysOfSesshin
-                .Where(d => d.SesshinId == sesshinId)
+                .Where(d => d.Id == sesshinId)
                 .Include(d => d.Meals)
                 .ThenInclude(md => md.MealFoods)
                 .ThenInclude(f => f.Food).ToListAsync();
@@ -27,11 +27,11 @@ namespace Training1.Repositories
 
         public async Task UpdateNumberOfPeopleAsync(int id, int numberOfPeople)
         {
-            DayOfSesshin day = await _productContext.DaysOfSesshin.FirstOrDefaultAsync(d => d.DayOfSesshinId == id);
+            DayOfSesshin day = await _productContext.DaysOfSesshin.FirstOrDefaultAsync(d => d.Id == id);
             if (day != null)
             {
                 day.NumberOfPeople = numberOfPeople;
-                List<DayOfSesshin> nextDays = await _productContext.DaysOfSesshin.Where(d => d.SesshinId == day.SesshinId && d.Date > day.Date).ToListAsync();
+                List<DayOfSesshin> nextDays = await _productContext.DaysOfSesshin.Where(d => d.Id == day.Id && d.Date > day.Date).ToListAsync();
                 foreach(DayOfSesshin nextDay in nextDays)
                 {
                     nextDay.NumberOfPeople = numberOfPeople;

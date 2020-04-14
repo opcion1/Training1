@@ -18,14 +18,14 @@
         User, new Stock(),
         UserOperations.Update)).Succeeded)
             {
-                <a asp-action="Edit" asp-route-id="@Model.SesshinId" asp-route-fromDetail="true" title="Edit @(Model.Name)" class="btn ml-2"><i class="fas fa-pen"></i></a>
+                <a asp-action="Edit" asp-route-id="@Model.Id" asp-route-fromDetail="true" title="Edit @(Model.Name)" class="btn ml-2"><i class="fas fa-pen"></i></a>
             }
         </div>
         <p><h4>@($"Tenzo: {tenzo_name}")</h4></p>
         <p><h4>@($"{Model.NumberOfPeople} people")</h4></p>
         <p>@Model.Description</p>
         
-        @await Component.InvokeAsync("SesshinDays", new { sesshinId = Model.SesshinId })
+        @await Component.InvokeAsync("SesshinDays", new { sesshinId = Model.Id})
         
         <div class="d-flex flex-row flex-row-reverse">
             <a asp-action="Index" class="btn btn-secondary"><text> << </text>Back to List</a>

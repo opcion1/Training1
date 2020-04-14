@@ -16,7 +16,7 @@
                             <p class="card-text p-people row"><span class="span-people">@day.NumberOfPeople</span>&nbsp;people <i class="btn btn-sm fas fa-pen edit-people"></i></p>
                             <form class="f-edit-people form-inline hide" asp-action="UpdateNumberOfPeople" asp-controller="DayOfSesshins">
                                 <div class="form-group row">
-                                    <input type="hidden" name="id" value="@day.DayOfSesshinId" />
+                                    <input type="hidden" name="id" value="@day.Id" />
                                     <input class="form-control-sm input-people" name="numberOfPeople" value="@(day.NumberOfPeople)" />
                                     <button type="submit" class="btn-invisible" title="save ingredient">
                                         <i class="btn btn-sm fas fa-save save-people"></i>
@@ -24,12 +24,12 @@
 
                                 </div>
                             </form> 
-                            <div id="menus@(day.DayOfSesshinId)">
+                            <div id="menus@(day.Id)">
                                 @foreach (Meal meal in day.Meals)
                                 {
                                     <div class="d-flex flex-column">
-                                        <a class="collapsed card-link a_meal" id="a_meal@(meal.MealId)" data-toggle="collapse" href="#div_meal@(meal.MealId)">@meal.Type.ToString()</a>
-                                        <div id="div_meal@(meal.MealId)" class="collapse" data-parent="#menus@(day.DayOfSesshinId)">
+                                        <a class="collapsed card-link a_meal" id="a_meal@(meal.Id)" data-toggle="collapse" href="#div_meal@(meal.Id)">@meal.Type.ToString()</a>
+                                        <div id="div_meal@(meal.Id)" class="collapse" data-parent="#menus@(day.Id)">
                                             <ul class="p-1">
                                                 @foreach (MealFood mealFood in meal.MealFoods)
                                                 {
@@ -41,7 +41,7 @@
                                                    User, mealFood,
                                                    UserOperations.Update)).Succeeded)
                                                             {
-                                                                <a class="btn btn-sm" asp-controller="Meals" asp-action="EditFood" asp-route-mealId="@meal.MealId" asp-route-foodId="@food.FoodId" asp-route-sesshinId="@day.SesshinId"><i class="fas fa-pen"></i></a>
+                                                                <a class="btn btn-sm" asp-controller="Meals" asp-action="EditFood" asp-route-mealId="@meal.Id" asp-route-foodId="@food.Id" asp-route-sesshinId="@day.SesshinId"><i class="fas fa-pen"></i></a>
                                                             }
 
                                                             @if ((await AuthorizationService.AuthorizeAsync(
@@ -49,8 +49,8 @@
                                                     UserOperations.Delete)).Succeeded)
                                                             {
                                                                 <form asp-action="DeleteMealFood" asp-controller="Meals" method="post">
-                                                                    <input type="hidden" value="@food.FoodId" name="foodId" />
-                                                                    <input type="hidden" value="@meal.MealId"  name="mealId" />
+                                                                    <input type="hidden" value="@food.Id" name="foodId" />
+                                                                    <input type="hidden" value="@meal.Id"  name="mealId" />
                                                                     <input type="hidden" value="@day.SesshinId" name="sesshinId" />
                                                                     <button type="submit"
                                                                             class="btn btn-sm">
@@ -68,7 +68,7 @@
                                           User, day,
                                           UserOperations.Create)).Succeeded)
                                             {
-                                                <a class="btn btn-primary btn-sm card-text" asp-controller="Meals" asp-action="AddFood" asp-route-mealId="@meal.MealId" asp-route-sesshinId="@day.SesshinId">
+                                                <a class="btn btn-primary btn-sm card-text" asp-controller="Meals" asp-action="AddFood" asp-route-mealId="@meal.Id" asp-route-sesshinId="@day.SesshinId">
                                                     <i class="fas fa-plus"></i> Add Food
                                                 </a>
                                             }

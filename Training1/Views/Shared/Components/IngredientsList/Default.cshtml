@@ -30,7 +30,7 @@
         <tbody>
             @foreach (var item in Model.Ingredients)
             {
-                <tr id="tr_ingredient_@(item.IngredientId)">
+                <tr id="tr_ingredient_@(item.Id)">
                     <td>
                         @Html.DisplayFor(modelItem => item.Product.Name)
                     </td>
@@ -41,8 +41,8 @@
                         @Html.DisplayFor(modelItem => item.UnityType)
                     </td>
                     <td>
-                        <a class="btn-edit-row" id="btn_edit_@(item.IngredientId)" title="edit ingredient"><i class="btn fas fa-pen"></i></a>
-                        <a class="btn-delete-row" id="btn_delete_@(item.IngredientId)" title="delete ingredient"><i class="btn fas fa-times"></i></a>
+                        <a class="btn-edit-row" id="btn_edit_@(item.Id)" title="edit ingredient"><i class="btn fas fa-pen"></i></a>
+                        <a class="btn-delete-row" id="btn_delete_@(item.Id)" title="delete ingredient"><i class="btn fas fa-times"></i></a>
                     </td>
                 </tr>
             }

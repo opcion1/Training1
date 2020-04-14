@@ -23,6 +23,9 @@ using Training1.Infrastructure.Factory;
 using Training1.Infrastructure.Validators;
 using Training1.Models;
 using Training1.Repositories;
+using Training1.Repositories.Interfaces;
+using Training1.Services;
+using Training1.Services.Interfaces;
 
 namespace Training1
 {
@@ -66,6 +69,9 @@ namespace Training1
             }));
 
             services.AddSingleton<IEnumUtil, EnumUtil>();
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<ISesshinService, SesshinService>();
+            services.AddScoped<IStockService, StockService>();
             services.AddScoped<IProductRepository, EFProductRepository>();
             services.AddScoped<IStockRepository, EFStockRepository>();
             services.AddScoped<ISesshinRepository, EFSesshinRepository>();
@@ -75,6 +81,7 @@ namespace Training1
             services.AddScoped<IIngredientRepository, EFIngredientRepository>();
             services.AddScoped<IAccountRepository, EFAccountRepository>();
             services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, AppClaimsPrincipalFactory>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             //scoped for this one because of the usermanager
             services.AddSingleton<IAuthorizationHandler,
                           AdminAuthorizationHandler>();

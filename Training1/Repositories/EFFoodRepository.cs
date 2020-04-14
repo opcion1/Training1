@@ -32,12 +32,12 @@ namespace Training1.Repositories
 
         public bool FoodExists(int id)
         {
-            return Foods.Any(e => e.FoodId == id);
+            return Foods.Any(e => e.Id == id);
         }
 
         public async Task<Food> GetByIdAsync(int id)
         {
-            return await Foods.FirstOrDefaultAsync(f => f.FoodId == id);
+            return await Foods.FirstOrDefaultAsync(f => f.Id == id);
         }
 
         public Food GetByName(string name)

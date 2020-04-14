@@ -8,6 +8,7 @@ using Training1.Authorization;
 using Training1.Models;
 using Training1.Repositories;
 using Training1.Tests.Mock;
+using Training1.Tests.Mock.Repositories;
 using Xunit;
 
 namespace Training1.Tests
@@ -41,8 +42,8 @@ namespace Training1.Tests
             //Arrange
             Meal meal = new Meal
             {
+                Id = 1,
                 DayOfSesshinId = 1,
-                MealId = 1,
                 Type = MealType.Breakfast
             };
             var userManager = MockIdentity.MockUserManager<AppUser>().Object;
@@ -118,8 +119,8 @@ namespace Training1.Tests
             //Arrange
             Meal meal = new Meal
             {
+                Id = 1,
                 DayOfSesshinId = 1,
-                MealId = 1,
                 Type = MealType.Breakfast
             };
             var userManager = MockIdentity.MockUserManager<AppUser>().Object;
@@ -195,8 +196,8 @@ namespace Training1.Tests
             //Arrange
             Meal meal = new Meal
             {
+                Id = 1,
                 DayOfSesshinId = 1,
-                MealId = 1,
                 Type = MealType.Breakfast
             };
             var userManager = MockIdentity.MockUserManager<AppUser>().Object;
@@ -316,8 +317,8 @@ namespace Training1.Tests
             //Arrange
             Meal meal = new Meal
             {
+                Id = 1,
                 DayOfSesshinId = 1,
-                MealId = 1,
                 Type = MealType.Breakfast
             };
             var userManager = MockIdentity.MockUserManager<AppUser>().Object;
@@ -348,8 +349,8 @@ namespace Training1.Tests
             //Arrange
             Meal meal = new Meal
             {
+                Id = 1,
                 DayOfSesshinId = 1,
-                MealId = 1,
                 Type = MealType.Breakfast
             };
             var userManager = MockIdentity.MockUserManager<AppUser>().Object;
@@ -380,8 +381,8 @@ namespace Training1.Tests
             //Arrange
             Meal meal = new Meal
             {
+                Id = 1,
                 DayOfSesshinId = 1,
-                MealId = 1,
                 Type = MealType.Breakfast
             };
             var userManager = MockIdentity.MockUserManager<AppUser>().Object;
