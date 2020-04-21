@@ -33,7 +33,7 @@ namespace Training1.Tests.Mock.Services
 
         internal MockStockService MockListAsync(Stock[] stocks)
         {
-            Setup(service => service.Stock.ListAsync())
+            Setup(service => service.ListAsync())
                 .ReturnsAsync(stocks);
 
             return this;
@@ -41,7 +41,7 @@ namespace Training1.Tests.Mock.Services
 
         internal MockStockService MockGetByIdAsync(int testStockId, Stock testStock)
         {
-            Setup(service => service.Stock.GetByIdAsync(testStockId))
+            Setup(service => service.GetByIdAsync(testStockId))
                 .ReturnsAsync(testStock);
 
             return this;
@@ -74,7 +74,7 @@ namespace Training1.Tests.Mock.Services
 
         internal MockStockService VerifyGetByIdAsync(Func<Times> times)
         {
-            Verify(x => x.Stock.GetByIdAsync(It.IsAny<int>()), times);
+            Verify(x => x.GetByIdAsync(It.IsAny<int>()), times);
 
             return this;
         }

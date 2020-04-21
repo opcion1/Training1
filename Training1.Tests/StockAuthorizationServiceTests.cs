@@ -7,8 +7,10 @@ using Training1.Areas.Identity.Data;
 using Training1.Authorization;
 using Training1.Models;
 using Training1.Repositories;
+using Training1.Services.Interfaces;
 using Training1.Tests.Mock;
 using Training1.Tests.Mock.Repositories;
+using Training1.Tests.Mock.Services;
 using Xunit;
 
 namespace Training1.Tests
@@ -47,13 +49,14 @@ namespace Training1.Tests
                 Type = MealType.Breakfast
             };
             var userManager = MockIdentity.MockUserManager<AppUser>().Object;
-            MockMealRepository mockMeal = new MockMealRepository();
+            MockMealService mockMeal = new MockMealService();
             mockMeal.MockGetById(1, meal);
-            mockMeal.MockGetSesshinOwner(meal);
+            mockMeal.MockGetSesshinOwner(meal.Id);
+            MockSesshinService mockSesshin = new MockSesshinService();
             var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
             {
-                services.AddScoped<IMealRepository>(sp => mockMeal.Object);
-                services.AddScoped<IAuthorizationHandler>(sp => new ChefAuthorizationHandler(userManager, mockMeal.Object));
+                services.AddScoped<IMealService>(sp => mockMeal.Object);
+                services.AddScoped<IAuthorizationHandler>(sp => new ChefAuthorizationHandler(userManager, mockMeal.Object, mockSesshin.Object));
             });
             var user = new ClaimsPrincipal(
                 new ClaimsIdentity(
@@ -124,13 +127,14 @@ namespace Training1.Tests
                 Type = MealType.Breakfast
             };
             var userManager = MockIdentity.MockUserManager<AppUser>().Object;
-            MockMealRepository mockMeal = new MockMealRepository();
+            MockMealService mockMeal = new MockMealService();
             mockMeal.MockGetById(1, meal);
-            mockMeal.MockGetSesshinOwner(meal);
+            mockMeal.MockGetSesshinOwner(meal.Id);
+            MockSesshinService mockSesshin = new MockSesshinService();
             var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
             {
-                services.AddScoped<IMealRepository>(sp => mockMeal.Object);
-                services.AddScoped<IAuthorizationHandler>(sp => new ChefAuthorizationHandler(userManager, mockMeal.Object));
+                services.AddScoped<IMealService>(sp => mockMeal.Object);
+                services.AddScoped<IAuthorizationHandler>(sp => new ChefAuthorizationHandler(userManager, mockMeal.Object, mockSesshin.Object));
             });
             var user = new ClaimsPrincipal(
                 new ClaimsIdentity(
@@ -201,13 +205,14 @@ namespace Training1.Tests
                 Type = MealType.Breakfast
             };
             var userManager = MockIdentity.MockUserManager<AppUser>().Object;
-            MockMealRepository mockMeal = new MockMealRepository();
+            MockMealService mockMeal = new MockMealService();
             mockMeal.MockGetById(1, meal);
-            mockMeal.MockGetSesshinOwner(meal);
+            mockMeal.MockGetSesshinOwner(meal.Id);
+            MockSesshinService mockSesshin = new MockSesshinService();
             var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
             {
-                services.AddScoped<IMealRepository>(sp => mockMeal.Object);
-                services.AddScoped<IAuthorizationHandler>(sp => new ChefAuthorizationHandler(userManager, mockMeal.Object));
+                services.AddScoped<IMealService>(sp => mockMeal.Object);
+                services.AddScoped<IAuthorizationHandler>(sp => new ChefAuthorizationHandler(userManager, mockMeal.Object, mockSesshin.Object));
             });
             var user = new ClaimsPrincipal(
                 new ClaimsIdentity(
@@ -322,13 +327,14 @@ namespace Training1.Tests
                 Type = MealType.Breakfast
             };
             var userManager = MockIdentity.MockUserManager<AppUser>().Object;
-            MockMealRepository mockMeal = new MockMealRepository();
+            MockMealService mockMeal = new MockMealService();
             mockMeal.MockGetById(1, meal);
-            mockMeal.MockGetSesshinOwner(meal);
+            mockMeal.MockGetSesshinOwner(meal.Id);
+            MockSesshinService mockSesshin = new MockSesshinService();
             var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
             {
-                services.AddScoped<IMealRepository>(sp => mockMeal.Object);
-                services.AddScoped<IAuthorizationHandler>(sp => new ChefAuthorizationHandler(userManager, mockMeal.Object));
+                services.AddScoped<IMealService>(sp => mockMeal.Object);
+                services.AddScoped<IAuthorizationHandler>(sp => new ChefAuthorizationHandler(userManager, mockMeal.Object, mockSesshin.Object));
             });
             var user = new ClaimsPrincipal(
                 new ClaimsIdentity(
@@ -354,13 +360,14 @@ namespace Training1.Tests
                 Type = MealType.Breakfast
             };
             var userManager = MockIdentity.MockUserManager<AppUser>().Object;
-            MockMealRepository mockMeal = new MockMealRepository();
+            MockMealService mockMeal = new MockMealService();
             mockMeal.MockGetById(1, meal);
-            mockMeal.MockGetSesshinOwner(meal);
+            mockMeal.MockGetSesshinOwner(meal.Id);
+            MockSesshinService mockSesshin = new MockSesshinService();
             var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
             {
-                services.AddScoped<IMealRepository>(sp => mockMeal.Object);
-                services.AddScoped<IAuthorizationHandler>(sp => new ChefAuthorizationHandler(userManager, mockMeal.Object));
+                services.AddScoped<IMealService>(sp => mockMeal.Object);
+                services.AddScoped<IAuthorizationHandler>(sp => new ChefAuthorizationHandler(userManager, mockMeal.Object, mockSesshin.Object));
             });
             var user = new ClaimsPrincipal(
                 new ClaimsIdentity(
@@ -386,13 +393,14 @@ namespace Training1.Tests
                 Type = MealType.Breakfast
             };
             var userManager = MockIdentity.MockUserManager<AppUser>().Object;
-            MockMealRepository mockMeal = new MockMealRepository();
+            MockMealService mockMeal = new MockMealService();
             mockMeal.MockGetById(1, meal);
-            mockMeal.MockGetSesshinOwner(meal);
+            mockMeal.MockGetSesshinOwner(meal.Id);
+            MockSesshinService mockSesshin = new MockSesshinService();
             var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
             {
-                services.AddScoped<IMealRepository>(sp => mockMeal.Object);
-                services.AddScoped<IAuthorizationHandler>(sp => new ChefAuthorizationHandler(userManager, mockMeal.Object));
+                services.AddScoped<IMealService>(sp => mockMeal.Object);
+                services.AddScoped<IAuthorizationHandler>(sp => new ChefAuthorizationHandler(userManager, mockMeal.Object, mockSesshin.Object));
             });
             var user = new ClaimsPrincipal(
                 new ClaimsIdentity(

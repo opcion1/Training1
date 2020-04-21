@@ -61,7 +61,7 @@ namespace Training1.Controllers
                 return NotFound();
             }
 
-            var product = await _productService.Product.GetByIdAsync((int)id);
+            var product = await _productService.GetByIdAsync((int)id);
             if (product == null)
             {
                 return NotFound();
@@ -115,7 +115,7 @@ namespace Training1.Controllers
                 return NotFound();
             }
 
-            var product = await _productService.Product.GetByIdAsync((int)id);
+            var product = await _productService.GetByIdAsync((int)id);
             if (product == null)
             {
                 return NotFound();
@@ -183,7 +183,7 @@ namespace Training1.Controllers
                 return NotFound();
             }
 
-            var product = await _productService.Product.GetByIdAsync((int)id);
+            var product = await _productService.GetByIdAsync((int)id);
             if (product == null)
             {
                 return NotFound();
@@ -219,7 +219,7 @@ namespace Training1.Controllers
 
         private async Task<bool> ProductExists(int id)
         {
-            return await _productService.Product.Exists(id);
+            return await _productService.ExistsEntity(id);
         }
     }
 }

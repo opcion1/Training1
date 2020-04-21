@@ -14,10 +14,17 @@ namespace Training1.Repositories.Interfaces
 
         Task<T> GetByIdAsync(int id);
 
+        T GetById(int id);
+
         Task<IEnumerable<T>> GetByConditionAsync(Expression<Func<T, bool>> expression);
 
-        Task AddAsync(T entity);
+        IEnumerable<T> GetByCondition(Expression<Func<T, bool>> expression);
 
+        Task<T> GetFirstOrDefautByConditionAsync(Expression<Func<T, bool>> expression);
+
+        T GetFirstOrDefaultByCondition(Expression<Func<T, bool>> expression);
+
+        Task AddAsync(T entity);
         void Update(T entity);
 
         Task DeleteAsync(int id);

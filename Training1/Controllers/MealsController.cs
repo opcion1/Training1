@@ -1,30 +1,26 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Training1.Authorization;
 using Training1.Models;
 using Training1.Models.ViewModels;
 using Training1.Repositories;
 using Training1.Repositories.Interfaces;
+using Training1.Services.Interfaces;
 
 namespace Training1.Controllers
 {
     public class MealsController : Controller
     {
-        private readonly ISesshinRepository _sesshinRepository;
-        private readonly IMealRepository _mealRepository;
-        private readonly IFoodRepository _foodRepository;
+        private readonly IMealService _mealService;
         private readonly IAuthorizationService _authorizationService;
 
-        public MealsController(ISesshinRepository sesshinRepository,
-                                    IMealRepository mealRepository,
-                                    IFoodRepository foodRepository,
+        public MealsController(IMealService mealService,
                                     IAuthorizationService authorizationService)
         {
-            _sesshinRepository = sesshinRepository;
-            _mealRepository = mealRepository;
-            _foodRepository = foodRepository;
+            _mealService = mealService;
             _authorizationService = authorizationService;
         }
 
@@ -32,14 +28,8 @@ namespace Training1.Controllers
         // GET: Meals/AddFood
         public async Task<IActionResult> AddFood(int mealId, int sesshinId)
         {
-            Sesshin sesshin = await _sesshinRepository.GetByIdAsync(sesshinId);
-            if (sesshin != null)
-            {
-                MealFoodViewModel mealFoodView = new MealFoodViewModel { MealId = mealId, SesshinId = sesshinId, Food = new Food { NumberOfPeople = sesshin.NumberOfPeople } };
-                return View(mealFoodView);
-            }
-            else
-                return NotFound();
+            MealFoodViewModel mealFoodView = await _mealService.GetMealFoodViewModel(mealId, sesshinId);
+            return View(mealFoodView);
         }
 
 
@@ -51,12 +41,13 @@ namespace Training1.Controllers
             {
                 try
                 {
-                    if (!_foodRepository.FoodExists(mealFoodView.Food.Id))
+                    var foodExists = await _mealService.ExistsFood(mealFoodView.Food.Id);
+                    if (!foodExists)
                     {
                         var canCreateFood = await _authorizationService.AuthorizeAsync(User, mealFoodView.Food, UserOperations.Create);
                         if (canCreateFood.Succeeded)
                         {
-                            await _foodRepository.AddAsync(mealFoodView.Food);
+                            await _mealService.CreateFoodAsync(mealFoodView.Food);
                         }
                         else
                         {
@@ -68,7 +59,7 @@ namespace Training1.Controllers
                     var isAuthorized = await _authorizationService.AuthorizeAsync(User, mealFood, UserOperations.Create);
                     if (isAuthorized.Succeeded)
                     {
-                        await _mealRepository.AddMealFoodAsync(mealFood);
+                        await _mealService.CreateMealFoodAsync(mealFood);
                     }
                     else
                     {
@@ -88,7 +79,7 @@ namespace Training1.Controllers
         // GET: Meals/EditFood
         public async Task<IActionResult> EditFood(int mealId, int foodId, int sesshinId)
         {
-            Food food = await _foodRepository.GetByIdAsync(foodId);
+            Food food = await _mealService.FoodRepository.GetByIdAsync(foodId);
             MealFoodViewModel mealFoodView = new MealFoodViewModel { MealId = mealId, SesshinId = sesshinId, Food = food };
             return View(mealFoodView);
         }
@@ -101,12 +92,13 @@ namespace Training1.Controllers
             {
                 try
                 {
-                    if (_foodRepository.FoodExists(mealFoodView.Food.Id))
+                    bool foodExists = await _mealService.ExistsFood(mealFoodView.Food.Id);
+                    if (foodExists)
                     {
                         var canUpdateFood = await _authorizationService.AuthorizeAsync(User, mealFoodView.Food, UserOperations.Create);
                         if (canUpdateFood.Succeeded)
                         {
-                            await _foodRepository.UpdateAsync(mealFoodView.Food);
+                            await _mealService.EditFoodAsync(mealFoodView.Food);
                         }
                         else
                         {
@@ -137,12 +129,28 @@ namespace Training1.Controllers
             var isAuthorized = await _authorizationService.AuthorizeAsync(User, new MealFood { MealId = mealId, FoodId = foodId }, UserOperations.Delete);
             if (isAuthorized.Succeeded)
             {
-                await _mealRepository.DeleteFoodMealAsync(mealId, foodId);
+                await _mealService.DeleteMealFoodAsync(mealId, foodId);
                 return RedirectToAction("Details", "Sesshins", new { id = sesshinId, mealId = mealId });
             }
             else
             {
                 return new ChallengeResult();
+            }
+        }
+
+
+        [Produces("application/json")]
+        [HttpGet]
+        public async Task<IActionResult> SearchFood(string searchText)
+        {
+            try
+            {
+                IEnumerable<Food> foods = await _mealService.SearchFoodByNameAsync(searchText);
+                return Ok(foods);
+            }
+            catch
+            {
+                return BadRequest();
             }
         }
     }

@@ -4,94 +4,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Training1.Models;
+using Training1.Repositories.Interfaces;
 
 namespace Training1.Repositories
 {
-    public class EFMealRepository : IMealRepository
+    public class EFMealRepository : EFRepositoryBase<Meal>, IMealRepository
     {
-        private readonly ProductContext _productContext;
         public EFMealRepository(ProductContext productContext)
+            :base(productContext)
         {
-            _productContext = productContext;
-        }
-        public IQueryable<Meal> Meals => _productContext.Meal;
-
-        public async Task AddAsync(Meal meal)
-        {
-            _productContext.Add(meal);
-            await _productContext.SaveChangesAsync();
         }
 
-        public async Task AddMealFoodAsync(MealFood mealFood)
+        public string GetMealSesshinOwner(int mealId)
         {
-            _productContext.Add(mealFood);
-            await _productContext.SaveChangesAsync();
+            Sesshin sesshin = _context.Sesshin.FromSql("SESSHIN_FIND_BY_MEAL_ID @p0", mealId).FirstOrDefault();
+            //DayOfSesshin day = _context.DaysOfSesshin.FirstOrDefault(d => d.Id == meal.DayOfSesshinId);
+            //if (day != null)
+            //{
+            //    var sesshin = _context.Sesshin.FirstOrDefault(s => s.Id == day.SesshinId);
+            //    if (sesshin != null)
+            //    {
+            //        return sesshin.AppUserId;
+            //    }
+            //}
+            return sesshin.AppUserId;
         }
 
-        public async Task DeleteAsync(int id)
-        {
-            var meal = await _productContext.Meal.FindAsync(id);
-            _productContext.Meal.Remove(meal);
-            await _productContext.SaveChangesAsync();
-        }
-
-        public async Task DeleteFoodMealAsync(int mealId)
-        {
-            var mealFoods = await _productContext.MealFood.Where(mf => mf.MealId == mealId).ToListAsync();
-            _productContext.MealFood.RemoveRange(mealFoods);
-            await _productContext.SaveChangesAsync();
-        }
-
-        public async Task DeleteFoodMealAsync(int mealId, int foodId)
-        {
-            var mealFood = await _productContext.MealFood.FirstOrDefaultAsync(mf => mf.MealId == mealId && mf.FoodId == foodId);
-            _productContext.MealFood.Remove(mealFood);
-            await _productContext.SaveChangesAsync();
-        }
-
-        public Meal GetById(int id)
-        {
-            return Meals.FirstOrDefault(m => m.Id == id);
-        }
-
-        public async Task<Meal> GetByIdAsync(int id)
-        {
-            return await Meals.FirstOrDefaultAsync(m => m.Id == id);
-        }
-
-        public string GetSesshinOwner(Meal meal)
-        {
-            DayOfSesshin day = _productContext.DaysOfSesshin.FirstOrDefault(d => d.Id == meal.Id);
-            if (day != null)
-            {
-                var sesshin = _productContext.Sesshin.FirstOrDefault(s => s.Id == day.Id);
-                if (sesshin != null)
-                {
-                    return sesshin.AppUserId;
-                }
-            }
-            return String.Empty;
-        }
-
-        public async Task<ICollection<Meal>> ListAsync()
-        {
-            return await Meals.ToListAsync();
-        }
-
-        public async Task<ICollection<Meal>> ListAsyncByDayOfSesshin(int dayOfSesshinId)
-        {
-            return await Meals.Where(m => m.Id == dayOfSesshinId).ToListAsync();
-        }
-
-        public bool MealExists(int id)
-        {
-            return Meals.Any(m => m.Id == id);
-        }
-
-        public async Task UpdateAsync(Meal meal)
-        {
-            _productContext.Update(meal);
-            await _productContext.SaveChangesAsync();
-        }
     }
 }

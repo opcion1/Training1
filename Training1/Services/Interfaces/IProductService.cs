@@ -5,18 +5,10 @@ using Training1.Repositories.Interfaces;
 
 namespace Training1.Services.Interfaces
 {
-    public interface IProductService
+    public interface IProductService : IServiceBase<Product>
     {
-        IProductRepository Product { get; }
-
         Task<IEnumerable<Product>> ListAsyncByCategory(ProductCategory category);
 
         Task<SearchSortPageResult<Product>> SearchSortAndPageProductAll(SearchSortPageParameters parameters);
-
-        Task CreateAsync(Product product);
-
-        Task EditAsync(Product product);
-
-        Task DeleteAsync(int id);
     }
 }

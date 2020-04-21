@@ -32,7 +32,7 @@ namespace Training1.Tests.Mock.Services
 
         internal MockProductService MockListAsync(Product[] products)
         {
-            Setup(service => service.Product.ListAsync())
+            Setup(service => service.ListAsync())
                 .ReturnsAsync(products);
 
             return this;
@@ -40,7 +40,7 @@ namespace Training1.Tests.Mock.Services
 
         internal MockProductService MockGetByIdAsync(int testProductId, Product testProduct)
         {
-            Setup(service => service.Product.GetByIdAsync(testProductId))
+            Setup(service => service.GetByIdAsync(testProductId))
                 .ReturnsAsync(testProduct);
 
             return this;
@@ -80,7 +80,7 @@ namespace Training1.Tests.Mock.Services
 
         internal MockProductService VerifyGetByIdAsync(Func<Times> times)
         {
-            Verify(x => x.Product.GetByIdAsync(It.IsAny<int>()), times);
+            Verify(x => x.GetByIdAsync(It.IsAny<int>()), times);
 
             return this;
         }

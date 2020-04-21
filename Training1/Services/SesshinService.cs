@@ -8,50 +8,41 @@ using Training1.Services.Interfaces;
 
 namespace Training1.Services
 {
-    public class SesshinService : ISesshinService
+    public class SesshinService : ServiceBase<Sesshin>, ISesshinService
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly ISesshinRepository _sesshinRepository;
         private readonly IFoodRepository _foodRepository;
         private readonly IDayOfSesshinRepository _dayOfSesshinRepository;
-
-        public ISesshinRepository Sesshin { get { return _sesshinRepository; } }
 
         public SesshinService(ISesshinRepository sesshinRepository,
                                 IFoodRepository foodRepository,
                                 IDayOfSesshinRepository dayOfSesshinRepository,
                                     IUnitOfWork unitOfWork)
+            : base(sesshinRepository, unitOfWork)
         {
-            _sesshinRepository = sesshinRepository;
             _foodRepository = foodRepository;
             _dayOfSesshinRepository = dayOfSesshinRepository;
-            _unitOfWork = unitOfWork;
         }
 
-
-
-        public async Task CreateAsync(Sesshin sesshin)
+        public async Task<IEnumerable<DayOfSesshin>> GetDaysOfSesshin(int sesshinId)
         {
-            // Add Sesshin days and meals to the sesshin
-            sesshin.Days = GetDaysOfTheSesshin(sesshin);
-            await _sesshinRepository.AddAsync(sesshin);
+            var days = await _dayOfSesshinRepository.ListAsyncBySesshinId(sesshinId);
+            return days;
+        }
+
+        public async Task SetNumberOfPeopleByDayIdAsync(int id, int numberOfPeople)
+        {
+            await _dayOfSesshinRepository.UpdateNumberOfPeopleAsync(id, numberOfPeople);
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task EditAsync(Sesshin sesshin)
+        public string GetSesshinOwner(int sesshinId)
         {
-            _sesshinRepository.Update(sesshin);
-            await _unitOfWork.CommitAsync();
-        }
-
-        public async Task DeleteAsync(int id)
-        {
-            await _sesshinRepository.DeleteAsync(id);
-            await _unitOfWork.CommitAsync();
+            var sesshin = GetById(sesshinId);
+            return sesshin.AppUserId;
         }
 
         #region private methods
-        private ICollection<DayOfSesshin> GetDaysOfTheSesshin(Sesshin sesshin)
+        private ICollection<DayOfSesshin> SetDaysOfTheSesshin(Sesshin sesshin)
         {
             List<DayOfSesshin> daysOfSesshins = new List<DayOfSesshin>();
             bool comingDay = true;
@@ -61,7 +52,7 @@ namespace Training1.Services
                 {
                     Date = loopDate,
                     NumberOfPeople = sesshin.NumberOfPeople,
-                    Meals = GetDailyMeals(comingDay, loopDate == sesshin.EndDate)
+                    Meals = SetDailyMeals(comingDay, loopDate == sesshin.EndDate)
                 };
                 daysOfSesshins.Add(dayOfSesshin);
                 comingDay = false;
@@ -70,7 +61,7 @@ namespace Training1.Services
             return daysOfSesshins;
         }
 
-        private ICollection<Meal> GetDailyMeals(bool comingDay, bool lastDay)
+        private ICollection<Meal> SetDailyMeals(bool comingDay, bool lastDay)
         {
             List<Meal> meals = new List<Meal>();
             if (!comingDay)
@@ -87,7 +78,7 @@ namespace Training1.Services
         private Meal AddGenMaiMeal()
         {
             Meal genMaiMeal = new Meal { Type = MealType.Genmai };
-            Food genmai = _foodRepository.GetByName("genmai");
+            Food genmai = _foodRepository.GetFirstOrDefaultByCondition(f => f.Name.ToLower() == "genmai");
             if (genmai == null)
             {
                 genmai = new Food

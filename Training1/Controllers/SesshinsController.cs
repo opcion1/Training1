@@ -29,7 +29,7 @@ namespace Training1.Controllers
             if (isAuthorized.Succeeded)
             {
 
-                return View(await _sesshinService.Sesshin.ListAsync());
+                return View(await _sesshinService.ListAsync());
             }
             else
             {
@@ -45,7 +45,7 @@ namespace Training1.Controllers
                 return NotFound();
             }
 
-            var sesshin = await _sesshinService.Sesshin.GetByIdAsync((int)id);
+            var sesshin = await _sesshinService.GetByIdAsync((int)id);
             if (sesshin == null)
             {
                 return NotFound();
@@ -54,7 +54,7 @@ namespace Training1.Controllers
             var isAuthorized = await _authorizationService.AuthorizeAsync(User, sesshin, UserOperations.Read);
             if (isAuthorized.Succeeded)
             {
-                ViewData["Id"] = mealId ?? -1;
+                ViewData["MealId"] = mealId ?? -1;
                 return View(sesshin);
             }
             else
@@ -100,7 +100,7 @@ namespace Training1.Controllers
                 return NotFound();
             }
 
-            var sesshin = await _sesshinService.Sesshin.GetByIdAsync((int)id);
+            var sesshin = await _sesshinService.GetByIdAsync((int)id);
             if (sesshin == null)
             {
                 return NotFound();
@@ -123,7 +123,7 @@ namespace Training1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,StartDate,EndDate,AppUserId")] Sesshin sesshin)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,NumberOfPeople,Description,StartDate,EndDate,AppUserId")] Sesshin sesshin, bool fromDetail)
         {
             if (id != sesshin.Id)
             {
@@ -156,7 +156,14 @@ namespace Training1.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                if (fromDetail)
+                {
+                    return RedirectToAction(nameof(Details), new { id = id });
+                }
+                else
+                {
+                    return RedirectToAction(nameof(Index));
+                }
             }
             return View(sesshin);
         }
@@ -169,7 +176,7 @@ namespace Training1.Controllers
                 return NotFound();
             }
 
-            var sesshin = await _sesshinService.Sesshin.GetByIdAsync((int)id);
+            var sesshin = await _sesshinService.GetByIdAsync((int)id);
             if (sesshin == null)
             {
                 return NotFound();
@@ -191,7 +198,7 @@ namespace Training1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var sesshin = await _sesshinService.Sesshin.GetByIdAsync((int)id);
+            var sesshin = await _sesshinService.GetByIdAsync((int)id);
             if (sesshin == null)
             {
                 return NotFound();
@@ -209,9 +216,23 @@ namespace Training1.Controllers
             }
         }
 
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Produces("application/json")]
+        public async Task<IActionResult> UpdateNumberOfPeopleByDayId(int dayId, int numberOfPeople)
+        {
+            if (ModelState.IsValid)
+            {
+                await _sesshinService.SetNumberOfPeopleByDayIdAsync(dayId, numberOfPeople);
+            }
+
+            return Ok();
+        }
+
         private async Task<bool> SesshinExists(int id)
         {
-            return await _sesshinService.Sesshin.Exists(id);
+            return await _sesshinService.ExistsEntity(id);
         }
     }
 }

@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    bool fromDetail = ViewBag.FromDetail;
 }
 
 <div class="d-flex row align-items-center">
@@ -15,6 +16,7 @@
         <div class="col-md-4">
             <form asp-action="Edit">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" name="fromDetail" value="@fromDetail.ToString()" />
                 <input type="hidden" asp-for="Id" />
                 @if (User.IsInRole(Constants.UserChefRole))
                 {
@@ -56,7 +58,7 @@
                 }
             <div class="form-group d-flex row mx-1">
                 <input type="submit" value="Save" class="btn btn-primary" />
-                @if (ViewBag.FromDetail)
+                @if (fromDetail)
                 {
                     <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-secondary ml-auto"><text> << </text>Back to Details</a>
                 }

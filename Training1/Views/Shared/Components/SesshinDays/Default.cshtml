@@ -13,12 +13,12 @@
                     <div class="card h-100 " >
                         <div class="card-body">
                             <h4 class="card-title">@day.Date.ToLongDateString()</h4>
-                            <p class="card-text p-people row"><span class="span-people">@day.NumberOfPeople</span>&nbsp;people <i class="btn btn-sm fas fa-pen edit-people"></i></p>
-                            <form class="f-edit-people form-inline hide" asp-action="UpdateNumberOfPeople" asp-controller="DayOfSesshins">
+                            <p class="card-text p-people row"><span class="span-people">@day.NumberOfPeople</span>&nbsp;people <i class="btn btn-sm fas fa-pen edit-people ml-1"></i></p>
+                            <form class="f-edit-people form-inline hide" asp-action="UpdateNumberOfPeopleByDayId" asp-controller="Sesshins">
                                 <div class="form-group row">
-                                    <input type="hidden" name="id" value="@day.Id" />
+                                    <input type="hidden" name="dayId" value="@day.Id" />
                                     <input class="form-control-sm input-people" name="numberOfPeople" value="@(day.NumberOfPeople)" />
-                                    <button type="submit" class="btn-invisible" title="save ingredient">
+                                    <button type="submit" class="btn-invisible" title="save number of people">
                                         <i class="btn btn-sm fas fa-save save-people"></i>
                                     </button>
 

@@ -30,7 +30,7 @@ namespace Training1.Tests.Mock.Services
 
         internal MockSesshinService MockListAsync(Sesshin[] products)
         {
-            Setup(service => service.Sesshin.ListAsync())
+            Setup(service => service.ListAsync())
                 .ReturnsAsync(products);
 
             return this;
@@ -38,7 +38,7 @@ namespace Training1.Tests.Mock.Services
 
         internal MockSesshinService MockGetByIdAsync(int testSesshinId, Sesshin testSesshin)
         {
-            Setup(service => service.Sesshin.GetByIdAsync(testSesshinId))
+            Setup(service => service.GetByIdAsync(testSesshinId))
                 .ReturnsAsync(testSesshin);
 
             return this;
@@ -71,7 +71,7 @@ namespace Training1.Tests.Mock.Services
 
         internal MockSesshinService VerifyGetByIdAsync(Func<Times> times)
         {
-            Verify(x => x.Sesshin.GetByIdAsync(It.IsAny<int>()), times);
+            Verify(x => x.GetByIdAsync(It.IsAny<int>()), times);
 
             return this;
         }

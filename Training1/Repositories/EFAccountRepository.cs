@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Training1.Areas.Identity.Data;
 using Training1.Models;
+using Training1.Repositories.Interfaces;
 
 namespace Training1.Repositories
 {

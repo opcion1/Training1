@@ -12,21 +12,20 @@ using Training1.Authorization;
 using Training1.Infrastructure;
 using Training1.Models;
 using Training1.Repositories;
+using Training1.Services.Interfaces;
 
 namespace Training1.Controllers
 {
     public class HomeController : Controller
     {
         private readonly IAuthorizationService _authorizationService;
-        private readonly UserManager<AppUser> _userManager;
-        private readonly IAccountRepository _accountRepository;
+        private readonly IHomeService _homeService;
         public HomeController(IAuthorizationService authorizationService,
-                                UserManager<AppUser> userManager,
-                                IAccountRepository accountRepository)
+                                IHomeService homeService)
         {
             _authorizationService = authorizationService;
-            _userManager = userManager;
-            _accountRepository = accountRepository;
+            _homeService = homeService;
+
         }
         public IActionResult Index()
         {
@@ -52,14 +51,13 @@ namespace Training1.Controllers
         {
             try
             {
-                AppUser user = await _userManager.FindByIdAsync(id);
+                AppUser user = new AppUser { Id = id };
                 if (user != null)
                 {
-                    var isAuthorized = await _authorizationService.AuthorizeAsync(User, user, UserOperations.Update);
+                    var isAuthorized = await _authorizationService.AuthorizeAsync(User, new AppUser { Id = id }, UserOperations.Update);
                     if (isAuthorized.Succeeded)
                     {
-                        await _accountRepository.UpdateAppStyle(id, appStyle);
-                        HttpContext.Session.Set<string>("AppStyle", appStyle);
+                        await _homeService.UpdateAppStyle(id, appStyle);
                     }
                     else
                     {

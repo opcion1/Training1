@@ -86,18 +86,18 @@ function cancelEdit() {
 
 function displayEditRowIngredient(data) {
     var editIngredient = $('.sample-edit-row').clone();
-    editIngredient.attr('id', 'tr_edit_' + data.ingredientId);
+    editIngredient.attr('id', 'tr_edit_' + data.id);
 
     var form = editIngredient.find('#form-ingredient');
     fillForm(form, data);
 
-    $('#tr_ingredient_' + data.ingredientId).replaceWith(editIngredient);
+    $('#tr_ingredient_' + data.id).replaceWith(editIngredient);
 }
 
 function fillForm(form, data) {
     form.attr('id', 'edit-incredient');
     form.attr('action', '/Ingredients/Edit');
-    form.find('.hidden-ingredient').val(data.ingredientId);
+    form.find('.hidden-ingredient').val(data.id);
     form.find('.hidden-product').val(data.product.id);
     form.find('.input-product').val(data.product.name);
     form.find('.input-qty').val(data.quantity);
@@ -118,23 +118,22 @@ function submitIngredient($form) {
 }
 
 function displayRowIngredient(data, isNewIngredient) {
-    debugger
     var ingredient = $('.sample-row').clone();
     ingredient.removeClass('sample-row');
-    ingredient.attr('id', 'tr_ingredient_' + data.ingredientId);
+    ingredient.attr('id', 'tr_ingredient_' + data.id);
     ingredient.find('product-name').replaceWith(data.product.name);
     ingredient.find('product-qty').replaceWith(data.quantity);
     ingredient.find('product-unityType').replaceWith(getUnityTypeString(data.unityType));
-    ingredient.find('edit-ingredient').replaceWith("<a class='btn-edit-row' id='btn_edit_" + data.ingredientId + "' title='edit ingredient'><i class='btn fas fa-pen'></i></a>");
+    ingredient.find('edit-ingredient').replaceWith("<a class='btn-edit-row' id='btn_edit_" + data.id + "' title='edit ingredient'><i class='btn fas fa-pen'></i></a>");
     
-    ingredient.find('delete-ingredient').replaceWith("<a class='btn-delete-row' id='btn_delete_" + data.ingredientId + "' title='delete ingredient'><i class='btn fas fa-times'></i></a>");
+    ingredient.find('delete-ingredient').replaceWith("<a class='btn-delete-row' id='btn_delete_" + data.id + "' title='delete ingredient'><i class='btn fas fa-times'></i></a>");
 
     if (isNewIngredient) {
         removeEditRow();
         ingredient.appendTo('#table-ingredients tbody');
     }
     else {
-        $('#tr_edit_' + data.ingredientId).replaceWith(ingredient);
+        $('#tr_edit_' + data.id).replaceWith(ingredient);
     }
 }
 

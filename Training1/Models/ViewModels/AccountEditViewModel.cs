@@ -15,17 +15,12 @@ namespace Training1.Models.ViewModels
         public AccountEditViewModel(RoleManager<IdentityRole> roleManager)
         {
             _roleManager = roleManager;
-            Roles = GetItemsRole();
         }
         public AppUser Account { get; set; }
         
         [Display(Name ="Role")]
-        public string CurrentRole { get; set; }
+        public string CurrentRole { get { return Roles[0].Text; } }
         public List<SelectListItem> Roles { get; set; }
 
-        private List<SelectListItem> GetItemsRole()
-        {
-            return _roleManager.Roles.Select(r => new SelectListItem { Text = r.Name }).ToList();
-        }
     }
 }

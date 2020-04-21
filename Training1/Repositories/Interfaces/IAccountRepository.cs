@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Training1.Areas.Identity.Data;
 using Training1.Models;
 
-namespace Training1.Repositories
+namespace Training1.Repositories.Interfaces
 {
     public interface IAccountRepository
     {

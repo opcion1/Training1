@@ -6,19 +6,24 @@ using Microsoft.AspNetCore.Identity;
 using Training1.Areas.Identity.Data;
 using Training1.Models;
 using Training1.Repositories;
+using Training1.Services.Interfaces;
 
 namespace Training1.Authorization
 {
     public class ChefAuthorizationHandler : AuthorizationHandler<OperationAuthorizationRequirement, object>
     {
         private readonly UserManager<AppUser> _userManager;
-        private readonly IMealRepository _mealRepository; 
+        private readonly IMealService _mealService;
+        private readonly ISesshinService _sesshinService;
 
         public ChefAuthorizationHandler(UserManager<AppUser> userManager,
-                                        IMealRepository mealRepository)
+                                        IMealService mealService,
+                                        ISesshinService sesshinService)
         {
             _userManager = userManager;
-            _mealRepository = mealRepository;
+            _mealService = mealService;
+            _sesshinService = sesshinService;
+
         }
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
@@ -66,6 +71,12 @@ namespace Training1.Authorization
                         context.Succeed(requirement);
                     }
                     break;
+                case DayOfSesshin day:
+                    if (IsAuthorizedDayOperation(context, requirement, resource as DayOfSesshin))
+                    {
+                        context.Succeed(requirement);
+                    }
+                    break;
             }
 
             return Task.CompletedTask;
@@ -95,9 +106,15 @@ namespace Training1.Authorization
         private bool IsAuthorizedMealFoodOperation(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, MealFood mealFood)
         {
             //Get the sesshin tenzo
-            Meal meal = _mealRepository.GetById(mealFood.MealId);
-            string mealFoodOwner = _mealRepository.GetSesshinOwner(meal);
+            string mealFoodOwner = _mealService.GetMealSesshinOwner(mealFood.MealId);
             return (mealFoodOwner == _userManager.GetUserId(context.User));
+        }
+
+        private bool IsAuthorizedDayOperation(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, DayOfSesshin dayOfSesshin)
+        {
+            //Get the sesshin tenzo
+            string sesshinOwner = _sesshinService.GetSesshinOwner(dayOfSesshin.SesshinId);
+            return (sesshinOwner == _userManager.GetUserId(context.User));
         }
 
         private bool IsAuthorizedFoodOperation(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, Food food)

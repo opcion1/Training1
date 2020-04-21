@@ -4,56 +4,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Training1.Models;
+using Training1.Repositories.Interfaces;
 
 namespace Training1.Repositories
 {
-    public class EFIngredientRepository : IIngredientRepository
+    public class EFIngredientRepository : EFRepositoryBase<Ingredient>, IIngredientRepository
     {
-        private readonly ProductContext _productContext;
         public EFIngredientRepository(ProductContext productContext)
+            : base(productContext)
         {
-            _productContext = productContext;
-        }
-        public IQueryable<Ingredient> Ingredients => _productContext.Ingredient;
-
-        public async Task AddAsync(Ingredient ingredient)
-        {
-            _productContext.Add(ingredient);
-            await _productContext.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int id)
+        public override async Task<Ingredient> GetByIdAsync(int id)
         {
-            var ingredient = await _productContext.Ingredient.FindAsync(id);
-            _productContext.Ingredient.Remove(ingredient);
-            await _productContext.SaveChangesAsync();
+            return await _dbSet.Include(i => i.Product).FirstOrDefaultAsync(e => e.Id == id);
         }
 
-        public async Task<Ingredient> GetByIdAsync(int id)
+        public async Task<IEnumerable<Ingredient>> GetIngredientsByFoodId(int foodId)
         {
-            var ingredient = await _productContext.Ingredient.Include(i => i.Product).FirstOrDefaultAsync(i => i.Id == id);
-            return ingredient;
-        }
-
-        public bool IngredientExists(int id)
-        {
-            return Ingredients.Any(i => i.Id == id);
-        }
-
-        public async Task<ICollection<Ingredient>> ListAsync()
-        {
-            return await Ingredients.ToListAsync();
-        }
-
-        public async Task<ICollection<Ingredient>> ListAsyncByFoodId(int foodId)
-        {
-            return await Ingredients.Where(i => i.Id == foodId).Include(i => i.Product).ToListAsync();
-        }
-
-        public async Task UpdateAsync(Ingredient ingredient)
-        {
-            _productContext.Update(ingredient);
-            await _productContext.SaveChangesAsync();
+            return await _dbSet.Include(i => i.Product).Where(e => e.FoodId == foodId).ToListAsync();
         }
     }
 }

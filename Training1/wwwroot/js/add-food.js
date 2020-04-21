@@ -5,14 +5,14 @@ $(document).ready(function () {
         minLength: 3,
         source: function (request, response) {
             $.ajax({
-                url: '/Foods/Search',
+                url: '/Meals/SearchFood',
                 type: 'GET',
                 dataType: 'json',
                 data: { searchText: request.term }
                 ,
                 success: function (data) {
                     response($.map(data, function (item) {
-                        return { label: item.name, value: item.name, id: item.foodId, desc: item.description, commentary: item.commentary };
+                        return { label: item.name, value: item.name, id: item.id, desc: item.description, commentary: item.commentary };
                     }));
                 }
             });
@@ -41,7 +41,6 @@ function Food(id, name, desc, commentary) {
 }
 
 function showFood(ui) {
-    debugger
     var food = new Food(ui.item.id, ui.item.label, ui.item.desc, ui.item.commentary);
     displayFood(food);
     $('i.cancel-icon').show();
@@ -58,7 +57,7 @@ function cancelFood() {
 }
 
 function displayFood(food) {
-    $('#Food_FoodId').val(food.foodId);
+    $('#Food_Id').val(food.foodId);
     $('#Food_Name').val(food.name);
     $('#Food_Description').val(food.description);
     $('#Food_Commentary').val(food.commentary);

@@ -7,16 +7,17 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Training1.Models;
 using Training1.Repositories;
+using Training1.Services.Interfaces;
 
 namespace Training1.Controllers
 {
     public class IngredientsController : Controller
     {
-        private readonly IIngredientRepository _ingredientRepository;
+        private readonly IIngredientService _ingredientService;
 
-        public IngredientsController(IIngredientRepository ingredientRepository)
+        public IngredientsController(IIngredientService ingredientService)
         {
-            _ingredientRepository = ingredientRepository;
+            _ingredientService = ingredientService;
         }
 
         // POST: Ingredients/Create
@@ -25,14 +26,14 @@ namespace Training1.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Produces("application/json")]  
-        public async Task<IActionResult> Create([Bind("Id,ProductId,Quantity,UnityType")] Ingredient ingredient)
+        public async Task<IActionResult> Create([Bind("FoodId,ProductId,Quantity,UnityType")] Ingredient ingredient)
         {
             if (ModelState.IsValid)
             {
-                await _ingredientRepository.AddAsync(ingredient);
+                await _ingredientService.CreateAsync(ingredient);
             }
             //We want to return ingredient with the product name
-            ingredient = await _ingredientRepository.GetByIdAsync(ingredient.Id);
+            ingredient = await _ingredientService.GetByIdAsync(ingredient.Id);
             return Ok(ingredient);
         }
 
@@ -42,15 +43,15 @@ namespace Training1.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Produces("application/json")]
-        public async Task<IActionResult> Edit([Bind("Id,Id,ProductId,Quantity,UnityType")] Ingredient ingredient)
+        public async Task<IActionResult> Edit([Bind("Id,FoodId,ProductId,Quantity,UnityType")] Ingredient ingredient)
         {
             try
             {
-                await _ingredientRepository.UpdateAsync(ingredient);
+                await _ingredientService.EditAsync(ingredient);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!IngredientExists(ingredient.Id))
+                if (!await IngredientExists(ingredient.Id))
                 {
                     return NotFound();
                 }
@@ -59,7 +60,7 @@ namespace Training1.Controllers
                     throw;
                 }
             }
-            ingredient = await _ingredientRepository.GetByIdAsync(ingredient.Id);
+            ingredient = await _ingredientService.GetByIdAsync(ingredient.Id);
             return Ok(ingredient);
         }
 
@@ -68,7 +69,7 @@ namespace Training1.Controllers
         [Produces("application/json")]
         public async Task<IActionResult> Delete(int id)
         {
-            await _ingredientRepository.DeleteAsync(id);
+            await _ingredientService.DeleteAsync(id);
             return Ok();
         }
 
@@ -82,7 +83,7 @@ namespace Training1.Controllers
                 return NotFound();
             }
 
-            var ingredient = await _ingredientRepository.GetByIdAsync((int)id);
+            var ingredient = await _ingredientService.GetByIdAsync((int)id);
             if (ingredient == null)
             {
                 return NotFound();
@@ -91,9 +92,9 @@ namespace Training1.Controllers
             return Ok(ingredient);
         }
 
-        private bool IngredientExists(int id)
+        private async Task<bool> IngredientExists(int id)
         {
-            return _ingredientRepository.IngredientExists(id);
+            return await _ingredientService.ExistsEntity(id);
         }
     }
 }

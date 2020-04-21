@@ -10,25 +10,21 @@ using Training1.Services.Interfaces;
 
 namespace Training1.Services
 {
-    public class ProductService : IProductService
+    public class ProductService : ServiceBase<Product>, IProductService
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IProductRepository _productRepository;
         private readonly IConfiguration _configuration;
-        public IProductRepository Product { get { return _productRepository; } }
 
         public ProductService(IProductRepository productRepository,
                                     IUnitOfWork unitOfWork,
                                     IConfiguration configuration)
+            : base(productRepository, unitOfWork)
         {
-            _productRepository = productRepository;
-            _unitOfWork = unitOfWork;
             _configuration = configuration;
         }
 
         public async Task<IEnumerable<Product>> ListAsyncByCategory(ProductCategory category)
         {
-            return await _productRepository.GetByConditionAsync(p => p.Category == category);
+            return await _entityRepository.GetByConditionAsync(p => p.Category == category);
         }
 
         public async Task<SearchSortPageResult<Product>> SearchSortAndPageProductAll(SearchSortPageParameters parameters)
@@ -42,7 +38,7 @@ namespace Training1.Services
             }
             else
             {
-                products = await _productRepository.ListAsync();
+                products = await this.ListAsync();
 
             }
             result.TotalItems = products.Count();
@@ -67,23 +63,6 @@ namespace Training1.Services
 
             return result;
         }
-
-        public async Task CreateAsync(Product product)
-        {
-            await _productRepository.AddAsync(product);
-            await _unitOfWork.CommitAsync();
-        }
-
-        public async Task EditAsync(Product product)
-        {
-            _productRepository.Update(product);
-            await _unitOfWork.CommitAsync();
-        }
-
-        public async Task DeleteAsync(int id)
-        {
-            await _productRepository.DeleteAsync(id);
-            await _unitOfWork.CommitAsync();
-        }
+        
     }
 }

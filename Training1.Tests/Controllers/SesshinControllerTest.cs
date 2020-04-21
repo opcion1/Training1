@@ -195,7 +195,7 @@ namespace Training1.Tests
             int invalidSesshinId = _testSesshinId + 1;
 
             // Act
-            var result = await _controller.Edit(invalidSesshinId, _testSesshin);
+            var result = await _controller.Edit(invalidSesshinId, _testSesshin, false);
 
             // Assert
             Assert.IsType<NotFoundResult>(result);
@@ -208,7 +208,7 @@ namespace Training1.Tests
             _controller.ModelState.AddModelError("error", "some error");
 
             // Act
-            var result = await _controller.Edit(_testSesshinId, _testSesshin);
+            var result = await _controller.Edit(_testSesshinId, _testSesshin, false);
 
             // Assert
             Assert.IsType<ViewResult>(result);
@@ -221,7 +221,7 @@ namespace Training1.Tests
             _mockService.MockEditAsync(_testSesshin);
 
             // Act
-            var result = await _controller.Edit(_testSesshinId, sesshin: _testSesshin);
+            var result = await _controller.Edit(_testSesshinId, sesshin: _testSesshin, fromDetail: false);
 
             // Assert
             var redirectToActionResult = Assert.IsType<RedirectToActionResult>(result);

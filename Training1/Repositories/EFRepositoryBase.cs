@@ -11,7 +11,7 @@ namespace Training1.Repositories
 {
     public abstract class EFRepositoryBase<T> : IRepositoryBase<T> where T : ModelBase
     {
-        private readonly ProductContext _context;
+        protected readonly ProductContext _context;
         protected readonly DbSet<T> _dbSet;
         public EFRepositoryBase(ProductContext context)
         {
@@ -19,7 +19,7 @@ namespace Training1.Repositories
             _dbSet = _context.Set<T>();
         }
 
-        public IEnumerable<T> Entities => _dbSet.AsNoTracking();
+        public IEnumerable<T> Entities => _dbSet;
 
         public virtual async Task AddAsync(T entity)
         {
@@ -40,14 +40,34 @@ namespace Training1.Repositories
             return await _dbSet.FirstOrDefaultAsync(e => e.Id == id);
         }
 
+        public virtual T GetById(int id)
+        {
+            return _dbSet.FirstOrDefault(e => e.Id == id);
+        }
+
         public virtual async Task<IEnumerable<T>> GetByConditionAsync(Expression<Func<T, bool>> expression)
         {
-            return await _dbSet.Where(expression).AsNoTracking().ToListAsync();
+            return await _dbSet.Where(expression).ToListAsync();
+        }
+
+        public IEnumerable<T> GetByCondition(Expression<Func<T, bool>> expression)
+        {
+            return _dbSet.Where(expression);
+        }
+
+        public async Task<T> GetFirstOrDefautByConditionAsync(Expression<Func<T, bool>> expression)
+        {
+            return await _dbSet.FirstOrDefaultAsync(expression);
+        }
+
+        public T GetFirstOrDefaultByCondition(Expression<Func<T, bool>> expression)
+        {
+            return _dbSet.FirstOrDefault(expression);
         }
 
         public virtual async Task<IEnumerable<T>> ListAsync()
         {
-            return await _dbSet.AsNoTracking().ToListAsync();
+            return await _dbSet.ToListAsync();
         }
 
         public virtual void Update(T entity)

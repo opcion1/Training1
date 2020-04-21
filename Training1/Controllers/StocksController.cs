@@ -29,7 +29,7 @@ namespace Training1.Controllers
                 return NotFound();
             }
 
-            var stock = await _stockService.Stock.GetByIdAsync((int)id);
+            var stock = await _stockService.GetByIdAsync((int)id);
 
             if (stock == null)
             {
@@ -86,7 +86,7 @@ namespace Training1.Controllers
                 return NotFound();
             }
 
-            var stock = await _stockService.Stock.GetByIdAsync((int)id);
+            var stock = await _stockService.GetByIdAsync((int)id);
             if (stock == null)
             {
                 return NotFound();
@@ -155,7 +155,7 @@ namespace Training1.Controllers
                 return NotFound();
             }
 
-            var stock = await _stockService.Stock.GetByIdAsync((int)id);
+            var stock = await _stockService.GetByIdAsync((int)id);
             if (stock == null)
             {
                 return NotFound();
@@ -192,7 +192,7 @@ namespace Training1.Controllers
 
         private async Task<bool> StockExists(int id)
         {
-            return await _stockService.Stock.Exists(id);
+            return await _stockService.ExistsEntity(id);
         }
     }
 }

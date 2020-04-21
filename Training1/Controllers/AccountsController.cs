@@ -2,80 +2,49 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Training1.Areas.Identity.Data;
 using Training1.Authorization;
-using Training1.Models.ViewModels;
-using Training1.Repositories;
 using Training1.Infrastructure;
+using Training1.Models.ViewModels;
+using Training1.Services.Interfaces;
 
 namespace Training1.Controllers
 {
     public class AccountsController : Controller
     {
         private readonly IAuthorizationService _authorizationService;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IAccountService _accountService;
         private readonly UserManager<AppUser> _userManager;
-        private readonly SignInManager<AppUser> _signInManager;
         private readonly IUserValidator<AppUser> _userValidator;
-        private readonly IAccountRepository _accountRepository;
         public AccountsController(IAuthorizationService authorizationService,
-                                    RoleManager<IdentityRole> roleManager,
                                     UserManager<AppUser> userManager,
-                                    SignInManager<AppUser> signInManager,
                                     IUserValidator<AppUser> userValidator,
-                                    IAccountRepository accountRepository)
+                                    IAccountService accountService)
         {
             _authorizationService = authorizationService;
-            _roleManager = roleManager;
+            _accountService = accountService;
             _userManager = userManager;
-            _signInManager = signInManager;
             _userValidator = userValidator;
-            _accountRepository = accountRepository;
         }
 
 
         [Authorize(Roles = "Admin")]
-        public ViewResult Index(ActiveTab? tab)
+        public async Task<ViewResult> Index(string searchStr, int? indexPage, string sortOrder)
         {
-            AccountViewModel accountViewModel = new AccountViewModel { 
-                ActiveTab = tab ?? ActiveTab.Accounts
-            };
-
-            return View(accountViewModel);
-        }
-
-        [Authorize(Roles = "Admin")]
-        public ViewResult SearchingSortingAndPaging(string searchStr, int? indexPage, string sortOrder)
-        {
-            AccountViewModel accountViewModel = new AccountViewModel
-            {
-                ActiveTab = ActiveTab.Accounts,
-                SearchStr = searchStr,
-                PageIndex = indexPage ?? 1,
-                CurrentSort = sortOrder
-            };
-
-            return View("Index", accountViewModel);
+            AccountListViewModel vm = await _accountService.GetModelForAccountList(searchStr, indexPage, sortOrder);
+            return View(vm);
         }
 
 
         // GET: Accounts/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
-            var user = await _userManager.FindByIdAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            var isAuthorized = await _authorizationService.AuthorizeAsync(User, user, UserOperations.Read);
+            var isAuthorized = await _authorizationService.AuthorizeAsync(User, new AppUser { Id = id }, UserOperations.Read);
             if (isAuthorized.Succeeded)
             {
-                var roles = await _userManager.GetRolesAsync(user);
-                AccountEditViewModel vm = new AccountEditViewModel(_roleManager) { Account = user, CurrentRole = roles[0] };
+                AccountEditViewModel vm = await _accountService.GetEditAccount(id);
 
                 return View(vm);
             }
@@ -161,22 +130,14 @@ namespace Training1.Controllers
         {
             try
             {
-                AppUser user = await _userManager.FindByIdAsync(id);
-                if (user != null)
+                var isAuthorized = await _authorizationService.AuthorizeAsync(User, new AppUser { Id = id }, UserOperations.Update);
+                if (isAuthorized.Succeeded)
                 {
-                    var isAuthorized = await _authorizationService.AuthorizeAsync(User, user, UserOperations.Update);
-                    if (isAuthorized.Succeeded)
-                    {
-                        await _accountRepository.UpdateAccountStatus(id, status);
-                    }
-                    else
-                    {
-                        return new ChallengeResult();
-                    }
+                    await _accountService.UpdateAccountStatus(id, status);
                 }
                 else
                 {
-                    throw new KeyNotFoundException();
+                    return new ChallengeResult();
                 }
             }
             catch (KeyNotFoundException)
@@ -191,47 +152,10 @@ namespace Training1.Controllers
             return RedirectToAction("Edit", new { id = id });
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Produces("application/json")]
-        public async Task<IActionResult> UpdateAppStyle(string id, string appStyle)
-        {
-            try
-            {
-                AppUser user = await _userManager.FindByIdAsync(id);
-                if (user != null)
-                {
-                    var isAuthorized = await _authorizationService.AuthorizeAsync(User, user, UserOperations.Update);
-                    if (isAuthorized.Succeeded)
-                    {
-                        await _accountRepository.UpdateAppStyle(id, appStyle);
-                    }
-                    else
-                    {
-                        return new ChallengeResult();
-                    }
-                }
-                else
-                {
-                    throw new KeyNotFoundException();
-                }
-            }
-            catch (KeyNotFoundException)
-            {
-                ModelState.AddModelError("", "User Not Found");
-                return NotFound();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                throw;
-            }
-            return Ok();
-        }
-
         public async Task<IActionResult> Logout()
         {
-            HttpContext.Session.Set<string>("AppStyle", null);
-            await _signInManager.SignOutAsync();
+            await _accountService.LogOut();
+
             return RedirectToAction("Index", "Home");
         }
     }

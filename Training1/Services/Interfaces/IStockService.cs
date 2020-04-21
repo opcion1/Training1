@@ -7,16 +7,8 @@ using Training1.Repositories.Interfaces;
 
 namespace Training1.Services.Interfaces
 {
-    public interface IStockService
+    public interface IStockService : IServiceBase<Stock>
     {
-        IStockRepository Stock { get; }
-
         Task<IEnumerable<Stock>> GetStocksAsync(int productId);
-
-        Task CreateAsync(Stock product);
-
-        Task EditAsync(Stock product);
-
-        Task DeleteAsync(int id);
     }
 }

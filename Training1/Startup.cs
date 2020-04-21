@@ -72,10 +72,15 @@ namespace Training1
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ISesshinService, SesshinService>();
             services.AddScoped<IStockService, StockService>();
+            services.AddScoped<IMealService, MealService>();
+            services.AddScoped<IIngredientService, IngredientService>();
+            services.AddScoped<IHomeService, HomeService>();
+            services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IProductRepository, EFProductRepository>();
             services.AddScoped<IStockRepository, EFStockRepository>();
             services.AddScoped<ISesshinRepository, EFSesshinRepository>();
             services.AddScoped<IFoodRepository, EFFoodRepository>();
+            services.AddScoped<IMealFoodRepository, EFMealFoodRepository>();
             services.AddScoped<IDayOfSesshinRepository, EFDayOfSesshinRepository>();
             services.AddScoped<IMealRepository, EFMealRepository>();
             services.AddScoped<IIngredientRepository, EFIngredientRepository>();

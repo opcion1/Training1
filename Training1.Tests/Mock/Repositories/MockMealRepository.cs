@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using Training1.Models;
 using Training1.Repositories;
+using Training1.Repositories.Interfaces;
 
 namespace Training1.Tests.Mock.Repositories
 {
@@ -17,9 +18,9 @@ namespace Training1.Tests.Mock.Repositories
             return this;
         }
 
-        public MockMealRepository MockGetSesshinOwner(Meal meal)
+        public MockMealRepository MockGetSesshinOwner(int mealId)
         {
-            Setup(repo => repo.GetSesshinOwner(meal))
+            Setup(repo => repo.GetMealSesshinOwner(mealId))
                 .Returns("sesshin-owner");
             return this;
         }
