@@ -155,7 +155,7 @@ namespace Training1.Tests.Controllers
         }
 
         [Fact]
-        public async Task EditPost_ReturnToAction_WhenSucceed()
+        public async Task EditPost_RedirectToAction_WhenSucceed()
         {
             // Arrange
             IdentityResult successResult = IdentityResult.Success;
@@ -171,6 +171,47 @@ namespace Training1.Tests.Controllers
             Assert.Null(redirectToActionResult.ControllerName);
             Assert.Equal("Edit", redirectToActionResult.ActionName);
             _mockUserManager.Verify();
+        }
+
+        [Fact]
+        public async Task UpdateStatus_ReturnChallengeResult_WhenNotAuthorized()
+        {
+            //Arrange
+
+            //Act
+            var result = await _accountsControllerNoRole.UpdateStatus(It.IsAny<string>(), It.IsAny<Status>());
+
+            //Assert
+            Assert.IsType<ChallengeResult>(result);
+        }
+        
+        [Fact]
+        public async Task UpdateStatus_ReturnNotFound_WhenKeyNotFound()
+        {
+            //Arrange
+            _mockService.MockUpdateStatus_ReturnKeyNotFoundException();
+
+            //Act
+            var result = await _accountsController.UpdateStatus(It.IsAny<string>(), It.IsAny<Status>());
+
+            //Assert
+            Assert.IsType<NotFoundResult>(result);
+        }
+
+        [Fact]
+        public async Task UpdateStatus_RedirectToAction_WhenSucceed()
+        {
+            //Arrange
+            _mockService.MockUpdateStatus();
+
+            //Act
+            var result = await _accountsController.UpdateStatus(It.IsAny<string>(), It.IsAny<Status>());
+
+            //Assert
+            var redirectToActionResult = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Null(redirectToActionResult.ControllerName);
+            Assert.Equal("Edit", redirectToActionResult.ActionName);
+            _mockService.Verify();
         }
 
         private AccountsController GetAccountsControllerAdmin(MockAccountService mockService, MockUserManager mockUserManager, MockUserValidator mockUserValidator)
