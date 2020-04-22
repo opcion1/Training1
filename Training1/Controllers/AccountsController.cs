@@ -94,7 +94,7 @@ namespace Training1.Controllers
                                         result = await _userManager.RemoveFromRoleAsync(user, formerRole);
                                         result = await _userManager.AddToRoleAsync(user, currentRole);
                                     }
-                                    return await Edit(id);
+                                    return RedirectToAction(nameof(Edit), new { id = id });
                                 }
                                 else
                                 {
@@ -119,9 +119,9 @@ namespace Training1.Controllers
                 {
                     throw;
                 }
-                return await Edit(id);
+                return View(_accountService.GetEditAccount(id));
             }
-            return await Edit(id);
+            return View(_accountService.GetEditAccount(id));
         }
 
         [HttpPost]

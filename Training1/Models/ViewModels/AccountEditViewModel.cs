@@ -11,10 +11,8 @@ namespace Training1.Models.ViewModels
 {
     public class AccountEditViewModel
     {
-        private readonly RoleManager<IdentityRole> _roleManager;
-        public AccountEditViewModel(RoleManager<IdentityRole> roleManager)
+        public AccountEditViewModel()
         {
-            _roleManager = roleManager;
         }
         public AppUser Account { get; set; }
         

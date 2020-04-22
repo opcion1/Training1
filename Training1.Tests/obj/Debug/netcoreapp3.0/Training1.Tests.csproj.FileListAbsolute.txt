@@ -532,3 +532,6 @@ C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debu
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\Microsoft.Extensions.Caching.Memory.dll
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\Remotion.Linq.dll
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\System.Interactive.Async.dll
+C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\Microsoft.AspNetCore.Authentication.dll
+C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\Microsoft.AspNetCore.Authentication.Cookies.dll
+C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\Microsoft.AspNetCore.Identity.dll

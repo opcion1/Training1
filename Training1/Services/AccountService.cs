@@ -46,7 +46,7 @@ namespace Training1.Services
         {
             var user = await _userManager.FindByIdAsync(id);
             var roles = await _userManager.GetRolesAsync(user);
-            AccountEditViewModel vm = new AccountEditViewModel(_roleManager) { Account = user, Roles = GetItemsRole() };
+            AccountEditViewModel vm = new AccountEditViewModel() { Account = user, Roles = GetItemsRole() };
 
             return vm;
         }
