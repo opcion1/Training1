@@ -72,6 +72,7 @@ namespace Training1.Tests.Controllers
             var model = Assert.IsAssignableFrom<Ingredient>(viewResult.Value);
             _mockService.Verify();
         }
+
         [Fact]
         public async Task Delete_ReturnOk()
         {
@@ -83,6 +84,46 @@ namespace Training1.Tests.Controllers
 
             //Assert
             var viewResult = Assert.IsType<OkResult>(result);
+            _mockService.Verify();
+        }
+
+        [Fact]
+        public async Task Details_ReturnNotFound_WhenIdIsNull()
+        {
+            //Arrange
+
+            //Act
+            var result = await _controller.Details(null);
+
+            //Assert
+            var viewResult = Assert.IsType<NotFoundResult>(result);
+        }
+
+        [Fact]
+        public async Task Details_ReturnNotFound_WhenIngredientIsNull()
+        {
+            //Arrange
+            _mockService.MockGetByIdAsync(null);
+
+            //Act
+            var result = await _controller.Details(_idTestIngredient);
+
+            //Assert
+            var viewResult = Assert.IsType<NotFoundResult>(result);
+            _mockService.Verify();
+        }
+
+        [Fact]
+        public async Task Details_ReturnOk()
+        {
+            //Arrange
+            _mockService.MockGetByIdAsync(_testIngredient);
+
+            //Act
+            var result = await _controller.Details(_idTestIngredient);
+
+            //Assert
+            var viewResult = Assert.IsType<OkObjectResult>(result);
             _mockService.Verify();
         }
 
