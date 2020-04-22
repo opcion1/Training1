@@ -1,4 +1,6 @@
-﻿using Moq;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Update;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -28,6 +30,22 @@ namespace Training1.Tests.Mock.Services
                 .ReturnsAsync(ingredient)
                 .Verifiable();
 
+            return this;
+        }
+
+        public MockIngredientService MockEditAsync()
+        {
+            Setup(service => service.EditAsync(It.IsAny<Ingredient>()))
+                .Returns(Task.CompletedTask)
+                .Verifiable();
+            return this;
+        }
+
+        public MockIngredientService MockEditAsync_ThrowsDbUpdateConcurrencyException()
+        {
+            Setup(service => service.EditAsync(It.IsAny<Ingredient>()))
+                .Throws(new DbUpdateConcurrencyException(string.Empty, new List<IUpdateEntry> { new Mock<IUpdateEntry>().Object }))
+                .Verifiable();
             return this;
         }
     }

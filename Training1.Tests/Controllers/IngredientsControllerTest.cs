@@ -42,6 +42,36 @@ namespace Training1.Tests.Controllers
             _mockService.Verify();
         }
 
+        [Fact]
+        public async Task Edit_ReturnNotFound_WhenDbUpdateConcurrencyException()
+        {
+            //Arrange
+            _mockService.MockEditAsync_ThrowsDbUpdateConcurrencyException();
+
+            //Act
+            var result = await _controller.Edit(_testIngredient);
+
+            //Assert
+            var viewResult = Assert.IsType<NotFoundResult>(result);
+            _mockService.Verify();
+        }
+        [Fact]
+        public async Task Edit_ReturnViewResult()
+        {
+            //Arrange
+            _mockService
+                .MockEditAsync()
+                .MockGetByIdAsync(new Ingredient());
+
+            //Act
+            var result = await _controller.Edit(_testIngredient);
+
+            //Assert
+            var viewResult = Assert.IsType<OkObjectResult>(result);
+            var model = Assert.IsAssignableFrom<Ingredient>(viewResult.Value);
+            _mockService.Verify();
+        }
+
 
         private IngredientsController GetIngredientsController(MockIngredientService mockService)
         {
