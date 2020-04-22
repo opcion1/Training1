@@ -1,7 +1,5 @@
 ﻿using Moq;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Training1.Models;
 using Training1.Services.Interfaces;

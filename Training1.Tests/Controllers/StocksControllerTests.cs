@@ -15,7 +15,7 @@ using Training1.Tests.Mock.Repositories;
 using Training1.Tests.Mock.Services;
 using Xunit;
 
-namespace Training1.Tests
+namespace Training1.Tests.Controllers
 {
     public class StockControllerTest
     {
