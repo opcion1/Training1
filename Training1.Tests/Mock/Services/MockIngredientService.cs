@@ -48,5 +48,13 @@ namespace Training1.Tests.Mock.Services
                 .Verifiable();
             return this;
         }
+
+        public MockIngredientService MockDeleteAsync()
+        {
+            Setup(service => service.DeleteAsync(It.IsAny<int>()))
+                .Returns(Task.CompletedTask)
+                .Verifiable();
+            return this;
+        }
     }
 }

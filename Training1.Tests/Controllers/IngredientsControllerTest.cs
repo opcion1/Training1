@@ -55,6 +55,7 @@ namespace Training1.Tests.Controllers
             var viewResult = Assert.IsType<NotFoundResult>(result);
             _mockService.Verify();
         }
+
         [Fact]
         public async Task Edit_ReturnViewResult()
         {
@@ -69,6 +70,19 @@ namespace Training1.Tests.Controllers
             //Assert
             var viewResult = Assert.IsType<OkObjectResult>(result);
             var model = Assert.IsAssignableFrom<Ingredient>(viewResult.Value);
+            _mockService.Verify();
+        }
+        [Fact]
+        public async Task Delete_ReturnOk()
+        {
+            //Arrange
+            _mockService.MockDeleteAsync();
+
+            //Act
+            var result = await _controller.Delete(_idTestIngredient);
+
+            //Assert
+            var viewResult = Assert.IsType<OkResult>(result);
             _mockService.Verify();
         }
 
