@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using Training1.Areas.Identity.Data;
 using Training1.Authorization;
-using Training1.Infrastructure;
 using Training1.Models;
-using Training1.Repositories;
 using Training1.Services.Interfaces;
 
 namespace Training1.Controllers
@@ -20,8 +15,8 @@ namespace Training1.Controllers
     {
         private readonly IAuthorizationService _authorizationService;
         private readonly IHomeService _homeService;
-        public HomeController(IAuthorizationService authorizationService,
-                                IHomeService homeService)
+        public HomeController(IHomeService homeService,
+                                IAuthorizationService authorizationService)
         {
             _authorizationService = authorizationService;
             _homeService = homeService;
@@ -51,22 +46,14 @@ namespace Training1.Controllers
         {
             try
             {
-                AppUser user = new AppUser { Id = id };
-                if (user != null)
+                var isAuthorized = await _authorizationService.AuthorizeAsync(User, new AppUser { Id = id }, UserOperations.Update);
+                if (isAuthorized.Succeeded)
                 {
-                    var isAuthorized = await _authorizationService.AuthorizeAsync(User, new AppUser { Id = id }, UserOperations.Update);
-                    if (isAuthorized.Succeeded)
-                    {
-                        await _homeService.UpdateAppStyle(id, appStyle);
-                    }
-                    else
-                    {
-                        return new ChallengeResult();
-                    }
+                    await _homeService.UpdateAppStyle(id, appStyle);
                 }
                 else
                 {
-                    throw new KeyNotFoundException();
+                    return new ChallengeResult();
                 }
             }
             catch (KeyNotFoundException)
