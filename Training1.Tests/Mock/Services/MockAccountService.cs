@@ -43,5 +43,14 @@ namespace Training1.Tests.Mock.Services
                 .Throws(new KeyNotFoundException());
             return this;
         }
+
+        public MockAccountService MockLogout()
+        {
+            Setup(service => service.LogOut())
+                .Returns(Task.CompletedTask)
+                .Verifiable();
+
+            return this;
+        }
     }
 }

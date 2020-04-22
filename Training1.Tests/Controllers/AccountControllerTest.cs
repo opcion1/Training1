@@ -214,6 +214,22 @@ namespace Training1.Tests.Controllers
             _mockService.Verify();
         }
 
+        [Fact]
+        public async Task Logout_RedirectToAction()
+        {
+            //Arrange
+            _mockService.MockLogout();
+
+            //Act
+            var result = await _accountsController.Logout();
+
+            //Assert
+            var redirectToActionResult = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("Home", redirectToActionResult.ControllerName);
+            Assert.Equal("Index", redirectToActionResult.ActionName);
+            _mockService.Verify();
+        }
+
         private AccountsController GetAccountsControllerAdmin(MockAccountService mockService, MockUserManager mockUserManager, MockUserValidator mockUserValidator)
         {
             var authService = MockAuthorizationService.BuildAuthorizationService(services =>
