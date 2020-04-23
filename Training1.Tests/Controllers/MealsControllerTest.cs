@@ -202,7 +202,33 @@ namespace Training1.Tests.Controllers
             Assert.Equal("Details", redirectToActionResult.ActionName);
             _mockService.Verify();
         }
+        [Fact]
+        public async Task DeleteFoodPost_ReturnChallengeResult_When_NotAuthorizedToDeleteMealFood()
+        {
+            //Arrange
 
+            //Act
+            var result = await _controllerWithNoRole.DeleteMealFood(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>());
+
+            //Assert
+            Assert.IsType<ChallengeResult>(result);
+        }
+
+        [Fact]
+        public async Task DeleteFoodPost_RedirectToAction_When_AuthorizationsOk()
+        {
+            //Arrange
+            _mockService.MockDeleteMealFoodAsync();
+
+            //Act
+            var result = await _controller.DeleteMealFood(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>());
+
+            //Assert
+            var redirectToActionResult = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("Sesshins", redirectToActionResult.ControllerName);
+            Assert.Equal("Details", redirectToActionResult.ActionName);
+            _mockService.Verify();
+        }
 
         private MealsController GetMealsController(MockMealService mockService, bool addRole)
         {

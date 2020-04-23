@@ -67,6 +67,14 @@ namespace Training1.Tests.Mock.Services
             return this;
         }
 
+        public MockMealService MockDeleteMealFoodAsync()
+        {
+            Setup(service => service.DeleteMealFoodAsync(It.IsAny<int>(), It.IsAny<int>()))
+                .Returns(Task.CompletedTask)
+                .Verifiable();
+            return this;
+        }
+
         public MockMealService MockGetById(Meal meal)
         {
             Setup(service => service.GetById(It.IsAny<int>()))
