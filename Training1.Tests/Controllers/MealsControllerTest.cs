@@ -213,7 +213,6 @@ namespace Training1.Tests.Controllers
             //Assert
             Assert.IsType<ChallengeResult>(result);
         }
-
         [Fact]
         public async Task DeleteFoodPost_RedirectToAction_When_AuthorizationsOk()
         {
@@ -227,6 +226,36 @@ namespace Training1.Tests.Controllers
             var redirectToActionResult = Assert.IsType<RedirectToActionResult>(result);
             Assert.Equal("Sesshins", redirectToActionResult.ControllerName);
             Assert.Equal("Details", redirectToActionResult.ActionName);
+            _mockService.Verify();
+        }
+
+        [Fact]
+        public async Task SearchFood_ReturnBadRequest_When_ThrowException()
+        {
+            //Arrange
+            _mockService.MockSearchFoodByNameAsyncAndThorwsException();
+
+            //Act
+            var result = await _controller.SearchFood(It.IsAny<string>());
+
+            //Assert
+            Assert.IsType<BadRequestResult>(result);
+            _mockService.Verify();
+        }
+
+        [Fact]
+        public async Task SearchFood_ReturnOkObjectResult_WhenNoException()
+        {
+            //Arrange
+            var foods = new List<Food> { _testFood };
+            _mockService.MockSearchFoodByNameAsync(foods);
+
+            //Act
+            var result = await _controller.SearchFood(It.IsAny<string>());
+
+            //Assert
+            var objectResult = Assert.IsType<OkObjectResult>(result);
+            Assert.IsAssignableFrom<IEnumerable<Food>>(objectResult.Value);
             _mockService.Verify();
         }
 

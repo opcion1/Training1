@@ -75,6 +75,23 @@ namespace Training1.Tests.Mock.Services
             return this;
         }
 
+        public MockMealService MockSearchFoodByNameAsync(IEnumerable<Food> foods)
+        {
+            Setup(service => service.SearchFoodByNameAsync(It.IsAny<string>()))
+                .ReturnsAsync(foods)
+                .Verifiable();
+            return this;
+        }
+
+        public MockMealService MockSearchFoodByNameAsyncAndThorwsException()
+        {
+            Setup(service => service.SearchFoodByNameAsync(It.IsAny<string>()))
+                .Throws(new Exception())
+                .Verifiable();
+
+            return this;
+        }
+
         public MockMealService MockGetById(Meal meal)
         {
             Setup(service => service.GetById(It.IsAny<int>()))
