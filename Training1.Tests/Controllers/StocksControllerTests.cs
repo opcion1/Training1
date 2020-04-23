@@ -2,16 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Training1.Authorization;
 using Training1.Controllers;
 using Training1.Models;
 using Training1.Services.Interfaces;
-using Training1.Tests.Mock;
-using Training1.Tests.Mock.Repositories;
+using Training1.Tests.Mock.Authorization;
 using Training1.Tests.Mock.Services;
 using Xunit;
 

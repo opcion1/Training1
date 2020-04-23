@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 using Training1.Areas.Identity.Data;
 using Training1.Authorization;
 using Training1.Models;
-using Training1.Repositories;
 using Training1.Services.Interfaces;
 using Training1.Tests.Mock;
-using Training1.Tests.Mock.Repositories;
+using Training1.Tests.Mock.Authorization;
 using Training1.Tests.Mock.Services;
 using Xunit;
 

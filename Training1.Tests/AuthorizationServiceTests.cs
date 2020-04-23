@@ -5,11 +5,9 @@ using System.Threading.Tasks;
 using Training1.Areas.Identity.Data;
 using Training1.Authorization;
 using Training1.Models;
-using Training1.Repositories;
-using Training1.Repositories.Interfaces;
 using Training1.Services.Interfaces;
 using Training1.Tests.Mock;
-using Training1.Tests.Mock.Repositories;
+using Training1.Tests.Mock.Authorization;
 using Training1.Tests.Mock.Services;
 using Xunit;
 
@@ -17,27 +15,6 @@ namespace Training1.Tests
 {
     public class AuthorizationServiceTests
     {
-        [Fact]
-        public async Task AdminAuthorization_ShowAllowProductCreateWhenAdministrator()
-        {
-            //Arrange
-            var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
-            {
-                services.AddScoped<IAuthorizationHandler, AdminAuthorizationHandler>();
-            });
-            var user = new ClaimsPrincipal(
-                new ClaimsIdentity(
-                    new Claim[] {
-                        new Claim(ClaimTypes.Name, "homer.simpson"),
-                        new Claim(ClaimTypes.Role, Constants.UserAdministratorsRole),
-                        new Claim("AccountStatus","Approved")}));
-
-            //Act
-            var allowed = await authorizationService.AuthorizeAsync(user, new Product(), UserOperations.Create);
-
-            // Assert
-            Assert.True(allowed.Succeeded);
-        }
         [Fact]
         public async Task ChefAuthorization_ShowAllowProductCreateWhenChef()
         {

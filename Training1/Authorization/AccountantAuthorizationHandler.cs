@@ -20,6 +20,11 @@ namespace Training1.Authorization
                 return Task.CompletedTask;
             }
 
+            if (IsUserRejected(context))
+            {
+                return Task.CompletedTask;
+            }
+
             if (IsUserSubmitted(context) && requirement.Name != Constants.ReadOperationName)
             {
                 return Task.CompletedTask;
@@ -60,6 +65,16 @@ namespace Training1.Authorization
             if (Enum.TryParse(status, out Status userStatus))
             {
                 return userStatus == Status.Submitted;
+            }
+            return false;
+        }
+
+        private bool IsUserRejected(AuthorizationHandlerContext context)
+        {
+            string status = context.User.FindFirst("AccountStatus").Value;
+            if (Enum.TryParse(status, out Status userStatus))
+            {
+                return userStatus == Status.Rejected;
             }
             return false;
         }

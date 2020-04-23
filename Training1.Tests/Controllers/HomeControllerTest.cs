@@ -1,18 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
-using Training1.Areas.Identity.Data;
 using Training1.Authorization;
 using Training1.Controllers;
 using Training1.Services.Interfaces;
-using Training1.Tests.Mock;
+using Training1.Tests.Mock.Authorization;
 using Training1.Tests.Mock.Services;
 using Xunit;
 
