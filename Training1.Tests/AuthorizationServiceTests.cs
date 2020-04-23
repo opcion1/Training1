@@ -49,8 +49,8 @@ namespace Training1.Tests
             };
             var userManager = MockIdentity.MockUserManager<AppUser>().Object;
             MockMealService mockMeal = new MockMealService();
-            mockMeal.MockGetById(1, meal);
-            mockMeal.MockGetSesshinOwner(meal.Id);
+            mockMeal.MockGetById(meal);
+            mockMeal.MockGetSesshinOwner("1");
             MockSesshinService mockSesshin = new MockSesshinService();
             var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
             {
@@ -127,8 +127,8 @@ namespace Training1.Tests
             };
             var userManager = MockIdentity.MockUserManager<AppUser>().Object;
             MockMealService mockMeal = new MockMealService();
-            mockMeal.MockGetById(1, meal);
-            mockMeal.MockGetSesshinOwner(meal.Id);
+            mockMeal.MockGetById(meal);
+            mockMeal.MockGetSesshinOwner("1");
             MockSesshinService mockSesshin = new MockSesshinService();
             var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
             {
@@ -205,8 +205,8 @@ namespace Training1.Tests
             };
             var userManager = MockIdentity.MockUserManager<AppUser>().Object;
             MockMealService mockMeal = new MockMealService();
-            mockMeal.MockGetById(1, meal);
-            mockMeal.MockGetSesshinOwner(meal.Id);
+            mockMeal.MockGetById(meal);
+            mockMeal.MockGetSesshinOwner("1");
             MockSesshinService mockSesshin = new MockSesshinService();
             var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
             {
@@ -327,8 +327,8 @@ namespace Training1.Tests
             };
             var userManager = MockIdentity.MockUserManager<AppUser>().Object;
             MockMealService mockMeal = new MockMealService();
-            mockMeal.MockGetById(1, meal);
-            mockMeal.MockGetSesshinOwner(meal.Id);
+            mockMeal.MockGetById(meal);
+            mockMeal.MockGetSesshinOwner("1");
             MockSesshinService mockSesshin = new MockSesshinService();
             var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
             {
@@ -360,8 +360,8 @@ namespace Training1.Tests
             };
             var userManager = MockIdentity.MockUserManager<AppUser>().Object;
             MockMealService mockMeal = new MockMealService();
-            mockMeal.MockGetById(1, meal);
-            mockMeal.MockGetSesshinOwner(meal.Id);
+            mockMeal.MockGetById(meal);
+            mockMeal.MockGetSesshinOwner("1");
             MockSesshinService mockSesshin = new MockSesshinService();
             var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
             {
@@ -393,8 +393,8 @@ namespace Training1.Tests
             };
             var userManager = MockIdentity.MockUserManager<AppUser>().Object;
             MockMealService mockMeal = new MockMealService();
-            mockMeal.MockGetById(1, meal);
-            mockMeal.MockGetSesshinOwner(meal.Id);
+            mockMeal.MockGetById(meal);
+            mockMeal.MockGetSesshinOwner("1");
             MockSesshinService mockSesshin = new MockSesshinService();
             var authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
             {
