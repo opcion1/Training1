@@ -128,6 +128,82 @@ namespace Training1.Tests.Controllers
             _mockService.Verify();
         }
 
+        [Fact]
+        public async Task EditFood_ReturnMealFoodViewModel()
+        {
+            //Arrange
+            _mockService.MockGetFoodByIdAsync(_testFood);
+
+            //Act
+            var result = await _controller.EditFood(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>());
+
+            //Assert
+            var viewResult = Assert.IsType<ViewResult>(result);
+            var model = Assert.IsAssignableFrom<MealFoodViewModel>(viewResult.ViewData.Model);
+            _mockService.Verify();
+        }
+
+        [Fact]
+        public async Task EditFoodPost_ReturnMealFoodViewModel_WhenModelIsNotValid()
+        {
+            //Arrange
+            _controller.ModelState.AddModelError("error", "some error");
+
+            //Act
+            var result = await _controller.EditFood(_testMealFoodViewModel);
+
+            //Assert
+            var viewResult = Assert.IsType<ViewResult>(result);
+            var model = Assert.IsAssignableFrom<MealFoodViewModel>(viewResult.ViewData.Model);
+        }
+
+        [Fact]
+        public async Task EditFoodPost_ReturnNotFound_WhenFoodNotExists()
+        {
+            //Arrange
+            _mockService.MockExistsFood(false);
+
+            //Act
+            var result = await _controllerWithNoRole.AddFood(_testMealFoodViewModel);
+
+            //Assert
+            Assert.IsType<ChallengeResult>(result);
+            _mockService.Verify();
+        }
+
+        [Fact]
+        public async Task EditFoodPost_ReturnChallengeResult_WhenFoodExistsAndNotAuthorizedToCreateMealFood()
+        {
+            //Arrange
+            _mockService.MockExistsFood(true);
+
+            //Act
+            var result = await _controllerWithNoRole.EditFood(_testMealFoodViewModel);
+
+            //Assert
+            Assert.IsType<ChallengeResult>(result);
+            _mockService.Verify();
+        }
+
+        [Fact]
+        public async Task EditFoodPost_RedirectToAction_WhenModelValid_FoodExists_And_AuthorizationsOk()
+        {
+            //Arrange
+            _mockService
+                .MockExistsFood(true)
+                .MockEditFoodAsync();
+
+            //Act
+            var result = await _controller.EditFood(_testMealFoodViewModel);
+
+            //Assert
+            var redirectToActionResult = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("Sesshins", redirectToActionResult.ControllerName);
+            Assert.Equal("Details", redirectToActionResult.ActionName);
+            _mockService.Verify();
+        }
+
+
         private MealsController GetMealsController(MockMealService mockService, bool addRole)
         {
             var authService = MockAuthorizationService.BuildAuthorizationService(services =>

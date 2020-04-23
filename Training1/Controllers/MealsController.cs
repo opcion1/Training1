@@ -79,7 +79,7 @@ namespace Training1.Controllers
         // GET: Meals/EditFood
         public async Task<IActionResult> EditFood(int mealId, int foodId, int sesshinId)
         {
-            Food food = await _mealService.FoodRepository.GetByIdAsync(foodId);
+            Food food = await _mealService.GetFoodByIdAsync(foodId);
             MealFoodViewModel mealFoodView = new MealFoodViewModel { MealId = mealId, SesshinId = sesshinId, Food = food };
             return View(mealFoodView);
         }
@@ -95,7 +95,7 @@ namespace Training1.Controllers
                     bool foodExists = await _mealService.ExistsFood(mealFoodView.Food.Id);
                     if (foodExists)
                     {
-                        var canUpdateFood = await _authorizationService.AuthorizeAsync(User, mealFoodView.Food, UserOperations.Create);
+                        var canUpdateFood = await _authorizationService.AuthorizeAsync(User, mealFoodView.Food, UserOperations.Update);
                         if (canUpdateFood.Succeeded)
                         {
                             await _mealService.EditFoodAsync(mealFoodView.Food);

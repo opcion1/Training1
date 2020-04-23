@@ -68,6 +68,10 @@ namespace Training1.Services
         }
 
         #region Food methods
+        public async Task<Food> GetFoodByIdAsync(int id)
+        {
+            return await _foodRepository.GetByIdAsync(id);
+        }
         public async Task CreateFoodAsync(Food food)
         {
             await _foodRepository.AddAsync(food);

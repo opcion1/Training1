@@ -50,6 +50,23 @@ namespace Training1.Tests.Mock.Services
             return this;
         }
 
+        public MockMealService MockGetFoodByIdAsync(Food food)
+        {
+            Setup(service => service.GetFoodByIdAsync(It.IsAny<int>()))
+                .ReturnsAsync(food)
+                .Verifiable();
+
+            return this;
+        }
+
+        public MockMealService MockEditFoodAsync()
+        {
+            Setup(service => service.EditFoodAsync(It.IsAny<Food>()))
+                .Returns(Task.CompletedTask)
+                .Verifiable();
+            return this;
+        }
+
         public MockMealService MockGetById(Meal meal)
         {
             Setup(service => service.GetById(It.IsAny<int>()))

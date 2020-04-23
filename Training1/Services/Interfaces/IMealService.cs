@@ -12,6 +12,8 @@ namespace Training1.Services.Interfaces
         IMealFoodRepository MealFoodRepository { get; }
         string GetMealSesshinOwner(int mealId);
 
+        Task<Food> GetFoodByIdAsync(int id);
+
         Task CreateFoodAsync(Food food);
 
         Task EditFoodAsync(Food food);
