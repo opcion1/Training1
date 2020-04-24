@@ -15,12 +15,19 @@ namespace Training1.Tests.Authorizations
     {
         private readonly IAuthorizationService _authorizationService;
         private readonly TestClaimsPrincipal _user;
+        private readonly MockUserManager _userManager;
+        private readonly MockMealService _mealService;
+        private readonly MockSesshinService _sesshinService;
 
         public StockChefAuthorizationServiceTest()
         {
+            _userManager = new MockUserManager();
+            _mealService = new MockMealService();
+            _sesshinService = new MockSesshinService();
+
             _authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
             {
-                services.AddScoped<IAuthorizationHandler>(sp => new ChefAuthorizationHandler(new MockUserManager().Object, new MockMealService().Object, new MockSesshinService().Object));
+                services.AddScoped<IAuthorizationHandler>(sp => new ChefAuthorizationHandler(_userManager.Object, _mealService.Object, _sesshinService.Object));
             });
             _user = new TestClaimsPrincipal();
         }

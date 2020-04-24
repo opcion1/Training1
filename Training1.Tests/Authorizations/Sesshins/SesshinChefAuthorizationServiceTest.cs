@@ -11,7 +11,7 @@ using Xunit;
 
 namespace Training1.Tests.Authorizations
 {
-    public class ProductChefAuthorizationServiceTest
+    public class SesshinChefAuthorizationServiceTest
     {
         private readonly IAuthorizationService _authorizationService;
         private readonly TestClaimsPrincipal _user;
@@ -19,7 +19,7 @@ namespace Training1.Tests.Authorizations
         private readonly MockMealService _mealService;
         private readonly MockSesshinService _sesshinService;
 
-        public ProductChefAuthorizationServiceTest()
+        public SesshinChefAuthorizationServiceTest()
         {
             _userManager = new MockUserManager();
             _mealService = new MockMealService();
@@ -33,19 +33,19 @@ namespace Training1.Tests.Authorizations
         }
 
         [Fact]
-        public async Task ShouldNotAllow_ProductRead_WhenNotChef()
+        public async Task ShouldNotAllow_SesshinRead_WhenNotChef()
         {
             //Arrange
 
             //Act
-            var allowed = await _authorizationService.AuthorizeAsync(_user, new Product(), UserOperations.Read);
+            var allowed = await _authorizationService.AuthorizeAsync(_user, new Sesshin(), UserOperations.Read);
 
             // Assert
             Assert.False(allowed.Succeeded);
         }
 
         [Fact]
-        public async Task ShouldNotAllow_ProductRead_When_ChefAndRejected()
+        public async Task ShouldNotAllow_SesshinRead_When_ChefAndRejected()
         {
             //Arrange
             _user
@@ -53,7 +53,7 @@ namespace Training1.Tests.Authorizations
                 .AddStatus(Status.Rejected);
 
             //Act
-            var allowed = await _authorizationService.AuthorizeAsync(_user, new Product(), UserOperations.Read);
+            var allowed = await _authorizationService.AuthorizeAsync(_user, new Sesshin(), UserOperations.Read);
 
             // Assert
             Assert.False(allowed.Succeeded);
@@ -61,7 +61,7 @@ namespace Training1.Tests.Authorizations
 
 
         [Fact]
-        public async Task ShouldAllow_ProductRead_When_ChefAndSumitted()
+        public async Task ShouldAllow_SesshinRead_When_ChefAndSumitted()
         {
             //Arrange
             _user
@@ -69,7 +69,7 @@ namespace Training1.Tests.Authorizations
                 .AddStatus(Status.Submitted);
 
             //Act
-            var allowed = await _authorizationService.AuthorizeAsync(_user, new Product(), UserOperations.Read);
+            var allowed = await _authorizationService.AuthorizeAsync(_user, new Sesshin(), UserOperations.Read);
 
             // Assert
             Assert.True(allowed.Succeeded);
@@ -77,7 +77,7 @@ namespace Training1.Tests.Authorizations
 
 
         [Fact]
-        public async Task ShouldAllow_ProductRead_When_ChefAndApproved()
+        public async Task ShouldAllow_SesshinRead_When_ChefAndApproved()
         {
             //Arrange
             _user
@@ -85,26 +85,26 @@ namespace Training1.Tests.Authorizations
                 .AddStatus(Status.Approved);
 
             //Act
-            var allowed = await _authorizationService.AuthorizeAsync(_user, new Product(), UserOperations.Read);
+            var allowed = await _authorizationService.AuthorizeAsync(_user, new Sesshin(), UserOperations.Read);
 
             // Assert
             Assert.True(allowed.Succeeded);
         }
 
         [Fact]
-        public async Task ShouldNotAllow_ProductCreate_WhenNotChef()
+        public async Task ShouldNotAllow_SesshinCreate_WhenNotChef()
         {
             //Arrange
 
             //Act
-            var allowed = await _authorizationService.AuthorizeAsync(_user, new Product(), UserOperations.Create);
+            var allowed = await _authorizationService.AuthorizeAsync(_user, new Sesshin(), UserOperations.Create);
 
             // Assert
             Assert.False(allowed.Succeeded);
         }
 
         [Fact]
-        public async Task ShouldNotAllow_ProductCreate_When_ChefAndRejected()
+        public async Task ShouldNotAllow_SesshinCreate_When_ChefAndRejected()
         {
             //Arrange
             _user
@@ -112,7 +112,7 @@ namespace Training1.Tests.Authorizations
                 .AddStatus(Status.Rejected);
 
             //Act
-            var allowed = await _authorizationService.AuthorizeAsync(_user, new Product(), UserOperations.Create);
+            var allowed = await _authorizationService.AuthorizeAsync(_user, new Sesshin(), UserOperations.Create);
 
             // Assert
             Assert.False(allowed.Succeeded);
@@ -120,7 +120,7 @@ namespace Training1.Tests.Authorizations
 
 
         [Fact]
-        public async Task ShouldNotAllow_ProductCreate_When_ChefAndSumitted()
+        public async Task ShouldNotAllow_SesshinCreate_When_ChefAndSumitted()
         {
             //Arrange
             _user
@@ -128,7 +128,7 @@ namespace Training1.Tests.Authorizations
                 .AddStatus(Status.Submitted);
 
             //Act
-            var allowed = await _authorizationService.AuthorizeAsync(_user, new Product(), UserOperations.Create);
+            var allowed = await _authorizationService.AuthorizeAsync(_user, new Sesshin(), UserOperations.Create);
 
             // Assert
             Assert.False(allowed.Succeeded);
@@ -136,7 +136,7 @@ namespace Training1.Tests.Authorizations
 
 
         [Fact]
-        public async Task ShouldAllow_ProductCreate_When_ChefAndApproved()
+        public async Task ShouldAllow_SesshinCreate_When_ChefAndApproved()
         {
             //Arrange
             _user
@@ -144,26 +144,26 @@ namespace Training1.Tests.Authorizations
                 .AddStatus(Status.Approved);
 
             //Act
-            var allowed = await _authorizationService.AuthorizeAsync(_user, new Product(), UserOperations.Create);
+            var allowed = await _authorizationService.AuthorizeAsync(_user, new Sesshin(), UserOperations.Create);
 
             // Assert
             Assert.True(allowed.Succeeded);
         }
 
         [Fact]
-        public async Task ShouldNotAllow_ProductUpdate_WhenNotChef()
+        public async Task ShouldNotAllow_SesshinUpdate_WhenNotChef()
         {
             //Arrange
 
             //Act
-            var allowed = await _authorizationService.AuthorizeAsync(_user, new Product(), UserOperations.Update);
+            var allowed = await _authorizationService.AuthorizeAsync(_user, new Sesshin(), UserOperations.Update);
 
             // Assert
             Assert.False(allowed.Succeeded);
         }
 
         [Fact]
-        public async Task ShouldNotAllow_ProductUpdate_When_ChefAndRejected()
+        public async Task ShouldNotAllow_SesshinUpdate_When_ChefAndRejected()
         {
             //Arrange
             _user
@@ -171,7 +171,7 @@ namespace Training1.Tests.Authorizations
                 .AddStatus(Status.Rejected);
 
             //Act
-            var allowed = await _authorizationService.AuthorizeAsync(_user, new Product(), UserOperations.Update);
+            var allowed = await _authorizationService.AuthorizeAsync(_user, new Sesshin(), UserOperations.Update);
 
             // Assert
             Assert.False(allowed.Succeeded);
@@ -179,7 +179,7 @@ namespace Training1.Tests.Authorizations
 
 
         [Fact]
-        public async Task ShouldNotAllow_ProductUpdate_When_ChefAndSumitted()
+        public async Task ShouldNotAllow_SesshinUpdate_When_ChefAndSumitted()
         {
             //Arrange
             _user
@@ -187,42 +187,62 @@ namespace Training1.Tests.Authorizations
                 .AddStatus(Status.Submitted);
 
             //Act
-            var allowed = await _authorizationService.AuthorizeAsync(_user, new Product(), UserOperations.Update);
+            var allowed = await _authorizationService.AuthorizeAsync(_user, new Sesshin(), UserOperations.Update);
 
             // Assert
             Assert.False(allowed.Succeeded);
         }
 
-
         [Fact]
-        public async Task ShouldAllow_ProductUpdate_When_ChefAndApproved()
+        public async Task ShouldNotAllow_SesshinUpdate_When_ChefAndApprovedAndNotOwner()
         {
             //Arrange
+            string testUserId = "testUserId";
             _user
                 .AddRole(Constants.UserChefRole)
                 .AddStatus(Status.Approved);
+            _userManager.MockGetUserId(testUserId);
 
             //Act
-            var allowed = await _authorizationService.AuthorizeAsync(_user, new Product(), UserOperations.Update);
+            var allowed = await _authorizationService.AuthorizeAsync(_user, new Sesshin() { AppUserId = "AnOtherId"}, UserOperations.Update);
 
             // Assert
-            Assert.True(allowed.Succeeded);
+            Assert.False(allowed.Succeeded);
+            _userManager.Verify();
         }
 
         [Fact]
-        public async Task ShouldNotAllow_ProductDelete_WhenNotChef()
+        public async Task ShouldAllow_SesshinUpdate_When_ChefAndApprovedAndOwner()
+        {
+            //Arrange
+            string testUserId = "testUserId";
+            _user
+                .AddRole(Constants.UserChefRole)
+                .AddStatus(Status.Approved);
+            _userManager.MockGetUserId(testUserId);
+
+            //Act
+            var allowed = await _authorizationService.AuthorizeAsync(_user, new Sesshin() { AppUserId = testUserId }, UserOperations.Update); 
+
+            // Assert
+            Assert.True(allowed.Succeeded);
+            _userManager.Verify();
+        }
+
+        [Fact]
+        public async Task ShouldNotAllow_SesshinDelete_WhenNotChef()
         {
             //Arrange
 
             //Act
-            var allowed = await _authorizationService.AuthorizeAsync(_user, new Product(), UserOperations.Delete);
+            var allowed = await _authorizationService.AuthorizeAsync(_user, new Sesshin(), UserOperations.Delete);
 
             // Assert
             Assert.False(allowed.Succeeded);
         }
 
         [Fact]
-        public async Task ShouldNotAllow_ProductDelete_When_ChefAndRejected()
+        public async Task ShouldNotAllow_SesshinDelete_When_ChefAndRejected()
         {
             //Arrange
             _user
@@ -230,7 +250,7 @@ namespace Training1.Tests.Authorizations
                 .AddStatus(Status.Rejected);
 
             //Act
-            var allowed = await _authorizationService.AuthorizeAsync(_user, new Product(), UserOperations.Delete);
+            var allowed = await _authorizationService.AuthorizeAsync(_user, new Sesshin(), UserOperations.Delete);
 
             // Assert
             Assert.False(allowed.Succeeded);
@@ -238,7 +258,7 @@ namespace Training1.Tests.Authorizations
 
 
         [Fact]
-        public async Task ShouldNotAllow_ProductDelete_When_ChefAndSumitted()
+        public async Task ShouldNotAllow_SesshinDelete_When_ChefAndSumitted()
         {
             //Arrange
             _user
@@ -246,7 +266,7 @@ namespace Training1.Tests.Authorizations
                 .AddStatus(Status.Submitted);
 
             //Act
-            var allowed = await _authorizationService.AuthorizeAsync(_user, new Product(), UserOperations.Delete);
+            var allowed = await _authorizationService.AuthorizeAsync(_user, new Sesshin(), UserOperations.Delete);
 
             // Assert
             Assert.False(allowed.Succeeded);
@@ -254,18 +274,39 @@ namespace Training1.Tests.Authorizations
 
 
         [Fact]
-        public async Task ShouldNotAllow_ProductDelete_When_ChefAndApproved()
+        public async Task ShouldNotAllow_SesshinDelete_When_ChefAndApprovedAndNotOwner()
         {
             //Arrange
+            string testUserId = "testUserId";
             _user
                 .AddRole(Constants.UserChefRole)
                 .AddStatus(Status.Approved);
+            _userManager.MockGetUserId(testUserId);
 
             //Act
-            var allowed = await _authorizationService.AuthorizeAsync(_user, new Product(), UserOperations.Delete);
+            var allowed = await _authorizationService.AuthorizeAsync(_user, new Sesshin() { AppUserId = "AnOtherId" }, UserOperations.Delete);
 
             // Assert
             Assert.False(allowed.Succeeded);
+            _userManager.Verify();
+        }
+
+        [Fact]
+        public async Task ShouldAllow_SesshinDelete_When_ChefAndApprovedAndOwner()
+        {
+            //Arrange
+            string testUserId = "testUserId";
+            _user
+                .AddRole(Constants.UserChefRole)
+                .AddStatus(Status.Approved);
+            _userManager.MockGetUserId(testUserId);
+
+            //Act
+            var allowed = await _authorizationService.AuthorizeAsync(_user, new Sesshin() { AppUserId = testUserId }, UserOperations.Delete);
+
+            // Assert
+            Assert.True(allowed.Succeeded);
+            _userManager.Verify();
         }
     }
 }
