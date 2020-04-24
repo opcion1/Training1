@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Security.Claims;
 using Training1.Areas.Identity.Data;
 
 namespace Training1.Tests.Mock.Identity
@@ -28,6 +26,15 @@ namespace Training1.Tests.Mock.Identity
         {
             Setup(manager => manager.UpdateAsync(It.IsAny<AppUser>()))
                 .ReturnsAsync(result)
+                .Verifiable();
+
+            return this;
+        }
+
+        public MockUserManager MockGetUserId(string userId)
+        {
+            Setup(manager => manager.GetUserId(It.IsAny<ClaimsPrincipal>()))
+                .Returns(userId)
                 .Verifiable();
 
             return this;

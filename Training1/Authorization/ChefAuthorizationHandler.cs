@@ -34,6 +34,12 @@ namespace Training1.Authorization
             {
                 return Task.CompletedTask;
             }
+
+            if (IsUserRejected(context))
+            {
+                return Task.CompletedTask;
+            }
+
             if (IsUserSubmitted(context) && requirement.Name != Constants.ReadOperationName)
             {
                 return Task.CompletedTask;
@@ -82,6 +88,16 @@ namespace Training1.Authorization
             return Task.CompletedTask;
         }
 
+        private bool IsUserRejected(AuthorizationHandlerContext context)
+        {
+            string status = context.User.FindFirst("AccountStatus").Value;
+            if (Enum.TryParse(status, out Status userStatus))
+            {
+                return userStatus == Status.Rejected;
+            }
+            return false;
+        }
+
         private bool IsUserSubmitted(AuthorizationHandlerContext context)
         {
             string status = context.User.FindFirst("AccountStatus").Value;
@@ -105,6 +121,10 @@ namespace Training1.Authorization
 
         private bool IsAuthorizedMealFoodOperation(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, MealFood mealFood)
         {
+            if (requirement.Name == Constants.ReadOperationName)
+            {
+                return true;
+            }
             //Get the sesshin tenzo
             string mealFoodOwner = _mealService.GetMealSesshinOwner(mealFood.MealId);
             return (mealFoodOwner == _userManager.GetUserId(context.User));
@@ -113,6 +133,10 @@ namespace Training1.Authorization
         private bool IsAuthorizedDayOperation(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, DayOfSesshin dayOfSesshin)
         {
             //Get the sesshin tenzo
+            if (requirement.Name == Constants.ReadOperationName)
+            {
+                return true;
+            }
             string sesshinOwner = _sesshinService.GetSesshinOwner(dayOfSesshin.SesshinId);
             return (sesshinOwner == _userManager.GetUserId(context.User));
         }
@@ -120,7 +144,7 @@ namespace Training1.Authorization
         private bool IsAuthorizedFoodOperation(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, Food food)
         {
             //get 
-            return true;
+            return requirement.Name != Constants.DeleteOperationName;
         }
 
         private bool IsAuthorizedSesshinOperation(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, Sesshin sesshin)

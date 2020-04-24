@@ -10,7 +10,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Training1.Areas.Identity.Data;
 
-namespace Training1.Tests.Mock
+namespace Training1.Tests.Mock.Authorization
 {
 
     public class MockAuthorizationService
