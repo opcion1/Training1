@@ -10,12 +10,12 @@ using Training1.Areas.Identity.Data;
 
 namespace Training1.Tests.Authorizations
 {
-    public class ProductAdminAuthorizationServiceTest
+    public class StockAdminAuthorizationServiceTest
     {
         private readonly IAuthorizationService _authorizationService;
         private readonly TestClaimsPrincipal _user;
 
-        public ProductAdminAuthorizationServiceTest()
+        public StockAdminAuthorizationServiceTest()
         {
             _authorizationService = MockAuthorizationService.BuildAuthorizationService(services =>
             {
@@ -26,7 +26,7 @@ namespace Training1.Tests.Authorizations
 
 
         [Fact]
-        public async Task ShouldAllow_ProductRead_WhenAdministratorAndApproved()
+        public async Task ShouldAllow_StockRead_WhenAdministratorAndApproved()
         {
             //Arrange
             _user
@@ -34,14 +34,14 @@ namespace Training1.Tests.Authorizations
                 .AddStatus(Status.Approved); ;
 
             //Act
-            var allowed = await _authorizationService.AuthorizeAsync(_user, new Product(), UserOperations.Read);
+            var allowed = await _authorizationService.AuthorizeAsync(_user, new Stock(), UserOperations.Read);
 
             // Assert
             Assert.True(allowed.Succeeded);
         }
 
         [Fact]
-        public async Task ShouldAllow_ProductRead_WhenAdministratorAndSubmitted()
+        public async Task ShouldAllow_StockRead_WhenAdministratorAndSubmitted()
         {
             //Arrange
             _user
@@ -49,14 +49,14 @@ namespace Training1.Tests.Authorizations
                 .AddStatus(Status.Submitted); ;
 
             //Act
-            var allowed = await _authorizationService.AuthorizeAsync(_user, new Product(), UserOperations.Read);
+            var allowed = await _authorizationService.AuthorizeAsync(_user, new Stock(), UserOperations.Read);
 
             // Assert
             Assert.True(allowed.Succeeded);
         }
 
         [Fact]
-        public async Task ShouldNotAllow_ProductRead_WhenAdministratorAndRejected()
+        public async Task ShouldNotAllow_StockRead_WhenAdministratorAndRejected()
         {
             //Arrange
             _user
@@ -64,26 +64,26 @@ namespace Training1.Tests.Authorizations
                 .AddStatus(Status.Rejected);
 
             //Act
-            var allowed = await _authorizationService.AuthorizeAsync(_user, new Product(), UserOperations.Read);
+            var allowed = await _authorizationService.AuthorizeAsync(_user, new Stock(), UserOperations.Read);
 
             // Assert
             Assert.False(allowed.Succeeded);
         }
 
         [Fact]
-        public async Task ShouldNotAllow_ProductRead_WhenNotAdministrator()
+        public async Task ShouldNotAllow_StockRead_WhenNotAdministrator()
         {
             //Arrange
 
             //Act
-            var allowed = await _authorizationService.AuthorizeAsync(_user, new Product(), UserOperations.Read);
+            var allowed = await _authorizationService.AuthorizeAsync(_user, new Stock(), UserOperations.Read);
 
             // Assert
             Assert.False(allowed.Succeeded);
         }
 
         [Fact]
-        public async Task ShouldAllow_ProductCreate_WhenAdministratorAndApproved()
+        public async Task ShouldAllow_StockCreate_WhenAdministratorAndApproved()
         {
             //Arrange
             _user
@@ -91,14 +91,14 @@ namespace Training1.Tests.Authorizations
                 .AddStatus(Status.Approved);
 
             //Act
-            var allowed = await _authorizationService.AuthorizeAsync(_user, new Product(), UserOperations.Create);
+            var allowed = await _authorizationService.AuthorizeAsync(_user, new Stock(), UserOperations.Create);
 
             // Assert
             Assert.True(allowed.Succeeded);
         }
 
         [Fact]
-        public async Task ShouldNotAllow_ProductCreate_WhenAdministratorAndRejected()
+        public async Task ShouldNotAllow_StockCreate_WhenAdministratorAndRejected()
         {
             //Arrange
             _user
@@ -106,14 +106,14 @@ namespace Training1.Tests.Authorizations
                 .AddStatus(Status.Rejected);
 
             //Act
-            var allowed = await _authorizationService.AuthorizeAsync(_user, new Product(), UserOperations.Create);
+            var allowed = await _authorizationService.AuthorizeAsync(_user, new Stock(), UserOperations.Create);
 
             // Assert
             Assert.False(allowed.Succeeded);
         }
 
         [Fact]
-        public async Task ShouldNotAllow_ProductCreate_WhenAdministratorAndSubmitted()
+        public async Task ShouldNotAllow_StockCreate_WhenAdministratorAndSubmitted()
         {
             //Arrange
             _user
@@ -121,26 +121,26 @@ namespace Training1.Tests.Authorizations
                 .AddStatus(Status.Submitted);
 
             //Act
-            var allowed = await _authorizationService.AuthorizeAsync(_user, new Product(), UserOperations.Update);
+            var allowed = await _authorizationService.AuthorizeAsync(_user, new Stock(), UserOperations.Update);
 
             // Assert
             Assert.False(allowed.Succeeded);
         }
 
         [Fact]
-        public async Task ShouldNotAllow_ProductCreate_WhenNotAdministrator()
+        public async Task ShouldNotAllow_StockCreate_WhenNotAdministrator()
         {
             //Arrange
 
             //Act
-            var allowed = await _authorizationService.AuthorizeAsync(_user, new Product(), UserOperations.Create);
+            var allowed = await _authorizationService.AuthorizeAsync(_user, new Stock(), UserOperations.Create);
 
             // Assert
             Assert.False(allowed.Succeeded);
         }
 
         [Fact]
-        public async Task ShouldAllow_ProductUpdate_WhenAdministratorAndApproved()
+        public async Task ShouldAllow_StockUpdate_WhenAdministratorAndApproved()
         {
             //Arrange
             _user
@@ -148,14 +148,14 @@ namespace Training1.Tests.Authorizations
                 .AddStatus(Status.Approved);
 
             //Act
-            var allowed = await _authorizationService.AuthorizeAsync(_user, new Product(), UserOperations.Update);
+            var allowed = await _authorizationService.AuthorizeAsync(_user, new Stock(), UserOperations.Update);
 
             // Assert
             Assert.True(allowed.Succeeded);
         }
 
         [Fact]
-        public async Task ShouldNotAllow_ProductUpdate_WhenAdministratorAndRejected()
+        public async Task ShouldNotAllow_StockUpdate_WhenAdministratorAndRejected()
         {
             //Arrange
             _user
@@ -163,14 +163,14 @@ namespace Training1.Tests.Authorizations
                 .AddStatus(Status.Rejected);
 
             //Act
-            var allowed = await _authorizationService.AuthorizeAsync(_user, new Product(), UserOperations.Update);
+            var allowed = await _authorizationService.AuthorizeAsync(_user, new Stock(), UserOperations.Update);
 
             // Assert
             Assert.False(allowed.Succeeded);
         }
 
         [Fact]
-        public async Task ShouldNotAllow_ProductUpdate_WhenAdministratorAndSubmitted()
+        public async Task ShouldNotAllow_StockUpdate_WhenAdministratorAndSubmitted()
         {
             //Arrange
             _user
@@ -178,19 +178,19 @@ namespace Training1.Tests.Authorizations
                 .AddStatus(Status.Submitted);
 
             //Act
-            var allowed = await _authorizationService.AuthorizeAsync(_user, new Product(), UserOperations.Update);
+            var allowed = await _authorizationService.AuthorizeAsync(_user, new Stock(), UserOperations.Update);
 
             // Assert
             Assert.False(allowed.Succeeded);
         }
 
         [Fact]
-        public async Task ShouldNotAllow_ProductUpdate_WhenNotAdministrator()
+        public async Task ShouldNotAllow_StockUpdate_WhenNotAdministrator()
         {
             //Arrange
 
             //Act
-            var allowed = await _authorizationService.AuthorizeAsync(_user, new Product(), UserOperations.Update);
+            var allowed = await _authorizationService.AuthorizeAsync(_user, new Stock(), UserOperations.Update);
 
             // Assert
             Assert.False(allowed.Succeeded);
@@ -198,7 +198,7 @@ namespace Training1.Tests.Authorizations
 
 
         [Fact]
-        public async Task ShouldAllow_ProductDelete_WhenAdministratorAndApproved()
+        public async Task ShouldAllow_StockDelete_WhenAdministratorAndApproved()
         {
             //Arrange
             _user
@@ -206,26 +206,26 @@ namespace Training1.Tests.Authorizations
                 .AddStatus(Status.Approved);
 
             //Act
-            var allowed = await _authorizationService.AuthorizeAsync(_user, new Product(), UserOperations.Delete);
+            var allowed = await _authorizationService.AuthorizeAsync(_user, new Stock(), UserOperations.Delete);
 
             // Assert
             Assert.True(allowed.Succeeded);
         }
 
         [Fact]
-        public async Task ShouldNotAllow_ProductDelete_WhenNotAdministrator()
+        public async Task ShouldNotAllow_StockDelete_WhenNotAdministrator()
         {
             //Arrange
 
             //Act
-            var allowed = await _authorizationService.AuthorizeAsync(_user, new Product(), UserOperations.Delete);
+            var allowed = await _authorizationService.AuthorizeAsync(_user, new Stock(), UserOperations.Delete);
 
             // Assert
             Assert.False(allowed.Succeeded);
         }
 
         [Fact]
-        public async Task ShouldNotAllow_ProductDelete_WhenAdministratorAndRejected()
+        public async Task ShouldNotAllow_StockDelete_WhenAdministratorAndRejected()
         {
             //Arrange
             _user
@@ -233,14 +233,14 @@ namespace Training1.Tests.Authorizations
                 .AddStatus(Status.Rejected);
 
             //Act
-            var allowed = await _authorizationService.AuthorizeAsync(_user, new Product(), UserOperations.Delete);
+            var allowed = await _authorizationService.AuthorizeAsync(_user, new Stock(), UserOperations.Delete);
 
             // Assert
             Assert.False(allowed.Succeeded);
         }
 
         [Fact]
-        public async Task ShouldNotAllow_ProductDelete_WhenAdministratorAndSubmitted()
+        public async Task ShouldNotAllow_StockDelete_WhenAdministratorAndSubmitted()
         {
             //Arrange
             _user
@@ -248,7 +248,7 @@ namespace Training1.Tests.Authorizations
                 .AddStatus(Status.Submitted);
 
             //Act
-            var allowed = await _authorizationService.AuthorizeAsync(_user, new Product(), UserOperations.Delete);
+            var allowed = await _authorizationService.AuthorizeAsync(_user, new Stock(), UserOperations.Delete);
 
             // Assert
             Assert.False(allowed.Succeeded);
