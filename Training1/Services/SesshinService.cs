@@ -23,6 +23,13 @@ namespace Training1.Services
             _dayOfSesshinRepository = dayOfSesshinRepository;
         }
 
+        public override async Task CreateAsync(Sesshin sesshin)
+        {
+            SetDaysOfTheSesshin(sesshin);
+            await _entityRepository.AddAsync(sesshin);
+            await _unitOfWork.CommitAsync();
+        }
+
         public async Task<IEnumerable<DayOfSesshin>> GetDaysOfSesshin(int sesshinId)
         {
             var days = await _dayOfSesshinRepository.ListAsyncBySesshinId(sesshinId);
@@ -52,11 +59,13 @@ namespace Training1.Services
                 {
                     Date = loopDate,
                     NumberOfPeople = sesshin.NumberOfPeople,
-                    Meals = SetDailyMeals(comingDay, loopDate == sesshin.EndDate)
+                    Meals = SetDailyMeals(comingDay, loopDate == sesshin.EndDate),
+                    Sesshin = sesshin
                 };
                 daysOfSesshins.Add(dayOfSesshin);
                 comingDay = false;
             }
+            sesshin.Days = daysOfSesshins;
 
             return daysOfSesshins;
         }
