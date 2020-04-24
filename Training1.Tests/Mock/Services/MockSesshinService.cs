@@ -62,6 +62,15 @@ namespace Training1.Tests.Mock.Services
             return this;
         }
 
+        internal MockSesshinService MockGetSesshinOwner(string userId)
+        {
+            Setup(service => service.GetSesshinOwner(It.IsAny<int>()))
+                .Returns(userId)
+                .Verifiable();
+
+            return this;
+        }
+
         internal MockSesshinService VerifyCreateAsync(Func<Times> times)
         {
             Verify(x => x.CreateAsync(It.IsAny<Sesshin>()), times);
