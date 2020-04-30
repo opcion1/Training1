@@ -25,20 +25,20 @@ namespace Training1.Tests.Repositories
             return new EFProductRepository(context);
         }
 
-        internal override void AssertEntityEqual(Product entity, Product testModel)
+        internal override void AssertEntityEqual(Product entity1, Product entity2)
         {
-            Assert.Equal(entity.Name, testModel.Name);
-            Assert.Equal(entity.Category, testModel.Category);
-            Assert.Equal(entity.Description, testModel.Description);
+            Assert.Equal(entity1.Name, entity2.Name);
+            Assert.Equal(entity1.Category, entity2.Category);
+            Assert.Equal(entity1.Description, entity2.Description);
         }
 
-        internal override Product GetUpdatedEntity(Product testModel)
+        internal override Product GetUpdatedEntity(Product entity)
         {
-            testModel.Name = _testModel2.Name;
-            testModel.Description = _testModel2.Description;
-            testModel.Category = _testModel2.Category;
+            entity.Name = _testModel2.Name;
+            entity.Description = _testModel2.Description;
+            entity.Category = _testModel2.Category;
 
-            return testModel;
+            return entity;
         }
     }
 }

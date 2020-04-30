@@ -135,7 +135,7 @@ namespace Training1.Tests.Repositories
                 var options = CreateOptionAndEnsureCreated();
 
                 // Add an identity to the in memory database
-                AddEntities(new List<ModelBase> { _testModel, _testModel }, options);
+                AddEntities(new List<ModelBase> { _testModel, _testModel2 }, options);
 
                 // Run the test against one instance of the context
                 using (var context = new ProductContext(options))
@@ -234,9 +234,9 @@ namespace Training1.Tests.Repositories
 
         #region abstract methods
         public abstract EFRepositoryBase<T> GetRepository(ProductContext context);
-        internal abstract void AssertEntityEqual(T entity, T testModel);
+        internal abstract void AssertEntityEqual(T entity1, T entity2);
 
-        internal abstract T GetUpdatedEntity(T testModel);
+        internal abstract T GetUpdatedEntity(T entity);
         #endregion
     }
 }
