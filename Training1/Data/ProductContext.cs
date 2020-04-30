@@ -9,6 +9,11 @@ namespace Training1.Models
 {
     public class ProductContext : DbContext
     {
+        public ProductContext()
+        {
+
+        }
+
         public ProductContext (DbContextOptions<ProductContext> options)
             : base(options)
         {

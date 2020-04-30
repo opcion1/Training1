@@ -19,6 +19,8 @@ namespace Training1.Repositories
             _dbSet = _context.Set<T>();
         }
 
+
+
         public IEnumerable<T> Entities => _dbSet;
 
         public virtual async Task AddAsync(T entity)
