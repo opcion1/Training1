@@ -149,7 +149,7 @@ namespace Training1.Tests.Repositories
                 {
                     var dbSet = context.Set<T>();
                     var entityCount = await dbSet.CountAsync();
-                    Assert.Equal(1, entityCount);
+                    Assert.Equal(2, entityCount);
                 }
             }
             finally
