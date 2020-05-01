@@ -169,13 +169,13 @@ namespace Training1.Tests.Repositories
                 var options = CreateOptionAndEnsureCreated();
 
                 // Add an identity to the in memory database
-                AddEntities(new List<ModelBase> { _testModel }, options);
+                AddEntities(new List<ModelBase> { _testModel, _testModel2 }, options);
 
                 // Run the test against one instance of the context
                 using (var context = new ProductContext(options))
                 {
                     var repository = GetRepository(context);
-                    var entity = await context.Set<T>().SingleAsync();
+                    var entity = await context.Set<T>().FirstOrDefaultAsync();
                     T updatedEntity = GetUpdatedEntity(entity);
                     repository.Update(updatedEntity);
                     await context.SaveChangesAsync();
@@ -184,7 +184,7 @@ namespace Training1.Tests.Repositories
                 //Assert
                 using (var context = new ProductContext(options))
                 {
-                    var entity = await context.Set<T>().SingleAsync();
+                    var entity = await context.Set<T>().FirstOrDefaultAsync();
                     AssertEntityEqual(entity, _testModel2);
                 }
             }
