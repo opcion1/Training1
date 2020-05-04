@@ -30,12 +30,14 @@ namespace Training1.Tests.Mock.Authorization
                 new ClaimsIdentity(
                     new Claim[] {
                         new Claim(ClaimTypes.Name, "homer.simpson"),
+                        new Claim("AccountStatus", Status.Approved.ToString()),
                         new Claim(ClaimTypes.Role, role) }));
 
             var mockContext = new Mock<HttpContext>();
             mockContext.SetupGet(hc => hc.User).Returns(user);
             mockContext.SetupGet(hc => hc.User.Identity.Name).Returns(user.Identity.Name);
             mockContext.Setup(hc => hc.User.IsInRole(role)).Returns(true);
+            mockContext.Setup(hc => hc.User.FindFirst("AccountStatus")).Returns(new Claim("AccountStatus", Status.Approved.ToString()));
             controller.ControllerContext = new ControllerContext()
             {
                 HttpContext = mockContext.Object
