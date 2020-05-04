@@ -32,7 +32,7 @@ namespace Training1.Tests.Repositories
                 var options = CreateOptionAndEnsureCreated();
 
                 // Add an identity to the in memory database
-                AddEntities(new List<ModelBase> { _testModel, _testModel2 }, options);
+                await AddEntities(new List<ModelBase> { _testModel, _testModel2 }, options);
 
                 // Run the test against one instance of the context
                 using (var context = new ProductContext(options))

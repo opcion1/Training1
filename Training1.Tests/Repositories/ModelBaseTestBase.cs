@@ -19,7 +19,7 @@ namespace Training1.Tests.Repositories
         }
 
 
-        protected void AddEntities(List<ModelBase> entities, DbContextOptions<ProductContext> options)
+        protected async Task AddEntities(List<ModelBase> entities, DbContextOptions<ProductContext> options)
         {
             // Run the test against one instance of the context
             using (var context = new ProductContext(options))
@@ -28,7 +28,7 @@ namespace Training1.Tests.Repositories
                 {
                     context.Add(entity);
                 }
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
         }
 
@@ -49,7 +49,7 @@ namespace Training1.Tests.Repositories
                 {
                     var repository = GetRepository(context);
                     await repository.AddAsync((T)_testModel);
-                    context.SaveChanges();
+                    context.SaveChangesAsync();
                 }
 
                 // Use a separate instance of the context to verify correct data was saved to database
@@ -79,7 +79,7 @@ namespace Training1.Tests.Repositories
                 var options = CreateOptionAndEnsureCreated();
 
                 // Add an identity to the in memory database
-                AddEntities(new List<ModelBase> { _testModel }, options);
+                await AddEntities(new List<ModelBase> { _testModel }, options);
 
                 // Run the test against one instance of the context
                 using (var context = new ProductContext(options))
@@ -106,7 +106,7 @@ namespace Training1.Tests.Repositories
                 var options = CreateOptionAndEnsureCreated();
 
                 // Add an identity to the in memory database
-                AddEntities(new List<ModelBase> { _testModel, _testModel2 }, options);
+                await AddEntities(new List<ModelBase> { _testModel, _testModel2 }, options);
 
                 // Run the test against one instance of the context
                 using (var context = new ProductContext(options))
@@ -140,7 +140,7 @@ namespace Training1.Tests.Repositories
                 var options = CreateOptionAndEnsureCreated();
 
                 // Add an identity to the in memory database
-                AddEntities(new List<ModelBase> { _testModel, _testModel2 }, options);
+                await AddEntities(new List<ModelBase> { _testModel, _testModel2 }, options);
 
                 // Run the test against one instance of the context
                 using (var context = new ProductContext(options))
@@ -177,7 +177,7 @@ namespace Training1.Tests.Repositories
                 var options = CreateOptionAndEnsureCreated();
 
                 // Add an identity to the in memory database
-                AddEntities(new List<ModelBase> { _testModel }, options);
+                await AddEntities(new List<ModelBase> { _testModel }, options);
 
                 // Run the test against one instance of the context
                 using (var context = new ProductContext(options))
@@ -186,7 +186,7 @@ namespace Training1.Tests.Repositories
                     DbSet<T> dbSet = context.Set<T>();
                     var entity = await dbSet.FirstOrDefaultAsync();
                     await repository.DeleteAsync(entity.Id);
-                    context.SaveChanges();
+                    await context.SaveChangesAsync();
                 }
 
                 // Use a separate instance of the context to verify correct data was saved to database

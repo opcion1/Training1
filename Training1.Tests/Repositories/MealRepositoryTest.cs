@@ -36,7 +36,7 @@ namespace Training1.Tests.Repositories
                 var options = CreateOptionAndEnsureCreated();
 
                 // Add an identity to the in memory database
-                AddEntities(new List<ModelBase> { _testModel }, options);
+                await AddEntities(new List<ModelBase> { _testModel }, options);
 
                 // Run the test against one instance of the context
                 using (var context = new ProductContext(options))
