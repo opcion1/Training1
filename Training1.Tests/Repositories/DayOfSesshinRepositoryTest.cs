@@ -12,7 +12,7 @@ using Xunit;
 
 namespace Training1.Tests.Repositories
 {
-    public class DayOfSesshinRepositoryTest : ProductDbContextTestBase<DayOfSesshin>
+    public class DayOfSesshinRepositoryTest : ModelBaseTestBase<DayOfSesshin>
     {
         public DayOfSesshinRepositoryTest()
             : base(new DayOfSesshin { Date = DateTime.Today.AddDays(-7), NumberOfPeople = 50, Sesshin = new Sesshin { Name = "DayOfSesshin 1", Description = "Description 1", StartDate = DateTime.Today.AddDays(-7), EndDate = DateTime.Today.AddDays(-6), NumberOfPeople = 50, AppUserId = "AppUserId" } } ,

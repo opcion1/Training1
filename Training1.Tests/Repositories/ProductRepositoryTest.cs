@@ -12,7 +12,7 @@ using Xunit;
 
 namespace Training1.Tests.Repositories
 {
-    public class ProductRepositoryTest : ProductDbContextTestBase<Product>
+    public class ProductRepositoryTest : ModelBaseTestBase<Product>
     {
         public ProductRepositoryTest()
             : base(new Product { Name = "product", Category = ProductCategory.Vegetable, Description = "Description" },

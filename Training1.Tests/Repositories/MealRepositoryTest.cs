@@ -14,7 +14,7 @@ using Xunit;
 
 namespace Training1.Tests.Repositories
 {
-    public class MealRepositoryTest : ProductDbContextTestBase<Meal>
+    public class MealRepositoryTest : ModelBaseTestBase<Meal>
     {
         private IList<Sesshin> _listSesshin = new List<Sesshin>();
         private readonly Sesshin _testSesshin = new Sesshin {Id = 1, Name = "DayOfSesshin 1", Description = "Description 1", StartDate = DateTime.Today.AddDays(-7), EndDate = DateTime.Today.AddDays(-6), NumberOfPeople = 50, AppUserId = "AppUserId" };
