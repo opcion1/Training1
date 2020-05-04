@@ -18,15 +18,7 @@ namespace Training1.Repositories
         public string GetMealSesshinOwner(int mealId)
         {
             Sesshin sesshin = _context.Sesshin.FromSql("SESSHIN_FIND_BY_MEAL_ID @p0", mealId).FirstOrDefault();
-            //DayOfSesshin day = _context.DaysOfSesshin.FirstOrDefault(d => d.Id == meal.DayOfSesshinId);
-            //if (day != null)
-            //{
-            //    var sesshin = _context.Sesshin.FirstOrDefault(s => s.Id == day.SesshinId);
-            //    if (sesshin != null)
-            //    {
-            //        return sesshin.AppUserId;
-            //    }
-            //}
+
             return sesshin.AppUserId;
         }
 

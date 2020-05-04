@@ -12,7 +12,7 @@ using Xunit;
 
 namespace Training1.Tests.Repositories
 {
-    public class StockRepositoryTest : ProductDbContextTestBase<Stock>
+    public class StockRepositoryTest : ModelBaseTestBase<Stock>
     {
         public StockRepositoryTest()
             : base(new Stock { Quantity = 1, UnityType = UnityType.Grammes, PricePorUnity = 1, TotalPrice = 1, CommandDate = DateTime.Today, Product = new Product { Name = "product", Category = ProductCategory.Vegetable, Description = "Description" } },
@@ -32,7 +32,7 @@ namespace Training1.Tests.Repositories
                 var options = CreateOptionAndEnsureCreated();
 
                 // Add an identity to the in memory database
-                AddEntities(new List<ModelBase> { _testModel, _testModel2 }, options);
+                await AddEntities(new List<ModelBase> { _testModel, _testModel2 }, options);
 
                 // Run the test against one instance of the context
                 using (var context = new ProductContext(options))
