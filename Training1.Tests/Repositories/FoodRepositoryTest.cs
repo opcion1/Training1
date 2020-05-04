@@ -1,13 +1,5 @@
-﻿using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Training1.Models;
+﻿using Training1.Models;
 using Training1.Repositories;
-using Training1.Repositories.Interfaces;
 using Xunit;
 
 namespace Training1.Tests.Repositories
