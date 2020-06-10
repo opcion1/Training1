@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Training1.Models;
 using Training1.Repositories;
+using Training1.Tests.Utils;
 using Xunit;
 
 namespace Training1.Tests.Repositories
@@ -21,15 +22,16 @@ namespace Training1.Tests.Repositories
 
         protected async Task AddEntities(List<ModelBase> entities, DbContextOptions<ProductContext> options)
         {
-            // Run the test against one instance of the context
-            using (var context = new ProductContext(options))
-            {
-                foreach (var entity in entities)
+            await Disposable.Using(
+                () => new ProductContext(options),
+                async context =>
                 {
-                    context.Add(entity);
-                }
-                await context.SaveChangesAsync();
-            }
+                    foreach (var entity in entities)
+                    {
+                        context.Add(entity);
+                    }
+                    await context.SaveChangesAsync();
+                });
         }
 
 
@@ -49,7 +51,7 @@ namespace Training1.Tests.Repositories
                 {
                     var repository = GetRepository(context);
                     await repository.AddAsync((T)_testModel);
-                    context.SaveChangesAsync();
+                    await context.SaveChangesAsync();
                 }
 
                 // Use a separate instance of the context to verify correct data was saved to database

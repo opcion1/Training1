@@ -19,7 +19,8 @@ namespace Training1.Tests
         public async Task ChefAuthorization_ShowAllowProductCreateWhenChef()
         {
             //Arrange
-            Meal meal = new Meal { 
+            Meal meal = new Meal
+            {
                 Id = 1,
                 DayOfSesshinId = 1,
                 Type = MealType.Breakfast

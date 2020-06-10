@@ -4095,7 +4095,7 @@
       ]
     },
     "Microsoft.CodeAnalysis.Analyzers/1.1.0": {
-      "sha512": "HS3iRWZKcUw/8eZ/08GXKY2Bn7xNzQPzf8gRPHGSowX7u7XXu9i9YEaBeBNKUXWfI7qjvT2zXtLUvbN0hds8vg==",
+      "sha512": "Yu9TOpx3itQFBFPu95kje/zFleV2zjtAr6Ak3I+P+iJRnmia6FKxFRv9Mvk4m77LG7XiIvM9HSvGNYmOc7O7eg==",
       "type": "package",
       "path": "microsoft.codeanalysis.analyzers/1.1.0",
       "hasTools": true,
@@ -7826,7 +7826,7 @@
       ]
     },
     "System.Linq.Queryable/4.0.1": {
-      "sha512": "Yn/WfYe9RoRfmSLvUt2JerP0BTGGykCZkQPgojaxgzF2N0oPo+/AhB8TXOpdCcNlrG3VRtsamtK2uzsp3cqRVw==",
+      "sha512": "kYx7vXqYsxoQJvY3BxtHqNyBgE1j+t49NfIb5iTJE+FDdOntszXpzXz+GHL7uGIytTzo+Lo/6UAQQxaQBZcr5g==",
       "type": "package",
       "path": "system.linq.queryable/4.0.1",
       "files": [
@@ -10942,7 +10942,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.300\\RuntimeIdentifierGraph.json"
       }
     }
   }

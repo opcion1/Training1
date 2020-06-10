@@ -11,13 +11,14 @@ using Training1.Models.ViewModels;
 using Training1.Repositories.Interfaces;
 using Training1.Services.Interfaces;
 using Training1.Infrastructure;
+using Training1.Configuration;
 
 namespace Training1.Services
 {
     public class AccountService : IAccountService
     {
         private readonly IAccountRepository _accountRepository;
-        private readonly IConfiguration _configuration;
+        private readonly IGridConfiguration _gridConfiguration;
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<AppUser> _signInManager;
@@ -26,14 +27,14 @@ namespace Training1.Services
                                 UserManager<AppUser> userManager,
                                 RoleManager<IdentityRole> roleManager,
                                 SignInManager<AppUser> signInManager,
-                                IConfiguration configuration,
+                                IGridConfiguration gridConfiguration,
                                 IHttpContextAccessor contextAccessor)
         {
             _accountRepository = accountRepository;
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
-            _configuration = configuration;
+            _gridConfiguration = gridConfiguration;
             _contextAccessor = contextAccessor;
         }
 
@@ -53,7 +54,7 @@ namespace Training1.Services
 
         public async Task<AccountListViewModel> GetModelForAccountList(string search, int? indexPage, string sortOrder)
         {
-            int itemsPerPage = _configuration.GetValue<int>("ItemsPerPage");
+            int itemsPerPage = _gridConfiguration.ItemsPerPage;
             ICollection<AppUser> users = await _accountRepository.ListAsync();
             if (search != null)
             {

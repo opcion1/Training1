@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using Training1.Areas.Identity.Data;
 using Training1.Authorization;
+using Training1.Configuration;
 using Training1.Infrastructure;
 using Training1.Infrastructure.Factory;
 using Training1.Infrastructure.Validators;
@@ -68,33 +69,13 @@ namespace Training1
                 return new DefaultCompositeMetadataDetailsProvider(options.ModelMetadataDetailsProviders);
             }));
 
-            services.AddSingleton<IEnumUtil, EnumUtil>();
-            services.AddScoped<IProductService, ProductService>();
-            services.AddScoped<ISesshinService, SesshinService>();
-            services.AddScoped<IStockService, StockService>();
-            services.AddScoped<IMealService, MealService>();
-            services.AddScoped<IIngredientService, IngredientService>();
-            services.AddScoped<IHomeService, HomeService>();
-            services.AddScoped<IAccountService, AccountService>();
-            services.AddScoped<IProductRepository, EFProductRepository>();
-            services.AddScoped<IStockRepository, EFStockRepository>();
-            services.AddScoped<ISesshinRepository, EFSesshinRepository>();
-            services.AddScoped<IFoodRepository, EFFoodRepository>();
-            services.AddScoped<IMealFoodRepository, EFMealFoodRepository>();
-            services.AddScoped<IDayOfSesshinRepository, EFDayOfSesshinRepository>();
-            services.AddScoped<IMealRepository, EFMealRepository>();
-            services.AddScoped<IIngredientRepository, EFIngredientRepository>();
-            services.AddScoped<IAccountRepository, EFAccountRepository>();
-            services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, AppClaimsPrincipalFactory>();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-            //scoped for this one because of the usermanager
-            services.AddSingleton<IAuthorizationHandler,
-                          AdminAuthorizationHandler>();
-            services.AddScoped<IAuthorizationHandler,
-                                  ChefAuthorizationHandler>();
-            services.AddSingleton<IAuthorizationHandler,
-                                  AccountantAuthorizationHandler>();
-            //services.AddTransient<IUserValidator<AppUser>, CustomAppUserValidator>();
+            services
+                .AddRepositories()
+                .AddServices()
+                .AddAppConfiguration(Configuration)
+                .AddUtilities()
+                .AddCustomsClaims()
+                .AddAuthorizationHandlers();
 
             services.AddMvc(config =>
             {

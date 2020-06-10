@@ -1,13 +1,9 @@
 ﻿@model ProductsViewModel
 
-@using Microsoft.Extensions.Configuration
-@inject IConfiguration Configuration
 
 @{
     ViewData["Title"] = "Kitchen stock";
 
-    int itemsPerPage = 100;
-    int.TryParse(Configuration["ItemsPerPage"].ToString(), out itemsPerPage);
     
     var symboleNameSort = "";
     var symboleCategorySort ="";
@@ -103,4 +99,4 @@
         </tbody>
     </table>
 </div>
-@await Component.InvokeAsync("Pagination", new { numberOfItems = Model.TotalItems, itemsPerPage = itemsPerPage, currentPage = Model.PageIndex, controller = "Products", action = "Index", searchOrFilter = Model.CategoryFilter?.ToString(), sortOrder = Model.CurrentSort })
+@await Component.InvokeAsync("Pagination", new { numberOfItems = Model.TotalItems, itemsPerPage = @Model.ItemsPerPage, currentPage = Model.PageIndex, controller = "Products", action = "Index", searchOrFilter = Model.CategoryFilter?.ToString(), sortOrder = Model.CurrentSort })

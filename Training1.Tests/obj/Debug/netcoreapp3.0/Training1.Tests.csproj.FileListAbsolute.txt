@@ -553,3 +553,5 @@ C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debu
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\runtimes\win-x64\native\e_sqlite3.dll
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\runtimes\win-x86\native\e_sqlite3.dll
 C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\bin\Debug\netcoreapp3.0\runtimes\win8-arm\native\e_sqlite3.dll
+C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\obj\Debug\netcoreapp3.0\Training1.Tests.csproj.CoreCompileInputs.cache
+C:\Users\Julien\source\repos\Github\Training1\Training1\Training1.Tests\obj\Debug\netcoreapp3.0\Training1.Tests.genruntimeconfig.cache

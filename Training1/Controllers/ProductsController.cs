@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Training1.Authorization;
+using Training1.Configuration;
 using Training1.Infrastructure;
 using Training1.Models;
 using Training1.Models.ViewModels;
