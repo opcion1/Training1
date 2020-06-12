@@ -25,10 +25,6 @@ namespace Training1.Infrastructure.Factory
             ((ClaimsIdentity)principal.Identity)
                 .AddClaim(
                     new Claim("AccountStatus", user.AccountStatus.ToString()));
-            ((ClaimsIdentity)principal.Identity)
-                .AddClaim(
-                    new Claim("AppStyle", user?.AppStyle ?? "flatly"));
-
 
             return principal;
         }
