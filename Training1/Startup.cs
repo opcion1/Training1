@@ -21,6 +21,7 @@ using Training1.Authorization;
 using Training1.Configuration;
 using Training1.Infrastructure;
 using Training1.Infrastructure.Factory;
+using Training1.Infrastructure.Filters;
 using Training1.Infrastructure.Validators;
 using Training1.Models;
 using Training1.Repositories;
@@ -83,6 +84,7 @@ namespace Training1
                          .RequireAuthenticatedUser()
                          .Build();
                 config.Filters.Add(new AuthorizeFilter(policy));
+                config.Filters.Add(typeof(ThemeResultFilter));
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddDbContext<ProductContext>(options =>

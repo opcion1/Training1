@@ -4,19 +4,7 @@
     @using Microsoft.AspNetCore.Http
     @inject IHttpContextAccessor HttpContextAccessor
 @{
-    var appStyle = "flatly";
-    if (User.Claims.Count() > 0) {
-        appStyle = HttpContextAccessor.HttpContext.Session.Get<string>("AppStyle");
-        if (appStyle == null)
-        {
-            appStyle = User.FindFirst("AppStyle")?.Value;
-            if (appStyle == null)
-            {
-                appStyle = "flatly";
-            }
-            HttpContextAccessor.HttpContext.Session.Set<string>("AppStyle", appStyle);
-        }
-    }
+    var appStyle = ViewData["appStyle"] ?? "flatly";
 }
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
